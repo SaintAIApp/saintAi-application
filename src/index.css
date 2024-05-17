@@ -1,3 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Orbitron:wght@400..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: 'RON' ;
+  src: url("./assets/fonts/RON.ttf");
+}
+
+.bg-shape1 {
+    border-radius: 9999px;
+    /* position: relative; */
+    background-image: linear-gradient(45deg,#6a48c9,#6343ba);
+  
+    filter: blur(100px);
+    /* backdrop-filter: blur(100px); */
+    /* animation: one 10s infinite; */
+  }
+  .bg-shape2 {
+
+    border-radius: 9999px;
+    filter: blur(110px);
+    background-image: linear-gradient(45deg,#7344ffc4,#5218ff);
+    /* position: relative; */
+    
+    /* animation: two 10s infinite; */
+  }
+

@@ -4,15 +4,18 @@ import { Suspense, lazy } from "react";
 import App from "../App";
 
 // Lazy Loading all the pages
-const LandingPage = lazy(() => import("../pages/Landing"));
-const NotFound = lazy(() => import("../pages/NotFound"));
-const Loader = lazy(() => import("../components/Loader"));
-
+const LandingPage = lazy(():any => import("../pages/Landing"));
+const NotFound = lazy(():any => import("../pages/NotFound"));
+const Loader = lazy(():any => import("../components/Loader"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <App />
+      </Suspense>
+    ),
     children: [
       {
         path: "",
@@ -20,13 +23,13 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <LandingPage />
           </Suspense>
-        )
+        ),
       },
       {
         path: "*",
         element: <NotFound />,
-      }
-    ]
-  }
+      },
+    ],
+  },
 ]);
 export default router;
