@@ -51,10 +51,10 @@ const Index = () => {
         </div>
         <>
           <div id="left">
-            <h1 className="text-6xl mb-10 font-thin ">
+            <h1 className=" text-4xl md:text-6xl mb-10 font-thin ">
               AI-driven Web3 Crypto Mine
             </h1>
-            <h1 className="text-primary  text-8xl mb-10 font-heading">
+            <h1 className="text-primary text-5xl  md:text-8xl mb-10 font-heading">
               SaintAi
             </h1>
             <h1 className="text-3xl mb-10 font-thin">
@@ -70,7 +70,7 @@ const Index = () => {
           </div>
           <div id="right" className="absolute right-0">
             <img
-              className="md:h-72 md:w-72 rotate-[0deg]"
+              className=" h-32 w-32 md:h-72 md:w-72 rotate-[0deg]"
               src="/cube.png"
               alt=""
             />
@@ -80,7 +80,7 @@ const Index = () => {
       {/* VISION SECTION */}
       <div id="vision" className="">
         <h1 className="text-sm font-thin mb-5">Vision</h1>
-        <h1 className="text-6xl font-thin">
+        <h1 className=" text-3xl sm:text-center md:text-6xl font-thin">
           Prioritize technology-driven participation that rewards output
         </h1>
         <Button
@@ -93,22 +93,22 @@ const Index = () => {
       <div className="my-16 relative">
         {/* Background blur divs */}
         <div className="absolute h-full w-full inset-0 flex">
-          <div className="absolute  h-44 w-44 bg-shape1 top-[-132px] left-0 z-0 bg-blur"></div>
-          <div className="absolute h-44 w-44  bg-shape1 top-[-250px] left-80 z-0 bg-blue-400 opacity-90 bg-blur"></div>
-          <div className="absolute h-44 w-44  bg-shape1 top-[50px] right-20 z-0 bg-blue-400 opacity-90 bg-blur"></div>
+          <div className="absolute  h-44 w-44 bg-shape1 top-[-132px] left-0  bg-blur"></div>
+          <div className="absolute h-44 w-44  bg-shape1 top-[-250px] left-80 bg-blue-400 opacity-90 bg-blur"></div>
+          <div className="absolute h-44 w-44  bg-shape1 top-[50px] right-20  bg-blue-400 opacity-90 bg-blur"></div>
         </div>
 
         <h1 className="text-center text-sm my-5 font-thin relative z-10">
           Mission
         </h1>
-        <h1 className="text-6xl font-thin text-center my-4 relative z-10">
+        <h1 className="text-3xl md:text-6xl font-thin text-center my-4 relative z-10">
           Goals
         </h1>
         <h1 className="text-center font-thin my-5 relative z-10">
           As a streamlined generative AI and blockchain application service, our
           goals are:
         </h1>
-        <div className="grid sm:grid-cols-1 md:grid-cols-3  md:gap-8 lg:gap-36 place-items-stretch my-4 relative z-10">
+        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-4  md:gap-8 lg:gap-36 place-items-stretch my-4 relative z-10">
           <MissionCard
             number="1"
             heading="Convert"

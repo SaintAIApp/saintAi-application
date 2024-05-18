@@ -21,7 +21,7 @@ const Button:React.FC<Props> = ({text,onClick,className,variant}:Props) => {
   
   return (
     <div>
-        <button onClick={onClick} className={`${varientClassName} ${className}`}>{text}</button>
+        <button onClick={onClick} className={`${varientClassName} ${className} z-50`}>{text}</button>
     </div>
   )
 }
