@@ -7,10 +7,11 @@ import {persistStore} from "redux-persist"
 import { RouterProvider } from 'react-router-dom'
 import router from './routes'
 import { Suspense } from 'react'
+import Loader from './components/Loader'
 
 let persister = persistStore(store);
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <Suspense fallback={<h1>Loading</h1>}>
+  <Suspense fallback={<Loader/>}>
     <Provider store={store}>
     <PersistGate persistor={persister}>
       <RouterProvider router={router}/>
