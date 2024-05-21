@@ -7,17 +7,13 @@ type Props = {
 
 function DefaultLayout({ children }: Props) {
   return (
-    <main className="bg-black text-white min-h-screen">
-      <section className="px-[6vw] max-md:px-8 lg:px-[15vw] py-4 mb-4 font-body">
-        <Navbar />
-      
+    <main className="bg-black text-white">
+      <Navbar />
+      <section className="px-[6vw] max-md:px-8 lg:px-[15vw] py-4 mb-4 font-body min-h-screen">
         {children}
-        <Footer/>
+        <Footer />
       </section>
-      <Toaster
-          position="bottom-right"
-          reverseOrder={false}
-        />
+      <Toaster position="bottom-right" reverseOrder={false} />
     </main>
   );
 }
