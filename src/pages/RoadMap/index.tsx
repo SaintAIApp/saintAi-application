@@ -107,24 +107,34 @@ const index = () => {
         </div>
 
         <div className="flex flex-col md:flex-row md:justify-between space-y-2">
-        <div className="left text-2xl ">
-            <h1 className="text-2xl">Phase 1</h1>
+          <div className="left text-2xl ">
+            <h1 className="text-2xl">Phase 2</h1>
             <div className="text-lg">
-              <h1 className="">S.AI.N.T-GUI Application Software</h1>
-              <h1>Soft Launch on Social Media:</h1>
-              <h1>Telegram X</h1>
-              <h1>Launch SaintAI Foundation Model:</h1>
-              <h1>Default Mode - MIA</h1>
-              <h1>Personal Mode - PAM</h1>
+              <h1 className="">S.AI.N.T -GUI 2.0 DApp</h1>
+              <h1>
+                Establish partnerships to mint limited Saint Bond NFTs across
+                multiple chains using $STT
+              </h1>
+              <h1>
+                SaintAI 2.0 Network - A Foundation AI trained specifically off
+                user data.
+              </h1>
+              <h1>The next phase of decentralized SLM power</h1>
+              <h1>Release the 4 Saints Automated Investment Platform:</h1>
+              <h1>SaintAI – Spot</h1>
+              <h1>SaintAI – Option</h1>
+              <h1>SaintAI – Bond</h1>
+              <h1>SaintAI – Short</h1>
+              <h1>Establish St-Capital a peer to peer cryptocurrency funding platform for FinTech AI solution based projects using $STT</h1>
             </div>
           </div>
           <div className="right">
             <MissionCard
               className={"lg:w-96"}
               number={""}
-              heading={"Inovate"}
+              heading={"Develop"}
               description={
-                "The Cryptocurrency Innovation: Construct a blockchain-based application program that generates digital currency via involved participation of CPU network"
+                "Develop a streamlined, highly affective, secure small language model generative AI with adaptable user interface suitable for specific SME user applications,  Crypto market analysis, investing and FinTech."
               }
             />
           </div>

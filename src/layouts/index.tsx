@@ -44,7 +44,7 @@ function DefaultLayout({ children }: Props) {
   return (
     <main className="bg-black text-white overflow-hidden">
       <Navbar />
-      <section className="px-[6vw] max-md:px-8 lg:px-[15vw] py-4 mb-4 font-body min-h-screen">
+      <section className="px-[6vw] max-md:px-8 mt-10 lg:px-[15vw] py-4 mb-4 font-body min-h-screen">
         {/* CURSORS */}
         {!isMobile && <>
         <div

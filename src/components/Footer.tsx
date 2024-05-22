@@ -8,8 +8,8 @@ const Footer = () => {
           <div className="absolute h-44 w-44  bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
           <div className="absolute h-44 w-44  bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
         </div>
-      <div className="px-0">
-        <h1 className="text-primary text-3xl">SaintAI</h1>
+      <div className="px-0 z-[20]">
+        <h1 className="text-primary text-3xl ">SaintAI</h1>
       </div>
       <div className="md:px-5">
         <h1 className="text-lg font-bold">About</h1>

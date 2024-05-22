@@ -1,3 +1,4 @@
+import { GoArrowRight } from "react-icons/go";
 
 type Props = {
     text:string;
@@ -11,7 +12,7 @@ const Button:React.FC<Props> = ({text,onClick,className,variant}:Props) => {
             case "primary":
                 return "";
             case "rounded":
-                return "bg-primary text-black font-bold rounded-full px-8 py-3";
+                return "bg-primary text-black font-bold rounded-full px-2 pr-5 py-2";
             default:
                 return "";
         }
@@ -21,7 +22,7 @@ const Button:React.FC<Props> = ({text,onClick,className,variant}:Props) => {
   
   return (
     <div>
-        <button onClick={onClick} className={`${varientClassName} ${className} z-50`}>{text}</button>
+        <button onClick={onClick} className={`${varientClassName} flex  space-x-3 items-center ${className} z-50`}> {variant=="rounded" && <span className="p-3 rounded-full bg-white"> <GoArrowRight  height={12} width={12}/></span>} <span>{text}</span></button>
     </div>
   )
 }

@@ -6,6 +6,7 @@ export default ({ button }: { button: any }) => {
   const {connect} = useWalletService();
   const handleMetaMaskWallet = async ()=>{
     connect();
+    
   }
   return (
     <>
