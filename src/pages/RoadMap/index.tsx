@@ -3,8 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { revealVariant, cubeVariant } from "../../constants/animations";
 import Button from "../../components/Button";
 import MissionCard from "../../components/MissionCard";
+
 const index = () => {
   const navigate = useNavigate();
+
+  const slideInVariant = {
+    hidden: { x: -100, opacity: 0 },
+    visible: { x: 0, opacity: 1, transition: { duration: 0.5 } },
+  };
+
   return (
     <div>
       {/* HERO SECTION */}
@@ -28,20 +35,6 @@ const index = () => {
             >
               Roadmap
             </motion.h1>
-
-            {/* <motion.h1
-              variants={revealVariant}
-              transition={{
-                ease: "easeInOut",
-                duration: 0.5,
-                delay: 0.3,
-              }}
-              initial="hidden"
-              animate="visible"
-              className="text-primary text-5xl md:text-8xl mb-10 font-heading"
-            >
-              SaintAi
-            </motion.h1> */}
 
             <motion.h1
               variants={revealVariant}
@@ -82,8 +75,15 @@ const index = () => {
       </div>
       {/* PHASES */}
       <div className="flex flex-col space-y-10 my-3">
-        <div className="flex flex-col space-y-2 md:flex-row md:justify-between">
-          <div className="left text-2xl ">
+        <motion.div
+          id="phase1"
+          className="flex flex-col space-y-2 md:flex-row md:justify-between"
+          initial="hidden"
+          whileInView="visible"
+          variants={slideInVariant}
+          viewport={{ once: true, amount: 0.5 }}
+        >
+          <div className="left text-2xl">
             <h1 className="text-2xl">Phase 1</h1>
             <div className="text-lg">
               <h1 className="">S.AI.N.T-GUI Application Software</h1>
@@ -104,10 +104,17 @@ const index = () => {
               }
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col md:flex-row md:justify-between space-y-2">
-          <div className="left text-2xl ">
+        <motion.div
+          id="phase2"
+          className="flex flex-col md:flex-row md:justify-between space-y-2 space-x-2"
+          initial="hidden"
+          whileInView="visible"
+          variants={slideInVariant}
+          viewport={{ once: true, amount: 0.5 }}
+        >
+          <div className="left text-2xl mx-2">
             <h1 className="text-2xl">Phase 2</h1>
             <div className="text-lg">
               <h1 className="">S.AI.N.T -GUI 2.0 DApp</h1>
@@ -134,14 +141,14 @@ const index = () => {
               number={""}
               heading={"Develop"}
               description={
-                "Develop a streamlined, highly affective, secure small language model generative AI with adaptable user interface suitable for specific SME user applications,  Crypto market analysis, investing and FinTech."
+                "Develop a streamlined, highly affective, secure small language model generative AI with adaptable user interface suitable for specific SME user applications, Crypto market analysis, investing and FinTech."
               }
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="relative overflow-hidden border-[1.8px] p-10 py-12 rounded-3xl  border-purple_dark bg-purple bg-opacity-70 flex flex-col place-content-between   ">
-          <h1 className=" text-3xl">Mine Pass Available now!</h1>
+        <div className="relative overflow-hidden border-[1.8px] p-10 py-12 rounded-3xl border-purple_dark bg-purple bg-opacity-70 flex flex-col place-content-between">
+          <h1 className="text-3xl">Mine Pass Available now!</h1>
           <p>
             Saint welcomes all to sign up and access cutting-edge AI technology
             while rewarding participation with cryptocurrency assets.
