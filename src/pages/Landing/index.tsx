@@ -1,7 +1,7 @@
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import MissionCard from "../../components/MissionCard";
-import { useState, useEffect } from "react";
+
 import { motion, useInView } from "framer-motion";
 import { revealVariant, cubeVariant } from '../../constants/animations';
 import {useRef} from 'react'
@@ -13,28 +13,7 @@ const cardVariant = {
 
 const Index = () => {
   const navigate = useNavigate();
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const updateCursorPosition = (e:any) => {
-      const cursorOutline = document.getElementById("cursor");
-      cursorOutline?.animate(
-        {
-          left: `${e.clientX}px`,
-          top: `${e.clientY}px`,
-        },
-        { duration: 500, fill: "forwards" }
-      );
-      setCursorPosition({ x: e.clientX, y: e.clientY });
-    };
-
-    document.addEventListener("mousemove", updateCursorPosition);
-
-    return () => {
-      document.removeEventListener("mousemove", updateCursorPosition);
-    };
-  }, []);
-
+ 
   const MissionCardWithAnimation = ({ number, heading, description, delay }:{
     number:any,heading:string,description:string,delay:any
   }) => {
@@ -56,19 +35,7 @@ const Index = () => {
 
   return (
     <section className="relative cursor-none">
-      {/* CURSORS */}
-      <div
-        id="cursor"
-        className="fixed border border-white rounded-full w-8 h-8 z-10 pointer-events-none translate-x-[-50%] translate-y-[-50%]"
-      ></div>
-      <div
-        id="cursor-dot"
-        className="w-2 h-2 bg-white fixed rounded-full translate-x-[-50%] translate-y-[-50%] pointer-events-none"
-        style={{
-          top: cursorPosition.y,
-          left: cursorPosition.x,
-        }}
-      ></div>
+     
 
       {/* HERO SECTION */}
       <div id="hero" className="flex w-full mb-32 relative py-10">

@@ -59,6 +59,7 @@ const index = () => {
             </motion.h1> 
 
             <Button
+              
               variant="rounded"
               onClick={() => {
                 navigate("/");

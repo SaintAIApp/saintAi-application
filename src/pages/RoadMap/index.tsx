@@ -82,15 +82,17 @@ const index = () => {
       </div>
       {/* PHASES */}
       <div className="flex flex-col space-y-10 my-3">
-        <div className="flex justify-between">
-          <div className="left text-2xl">
-            <h1>Phase 1</h1>
-            <h1>S.AI.N.T-GUI Application Software</h1>
-            <h1>Soft Launch on Social Media:</h1>
-            <h1>Telegram X</h1>
-            <h1>Launch SaintAI Foundation Model:</h1>
-            <h1>Default Mode - MIA</h1>
-            <h1>Personal Mode - PAM</h1>
+        <div className="flex flex-col space-y-2 md:flex-row md:justify-between">
+          <div className="left text-2xl ">
+            <h1 className="text-2xl">Phase 1</h1>
+            <div className="text-lg">
+              <h1 className="">S.AI.N.T-GUI Application Software</h1>
+              <h1>Soft Launch on Social Media:</h1>
+              <h1>Telegram X</h1>
+              <h1>Launch SaintAI Foundation Model:</h1>
+              <h1>Default Mode - MIA</h1>
+              <h1>Personal Mode - PAM</h1>
+            </div>
           </div>
           <div className="right">
             <MissionCard
@@ -104,15 +106,17 @@ const index = () => {
           </div>
         </div>
 
-        <div className="flex justify-between">
-          <div className="left text-2xl">
-            <h1>Phase 1</h1>
-            <h1>S.AI.N.T-GUI Application Software</h1>
-            <h1>Soft Launch on Social Media:</h1>
-            <h1>Telegram X</h1>
-            <h1>Launch SaintAI Foundation Model:</h1>
-            <h1>Default Mode - MIA</h1>
-            <h1>Personal Mode - PAM</h1>
+        <div className="flex flex-col md:flex-row md:justify-between space-y-2">
+        <div className="left text-2xl ">
+            <h1 className="text-2xl">Phase 1</h1>
+            <div className="text-lg">
+              <h1 className="">S.AI.N.T-GUI Application Software</h1>
+              <h1>Soft Launch on Social Media:</h1>
+              <h1>Telegram X</h1>
+              <h1>Launch SaintAI Foundation Model:</h1>
+              <h1>Default Mode - MIA</h1>
+              <h1>Personal Mode - PAM</h1>
+            </div>
           </div>
           <div className="right">
             <MissionCard
