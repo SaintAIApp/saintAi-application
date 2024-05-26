@@ -83,8 +83,8 @@ const index = () => {
           variants={slideInVariant}
           viewport={{ once: true, amount: 0.5 }}
         >
-          <div className="left text-2xl">
-            <h1 className="text-2xl">Phase 1</h1>
+          <div className="left">
+            <h1 className="text-3xl">Phase 1</h1>
             <div className="text-lg">
               <h1 className="">S.AI.N.T-GUI Application Software</h1>
               <h1>Soft Launch on Social Media:</h1>
@@ -114,8 +114,8 @@ const index = () => {
           variants={slideInVariant}
           viewport={{ once: true, amount: 0.5 }}
         >
-          <div className="left text-2xl mx-2">
-            <h1 className="text-2xl">Phase 2</h1>
+          <div className="left mx-2">
+            <h1 className="text-3xl">Phase 2</h1>
             <div className="text-lg">
               <h1 className="">S.AI.N.T -GUI 2.0 DApp</h1>
               <h1>
@@ -128,10 +128,13 @@ const index = () => {
               </h1>
               <h1>The next phase of decentralized SLM power</h1>
               <h1>Release the 4 Saints Automated Investment Platform:</h1>
+              <div className="my-2">
               <h1>SaintAI – Spot</h1>
               <h1>SaintAI – Option</h1>
               <h1>SaintAI – Bond</h1>
               <h1>SaintAI – Short</h1>
+
+              </div>
               <h1>Establish St-Capital a peer to peer cryptocurrency funding platform for FinTech AI solution based projects using $STT</h1>
             </div>
           </div>
