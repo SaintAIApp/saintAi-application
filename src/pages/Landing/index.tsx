@@ -149,14 +149,16 @@ const Index = () => {
           />
           <MissionCardWithAnimation
             number="2"
-            heading="Convert"
-            description="To convert productive generative AI computing power into cryptocurrency mining"
+            heading="Enhance"
+            description="To enhance small to medium enterprise productivity through adaptable generative AI tools
+            "
             delay={0.4}
           />
           <MissionCardWithAnimation
             number="3"
-            heading="Convert"
-            description="To convert productive generative AI computing power into cryptocurrency mining"
+            heading="Provide"
+            description="To provide egalitarian access to cryptocurrency and crypto market investing for all interested parties.
+            "
             delay={0.6}
           />
         </div>
