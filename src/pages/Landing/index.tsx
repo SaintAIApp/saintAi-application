@@ -40,7 +40,7 @@ const Index = () => {
       {/* HERO SECTION */}
       <div id="hero" className="flex w-full mb-32 relative py-10">
         <div className="absolute top-0 h-full w-full left-0 inline-flex inset-0 justify-center">
-          <div className="absolute h-64 w-64 bg-shape1 bottom-0 right-20"></div>
+          <div className="absolute z-0 h-64 w-64 bg-shape1 bottom-0 right-20"></div>
           <div className="absolute h-64 w-64 bg-shape2 top-96 left-10"></div>
         </div>
         <>
@@ -60,6 +60,7 @@ const Index = () => {
             </motion.h1>
 
             <motion.h1
+
               variants={revealVariant}
               transition={{
                 ease: "easeInOut",
@@ -68,7 +69,7 @@ const Index = () => {
               }}
               initial="hidden"
               animate="visible"
-              className="text-primary text-5xl md:text-8xl mb-10 font-heading"
+              className="text-primary text-5xl md:text-8xl mb-10 font-heading "
             >
               SaintAi
             </motion.h1>
@@ -86,14 +87,17 @@ const Index = () => {
             >
               Building an AI mining community on TON and Solana
             </motion.h1>
-
-            <Button
+              {/* <div className=" z-10 bg-red-200"> */}
+              <Button
+               className="z-30"
               variant="rounded"
               onClick={() => {
                 navigate("/");
               }}
               text="Saint APP"
             />
+              {/* </div> */}
+           
           </div>
           <motion.div
             id="right"
@@ -103,7 +107,7 @@ const Index = () => {
             initial="initial"
             animate="animate"
           >
-            <img className="h-32 w-32 md:h-72 md:w-72" src="/cube.png" alt="" />
+            <img className=" h-20 w-20 md:h-72 md:w-72" src="/cube.png" alt="" />
           </motion.div>
         </>
       </div>
@@ -114,6 +118,8 @@ const Index = () => {
         <h1 className="text-3xl sm:text-center md:text-6xl font-thin">
           Prioritize technology-driven participation that rewards output
         </h1>
+
+
         <Button
           className="my-20"
           variant="rounded"
@@ -140,7 +146,7 @@ const Index = () => {
           As a streamlined generative AI and blockchain application service, our
           goals are:
         </h1>
-        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 lg:gap-36 place-items-stretch my-4 relative z-10">
+        <div className="grid sm:grid-cols-1 md:grid-cols-3  gap-4   place-items-stretch my-4 relative z-10">
           <MissionCardWithAnimation
             number="1"
             heading="Convert"

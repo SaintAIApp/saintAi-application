@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       colors:{
-        primary:"#17b982",
+        
+        primary:"#17B982",
         secondary:"",
         purple:"#513799",
         purple_dark:"#893bff",
@@ -37,5 +38,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp')],
 }

@@ -9,6 +9,7 @@ const NotFound = lazy(():any => import("../pages/NotFound"));
 const Loader = lazy(():any => import("../components/Loader"));
 const Roadmap = lazy(():any=> import("../pages/RoadMap"))
 const ContactUs = lazy(():any=> import("../pages/ContactUs"))
+const Network = lazy(():any=> import("../pages/Network"))
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <ContactUs/>
+          </Suspense>
+        ),
+      },
+      {
+        path: "/network",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Network/>
           </Suspense>
         ),
       },

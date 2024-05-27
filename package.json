@@ -14,6 +14,7 @@
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-toast": "^1.1.5",
     "@reduxjs/toolkit": "^2.2.5",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "framer-motion": "^11.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
