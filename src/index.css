@@ -11,6 +11,7 @@
   font-family: "Space Grotesk", sans-serif;
   z-index: 2;
   position:relative;
+  font-weight:lighter
 }
 .bg-shape1 {
     border-radius: 9999px;

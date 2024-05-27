@@ -7,16 +7,16 @@ const index = () => {
         <h1 className="font-thin text-sm">Endless Scaling</h1>
         <h1 className="text-4xl">A little bit about the</h1>
         <h1 className="text-4xl text-purple_dark">Network</h1>
-        <ul className="flex space-x-4 ">
-          <li className="rounded-full relative px-4 py-2 border border-white overflow-hidden min-w-32 text-center">
+        <ul className="flex  flex-col items-start space-y-2 md:space-y-0 md:flex-row md:space-x-4 ">
+          <li className="rounded-full w-full md:w-fit  relative px-4 py-2 border border-white overflow-hidden min-w-32 text-center">
             <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 opacity-90  bg-blur"></div>
             <span>Accesible</span>
           </li>
-          <li className="rounded-full relative px-4 py-2 border border-white overflow-hidden min-w-32 text-center">
+          <li className="rounded-full  w-full md:w-fit relative px-4 py-2 border border-white overflow-hidden min-w-32 text-center">
             <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 opacity-90  bg-blur"></div>
             <span>Blockchain</span>
           </li>
-          <li className="rounded-full relative px-4 py-2 border border-white overflow-hidden min-w-32 text-center">
+          <li className="rounded-full  w-full md:w-fit relative px-4 py-2 border border-white overflow-hidden min-w-32 text-center">
             <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 opacity-90  bg-blur"></div>
             <span>Mining</span>
           </li>
@@ -24,14 +24,14 @@ const index = () => {
       </div>
       <div className="my-5 flex flex-col space-y-5">
         <h1 className="text-sm font-thin">Egalitarian</h1>
-        <div className=" flex justify-between">
+        <div className=" flex flex-col md:flex-row md:justify-between">
           <h1 className="text-3xl ">
             <span className="text-primary"> SaintAI </span> promotes solo mining
           </h1>
-          <Button variant="rounded" text="Saint App" />
+          <Button className="w-fit my-2 md:my-0" variant="rounded" text="Saint App" />
         </div>
-        <ul className="flex space-x-5 w-full">
-          <li className="w-1/4">
+        <ul className="flex md:flex-row flex-col space-y-2 md:space-x-5 w-full">
+          <li className=" w-full md:w-1/4">
             <div className="">
               <h1 className=" border-b-[2.7px] border-slate-600 py-2">
                 User Purpose
@@ -42,7 +42,7 @@ const index = () => {
               </p>
             </div>
           </li>
-          <li className="w-1/4">
+          <li className=" w-full md:w-1/4">
             <div>
               <h1 className=" border-b-[2.7px] border-slate-600 py-2">
                 User Requirments
@@ -52,7 +52,7 @@ const index = () => {
               </p>
             </div>
           </li>
-          <li className="w-1/4">
+          <li className=" w-full md:w-1/4">
             <div>
               <h1 className=" border-b-[2.7px] border-slate-600 py-2">
                 User Incentive
@@ -63,7 +63,7 @@ const index = () => {
               </p>
             </div>
           </li>
-          <li className="w-1/4">
+          <li className=" w-full md:w-1/4">
             <div>
               <h1 className=" border-b-[2.7px] border-slate-600 py-2">
                 Decentralized
@@ -88,7 +88,7 @@ const index = () => {
             </p>
           </div>
           <div id="right">
-            <img className=" h-48 w-48 object-cover  overflow-visible" src="./cube1.png" />
+            <img className=" h-28 w-28 md:h-48 md:w-48 object-cover  overflow-visible" src="./cube1.png" />
           </div>
         </div>
 
@@ -105,7 +105,7 @@ const index = () => {
             </p>
           </div>
           <div id="right">
-            <img className=" h-48 w-48 object-cover  overflow-visible" src="./cube2.png" />
+            <img className=" h-28 w-28 md:h-48 md:w-48 object-cover  overflow-visible" src="./cube2.png" />
           </div>
         </div>
 
@@ -118,7 +118,7 @@ const index = () => {
             </p>
           </div>
           <div id="right">
-            <img className=" h-48 w-48 object-cover  overflow-visible" src="./cube3.png" />
+            <img className="h-28 w-28 md:h-48 md:w-48 object-cover  overflow-visible" src="./cube3.png" />
           </div>
         </div>
       </div>
