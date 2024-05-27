@@ -43,14 +43,14 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: "/network",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <Network/>
-          </Suspense>
-        ),
-      },
+      // {
+      //   path: "/network",
+      //   element: (
+      //     <Suspense fallback={<Loader />}>
+      //       <Network/>
+      //     </Suspense>
+      //   ),
+      // },
       {
         path: "*",
         element: <NotFound />,
