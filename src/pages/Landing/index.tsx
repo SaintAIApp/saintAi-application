@@ -28,7 +28,7 @@ const Index = () => {
         animate={isInView ? "visible" : "hidden"}
         transition={{ delay }}
       >
-        <MissionCard number={number} heading={heading} description={description} />
+        <MissionCard cropText number={number} heading={heading} description={description} />
       </motion.div>
     );
   };
@@ -101,13 +101,13 @@ const Index = () => {
           </div>
           <motion.div
             id="right"
-            className="absolute cube right-0"
+            className="absolute cube top-20 right-0"
             //@ts-ignore
             variants={cubeVariant}
             initial="initial"
             animate="animate"
           >
-            <img className=" h-20 w-20 md:h-72 md:w-72" src="/cube.png" alt="" />
+            <img className=" h-24 w-24 md:h-72 md:w-72" src="/cube.png" alt="" />
           </motion.div>
         </>
       </div>
