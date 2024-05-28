@@ -38,7 +38,7 @@ const Index = () => {
      
 
       {/* HERO SECTION */}
-      <div id="hero" className="flex w-full mb-32 relative py-10">
+      <div id="hero" className=" flex w-full mb-32  py-10">
         <div className="absolute top-0 h-full w-full left-0 inline-flex inset-0 justify-center">
           <div className="absolute z-0 h-64 w-64 bg-shape1 bottom-0 right-20"></div>
           <div className="absolute h-64 w-64 bg-shape2 top-96 left-10"></div>
@@ -87,7 +87,7 @@ const Index = () => {
             >
               Building an AI mining community on TON and Solana
             </motion.h1>
-              {/* <div className=" z-10 bg-red-200"> */}
+              <div className=" z-10">
               <Button
                className="z-30"
               variant="rounded"
@@ -96,7 +96,7 @@ const Index = () => {
               }}
               text="Saint APP"
             />
-              {/* </div> */}
+              </div>
            
           </div>
           <motion.div

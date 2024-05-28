@@ -101,6 +101,7 @@ const index = () => {
         <h1 className="text-3xl">Mine Pass Available now!</h1>
         <h1 className="py-4 text-slate-400 text-xl">{`Mine opens in: ${time.days} : ${time.hrs} : ${time.mins} : ${time.sec}`}</h1>
         <Button
+        className="w-fit"
               variant="rounded"
               onClick={() => {
                 navigate("/");

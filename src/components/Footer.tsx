@@ -1,4 +1,7 @@
 
+import { FaXTwitter } from "react-icons/fa6";
+import { FaTelegramPlane,FaGithub } from "react-icons/fa";
+
 const Footer = () => {
   return (
     <div className="relative overflow-hidden border-[1.8px] p-10 rounded-3xl  border-purple_dark bg-purple bg-opacity-70 grid grid-cols-1 md:grid-cols-3 place-content-between ">
@@ -21,11 +24,11 @@ const Footer = () => {
       </div>
       <div className="md:px-5">
         {" "}
-        <h1>Social Media</h1>
+        <h1 className=" font-bold">Social Media</h1>
         <ul>
-          <li>X</li>
-          <li>Telegram</li>
-          <li>Github</li>
+          <li className=" flex space-x-1 items-center"> <span className=" font-semibold"> Twitter</span><FaXTwitter/> </li>
+          <li className=" flex space-x-1 items-center"> <span className="font-semibold"> Telegram</span> <FaTelegramPlane/> </li>
+          <li className="flex space-x-1 items-center"> <span className="font-semibold"> Github</span> <FaGithub/> </li>
         </ul>
       </div>
     </div>

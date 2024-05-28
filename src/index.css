@@ -7,10 +7,10 @@
   src: url("./assets/fonts/RON.ttf");
 }
 
-.spaceGrotesk, h1,p,span{
+.spaceGrotesk, h1,p{
   font-family: "Space Grotesk", sans-serif;
   z-index: 2;
-  position:relative;
+  /* position:relative; */
   font-weight:lighter
 }
 .bg-shape1 {
@@ -24,7 +24,7 @@
     /* animation: one 10s infinite; */
   }
   button{
-    position: relative;
+    /* position: relative; */
     z-index: 2;
   }
   .bg-shape2 {

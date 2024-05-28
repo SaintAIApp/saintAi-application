@@ -4,16 +4,16 @@ import useWalletService from "../hooks/useWallet";
 
 export default ({ button }: { button: any }) => {
   const {connect} = useWalletService();
+  console.log("Rendered")
   const handleMetaMaskWallet = async ()=>{
     connect();
-    
   }
+
   return (
-    <>
-      <Dialog.Root defaultOpen={false}>
+      <Dialog.Root  >
         <Dialog.Trigger>{button}</Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-[#0008] animate-overlayShow" />
+          <Dialog.Overlay className="fixed inset-0  bg-[#0008] animate-overlayShow" />
           <Dialog.Content className=" text-white border-[2px] border-slate-800   bg-[#1b1b22] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[450px] max-h-[85vh]  rounded-lg shadow-custom2 p-6 animate-contentShow">
             <Dialog.Title className="flex justify-between py-3">
               <h1 className=" text-white text-2xl">Connect Wallet</h1>
@@ -59,6 +59,6 @@ export default ({ button }: { button: any }) => {
         </Dialog.Portal>
       </Dialog.Root>
 
-    </>
+
   );
 };

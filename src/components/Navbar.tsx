@@ -40,7 +40,7 @@ const Navbar = () => {
                   {!wallet ? (
                     <ConnectModal
                       button={
-                        <button className="bg-[#2f2e38] space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
+                        <button className="bg-[#2f2e38]  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
                           <span className="">Connect Wallet</span>
                           <IoWallet size={20} />
                         </button>
