@@ -34,7 +34,7 @@ const Index = () => {
   };
 
   return (
-    <section className="relative cursor-none">
+    <section className="relative">
      
 
       {/* HERO SECTION */}

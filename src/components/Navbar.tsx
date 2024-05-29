@@ -27,7 +27,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   return (
-    <div className="px-[6vw]  bg-[#0008] max-md:px-8 lg:px-[15vw] w-full fixed z-[100] py-4 backdrop-blur-3xl top-0 ">
+    <div className="  bg-[#0008]  lg:px-[10vw] w-full fixed z-[100] py-4 backdrop-blur-3xl top-0 ">
       {isMobile ? (
         <div className="flex flex-col space-y-3">
           <div className="flex justify-between">
