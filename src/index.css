@@ -28,14 +28,14 @@
     z-index: 2;
   }
   .bg-shape2 {
-
     border-radius: 9999px;
     filter: blur(110px);
     background-image: linear-gradient(45deg,#7344ffc4,#5218ff);
     /* position: relative; */
-    
     /* animation: two 10s infinite; */
   }
 
 
-  
+.form{
+  /* background: radial-gradient(circle at 10% 20%,#7344ffc4  10%, #6600cc 70%); */
+}
