@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { revealVariant, cubeVariant } from "../../constants/animations";
+import { revealVariant } from "../../constants/animations";
 import Button from "../../components/Button";
 import { ContactUsForm } from "../../components/ContactUsForm";
 import { useState,useEffect } from "react";
