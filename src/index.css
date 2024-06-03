@@ -10,29 +10,20 @@
 .spaceGrotesk, h1,p{
   font-family: "Space Grotesk", sans-serif;
   z-index: 2;
-  /* position:relative; */
   font-weight:lighter
 }
 .bg-shape1 {
-    border-radius: 9999px;
-    z-index: 1;
-    /* position: relative; */
+    border-radius: 100%;
     background-image: linear-gradient(45deg,#6a48c9,#6343ba);
-  
     filter: blur(100px);
-    /* backdrop-filter: blur(100px); */
-    /* animation: one 10s infinite; */
   }
   button{
-    /* position: relative; */
     z-index: 2;
   }
   .bg-shape2 {
-    border-radius: 9999px;
+    border-radius: 100%;
     filter: blur(110px);
     background-image: linear-gradient(45deg,#7344ffc4,#5218ff);
-    /* position: relative; */
-    /* animation: two 10s infinite; */
   }
 
 

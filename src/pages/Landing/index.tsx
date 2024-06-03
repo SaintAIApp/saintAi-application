@@ -34,14 +34,13 @@ const Index = () => {
   };
 
   return (
-    <section className="relative">
-     
+    <section>
 
       {/* HERO SECTION */}
-      <div id="hero" className=" flex w-full mb-32  py-10">
-        <div className="absolute top-0 h-full w-full left-0 inline-flex inset-0 justify-center">
-          <div className="absolute z-0 h-64 w-64 bg-shape1 bottom-0 right-20"></div>
-          <div className="absolute h-64 w-64 bg-shape2 top-96 left-10"></div>
+      <div id="hero" className="flex relative w-full mb-32 py-10">
+        <div className=" z-0 absolute top-0 h-full w-full left-0 inline-flex inset-0 justify-center">
+          <div className=" z-0 absolute h-64 w-64 bg-shape1 bottom-0 right-20"></div>
+          <div className=" z-0 absolute  h-64 w-64 bg-shape2 top-96 left-10"></div>
         </div>
         <>
           <div id="left">
@@ -54,7 +53,7 @@ const Index = () => {
               }}
               initial="hidden"
               animate="visible"
-              className="text-4xl md:text-6xl mb-10 font-thin"
+              className="text-4xl z-10 md:text-6xl mb-10 font-thin"
             >
               AI-driven Web3 Crypto Mine
             </motion.h1>
@@ -69,7 +68,7 @@ const Index = () => {
               }}
               initial="hidden"
               animate="visible"
-              className="text-primary text-5xl md:text-8xl mb-10 font-heading "
+              className="text-primary text-5xl md:text-8xl mb-10 font-heading z-10 relative "
             >
               SaintAi
             </motion.h1>
@@ -77,19 +76,19 @@ const Index = () => {
             <motion.h1
               variants={revealVariant}
               transition={{
-                ease: "easeInOut",
+              ease: "easeInOut",
                 duration: 0.5,
                 delay: 0.6,
               }}
               initial="hidden"
               animate="visible"
-              className="text-3xl mb-10 font-thin"
+              className="text-3xl relative mb-10 font-thin z-10"
             >
               Building an AI mining community on TON and Solana
             </motion.h1>
               <div className=" z-10">
               <Button
-               className="z-30"
+               className="z-30 relative"
               variant="rounded"
               onClick={() => {
                 navigate("/");
@@ -128,14 +127,14 @@ const Index = () => {
         />
       </div>
 
+      {/* MISSION AND GOALS SECTION */}
       <div className="my-16 relative">
-        {/* Background blur divs */}
+
         <div className="absolute h-full w-full inset-0 flex">
           <div className="absolute h-44 w-44 bg-shape1 top-[-132px] left-0 bg-blur"></div>
           <div className="absolute h-44 w-44 bg-shape1 top-[-250px] left-80 bg-blue-400 opacity-90 bg-blur"></div>
           <div className="absolute h-44 w-44 bg-shape1 top-[50px] right-20 bg-blue-400 opacity-90 bg-blur"></div>
         </div>
-
         <h1 className="text-center text-sm my-5 font-thin relative z-10">
           Mission
         </h1>
@@ -169,6 +168,8 @@ const Index = () => {
           />
         </div>
       </div>
+
+
     </section>
   );
 };
