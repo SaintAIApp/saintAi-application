@@ -11,7 +11,8 @@ const Loader = lazy(():any => import("../components/Loader"));
 const Roadmap = lazy(():any=> import("../pages/RoadMap"))
 const ContactUs = lazy(():any=> import("../pages/ContactUs"))
 const Network = lazy(():any=> import("../pages/Network"))
-const Login = lazy(():any=>import ("../pages/Auth/Login"))
+const Login = lazy(():any=>import ("../pages/Auth/Login"));
+// const WidgetsPage = lazy(()=>import("../pages/Widgets"));
 const router = createBrowserRouter([
   {
     path: "/",

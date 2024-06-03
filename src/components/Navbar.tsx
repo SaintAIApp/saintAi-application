@@ -3,7 +3,8 @@ import { useLocation, Link } from "react-router-dom";
 import useWalletService from "../hooks/useWallet";
 import { useAppSelector } from "../redux/hooks";
 import ConnectModal from "./ConnectModal";
-import { IoWallet } from "react-icons/io5";
+import NavMenu from  "./NavMenu.tsx"
+import { IoMenu, IoWallet } from "react-icons/io5";
 
 const Navbar = () => {
   const location = useLocation();
@@ -35,11 +36,11 @@ const Navbar = () => {
               <h1 className="font-heading text-white text-lg">SaintAi</h1>
             </div>
             <div id="right" className="flex items-center">
-              <ul className="flex items-center">
+              <ul className="flex items-center space-x-3">
+              
                 <li>
                   {!wallet ? (
                     <ConnectModal
-
                       triggerButton={
                         <button className="bg-[#2f2e38]  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
                           <span className="">Connect Wallet</span>
@@ -56,11 +57,23 @@ const Navbar = () => {
                     </button>
                   )}
                 </li>
+                <li>
+                 
+                 <NavMenu
+                   triggerButton={
+                     <button className="bg-[#2f2e38]  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
+                       <span className="">Menu</span>
+                       <IoMenu/>
+                     </button>
+                   }
+                 />
+           
+             </li>
               </ul>
             </div>
           </div>
 
-          <div>
+          {/* <div>
             <div className="center">
               <ul className="flex justify-center space-x-1 md:space-x-2  px-4 py-2 rounded-full border-[0.3px] font-thin text-sm border-[#1f2550]">
                 <li
@@ -99,7 +112,7 @@ const Navbar = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
       ) : (
         <div className="flex items-center justify-between">

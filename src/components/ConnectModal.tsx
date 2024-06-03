@@ -4,7 +4,6 @@ import useWalletService from "../hooks/useWallet";
 
 export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
   const {connect} = useWalletService();
-  console.log("Rendered")
   const handleMetaMaskWallet = async ()=>{
     connect();
   }
