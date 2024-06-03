@@ -4,8 +4,9 @@ import { FaTelegramPlane,FaGithub } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className="relative overflow-hidden border-[1.8px] p-10 rounded-3xl  border-purple_dark bg-purple bg-opacity-70 grid grid-cols-1 md:grid-cols-3 place-content-between ">
-       <div className="absolute h-full w-full inset-0 flex">
+    <div className=" relative border-[1.8px] p-10 rounded-3xl  border-purple_dark bg-purple bg-opacity-70 grid grid-cols-1 md:grid-cols-3 place-content-between ">
+      
+       <div className="absolute rounded-3xl overflow-hidden h-full w-full inset-0 flex">
           <div className="absolute  h-44 w-44 bg-shape1 top-[0px] left-0 z-0 opacity-90 bg-blur"></div>
           <div className="absolute h-44 w-44  bg-shape1 top-[0px] left-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
           <div className="absolute h-44 w-44  bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>

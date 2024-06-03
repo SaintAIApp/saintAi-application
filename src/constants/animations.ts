@@ -7,6 +7,7 @@ export const  revealVariant = {
       opacity: 1,
       x: 0,
     },
+    
   };
 
 export  const cubeVariant = {

@@ -38,8 +38,7 @@ const index = () => {
   }, []);
   return (
     <div>
-      {/* HERO SECTION */}
-      <div id="hero" className="flex w-full mb-32 relative py-10">
+      <div id="hero" className="relative flex w-full mb-32 py-10">
         <div className="absolute top-0 h-full w-full left-0 inline-flex inset-0 justify-center">
           <div className="absolute h-64 w-64 bg-shape1 bottom-0 right-20"></div>
           <div className="absolute h-64 w-64 bg-shape2 top-96 left-10"></div>
@@ -69,12 +68,13 @@ const index = () => {
               }}
               initial="hidden"
               animate="visible"
-              className="text-xl w-3/4 mb-10 font-thin"
+              className="text-xl relative mb-10 font-thin"
             >
               Reach out to explore how <span className="text-primary">SaintAI</span> can propel your AI journey forward
             </motion.h1>
 
             <Button
+              className="relative"
               variant="rounded"
               onClick={() => {
                 navigate("/");
@@ -82,16 +82,16 @@ const index = () => {
               text="Saint APP"
             />
           </div>
-          <motion.div
+          {/* <motion.div
             id="right"
             className="absolute cube right-0"
             //@ts-ignore
             variants={cubeVariant}
             initial="initial"
             animate="animate"
-          >
-            <img className="h-32 w-32 md:h-72 md:w-72" src="/cube.png" alt="" />
-          </motion.div>
+          > */}
+            <img className="h-0 w-0 md:h-72 md:w-72" src="/cube.png" alt="" />
+          {/* </motion.div> */}
         </>
       </div>
       <div className="my-3">

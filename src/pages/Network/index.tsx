@@ -28,7 +28,11 @@ const index = () => {
           <h1 className="text-3xl ">
             <span className="text-primary"> SaintAI </span> promotes solo mining
           </h1>
-          <Button className="w-fit my-2 md:my-0" variant="rounded" text="Saint App" />
+          <Button
+            className="w-fit my-2 md:my-0"
+            variant="rounded"
+            text="Saint App"
+          />
         </div>
         <ul className="flex md:flex-row flex-col space-y-2 md:space-x-5 w-full">
           <li className=" w-full md:w-1/4">
@@ -72,14 +76,17 @@ const index = () => {
                 Can be run by anyone, leading to a more decentralized network.
               </p>
             </div>
-          </li> 
+          </li>
         </ul>
       </div>
-      <div className="flex flex-col space-y-24">
-        <div className="flex justify-between ">
+      <div className="flex flex-col space-y-16 md:space-y-24">
+
+        <div className="flex md:flex-row flex-col-reverse justify-between ">
           <div id="left">
-            <h1 className="text-3xl py-5 ">Secure on Chain Application Software</h1>
-            <p className="w-3/4 text-lg text-slate-300">
+            <h1 className="text-3xl py-5 ">
+              Secure on Chain Application Software
+            </h1>
+            <p className="text-lg text-slate-300">
               <span className="text-primary">SaintAI</span> employs proof of
               analysis (PoA) mining for distributed consensus. Its
               ASIC-resistant algorithm allows mining with consumer-grade
@@ -87,39 +94,43 @@ const index = () => {
               CPUs are more efficient.
             </p>
           </div>
-          <div id="right">
-            <img className=" h-28 w-28 md:h-48 md:w-48 object-cover  overflow-visible" src="./cube1.png" />
-          </div>
+            <img
+              className="h-0 w-0 md:h-52 md:w-52 object-contain"
+              src="./cube1.png"
+            />
         </div>
 
-        <div className="flex justify-between">
-          <div id="left">
-            <h1 className="text-3xl ">
-              {" "}
-              <span className="text-primary"> Saint </span> Secure Backbone
+        <div className="flex w-full justify-between md:flex-row flex-col-reverse">
+          <div id="left" className="">
+            <h1 className="text-3xl">
+              <span className="text-primary">Saint</span> Secure Backbone
             </h1>
-            <p className="w-3/4 text-lg text-slate-300">
+            <p className="text-lg text-slate-300">
               Data privacy and security are crucial; no customer data is shared
               or trained on. External use involves representational data, with
               local or virtual private SLMs.
             </p>
           </div>
-          <div id="right">
-            <img className=" h-28 w-28 md:h-48 md:w-48 object-cover  overflow-visible" src="./cube2.png" />
-          </div>
+
+            <img
+              className="h-0 w-0 md:h-52 md:w-52 object-contain"
+              src="./cube2.png"
+            />
         </div>
 
-        <div className="flex justify-between ">
+        <div className="flex w-full justify-between md:flex-row flex-col-reverse ">
           <div id="left">
             <h1 className=" text-primary text-3xl">Go Green</h1>
-            <p className="w-3/4 text-lg text-slate-300">
+            <p className="text-lg text-slate-300">
               Uses much less energy than traditional mining due to transformer
               model rather than intensive computation.
             </p>
           </div>
-          <div id="right">
-            <img className="h-28 w-28 md:h-48 md:w-48 object-cover  overflow-visible" src="./cube3.png" />
-          </div>
+          
+            <img
+              className="h-0 w-0 md:h-52 md:w-52 object-contain"
+              src="./cube3.png"
+            />
         </div>
       </div>
     </section>

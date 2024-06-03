@@ -27,7 +27,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   return (
-    <div className="  bg-[#0008]  lg:px-[10vw] w-full fixed z-[100] py-4 backdrop-blur-3xl top-0 ">
+    <div className="  bg-[#0008] px-3  md:px-[10vw] w-full fixed z-[100] py-4 backdrop-blur-3xl top-0 ">
       {isMobile ? (
         <div className="flex flex-col space-y-3">
           <div className="flex justify-between">
@@ -39,7 +39,8 @@ const Navbar = () => {
                 <li>
                   {!wallet ? (
                     <ConnectModal
-                      button={
+
+                      triggerButton={
                         <button className="bg-[#2f2e38]  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
                           <span className="">Connect Wallet</span>
                           <IoWallet size={20} />
@@ -61,7 +62,7 @@ const Navbar = () => {
 
           <div>
             <div className="center">
-              <ul className="flex justify-center space-x-2  px-4 py-2 rounded-full border-[0.3px] font-thin text-sm border-[#1f2550]">
+              <ul className="flex justify-center space-x-1 md:space-x-2  px-4 py-2 rounded-full border-[0.3px] font-thin text-sm border-[#1f2550]">
                 <li
                   className={`${
                     location.pathname === "/" ? "text-primary font-bold" : ""
@@ -148,11 +149,11 @@ const Navbar = () => {
               <li>
                 {!wallet ? (
                   <ConnectModal
-                    button={
-                      <button className="bg-[#2f2e38] space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
+                    triggerButton={
+                      <div className="bg-[#2f2e38] space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
                         <span className="">Connect Wallet</span>
                         <IoWallet size={20} />
-                      </button>
+                      </div>
                     }
                   />
                 ) : (

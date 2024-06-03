@@ -12,7 +12,7 @@ const Button:React.FC<Props> = ({text,onClick,className,variant}:Props) => {
             case "primary":
                 return "";
             case "rounded":
-                return "bg-primary text-black font-bold rounded-full px-2 pr-5 py-2 relative";
+                return "bg-primary text-black font-bold rounded-full px-2 pr-5 py-2";
             default:
                 return "";
         }
