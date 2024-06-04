@@ -37,13 +37,13 @@ const index = () => {
     return () => clearInterval(interval); // Clear interval on component unmount
   }, []);
   return (
-    <div>
+    <section>
       <div id="hero" className="relative flex w-full mb-32 py-10">
         <div className="absolute top-0 h-full w-full left-0 inline-flex inset-0 justify-center">
           <div className="absolute h-64 w-64 bg-shape1 bottom-0 right-20"></div>
           <div className="absolute h-64 w-64 bg-shape2 top-96 left-10"></div>
         </div>
-        <>
+
           <div id="left">
             <motion.h1
               variants={revealVariant}
@@ -92,7 +92,7 @@ const index = () => {
           > */}
             <img className="h-0 w-0 md:h-72 md:w-72" src="/cube.png" alt="" />
           {/* </motion.div> */}
-        </>
+
       </div>
       <div className="my-3">
         <ContactUsForm />
@@ -109,7 +109,7 @@ const index = () => {
               text="Saint APP"
             />
       </div>
-    </div>
+    </section>
   );
 };
 

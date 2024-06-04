@@ -5,11 +5,14 @@ import { useAppSelector } from "../redux/hooks";
 import ConnectModal from "./ConnectModal";
 import NavMenu from  "./NavMenu.tsx"
 import { IoMenu, IoWallet } from "react-icons/io5";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
+import AvatarDropDown from "./AvatarDropDown.tsx";
 
 const Navbar = () => {
   const location = useLocation();
   const { wallet } = useAppSelector((state) => state.wallet);
   const { disconnect } = useWalletService();
+  const {token,user} =  useAppSelector((state)=>{return  state.auth});
   const [isMobile, setIsMobile] = useState(false);
 
   const handleDisconnectWallet = () => {
@@ -32,8 +35,10 @@ const Navbar = () => {
       {isMobile ? (
         <div className="flex flex-col space-y-3">
           <div className="flex justify-between">
-            <div id="left">
+            <div id="left" >
+              <Link to={"/"}>
               <h1 className="font-heading text-white text-lg">SaintAi</h1>
+              </Link>
             </div>
             <div id="right" className="flex items-center">
               <ul className="flex items-center space-x-3">
@@ -126,7 +131,7 @@ const Navbar = () => {
                   location.pathname === "/" ? "text-primary font-bold" : ""
                 }`}
               >
-                <Link to="/">Home</Link>
+                <a href="#">Home</a>
               </li>
               <li
                 className={`${
@@ -135,7 +140,7 @@ const Navbar = () => {
                     : ""
                 }`}
               >
-                <Link to="/network">Network</Link>
+                <a href="#network">Network</a>
               </li>
               <li
                 className={`${
@@ -144,7 +149,7 @@ const Navbar = () => {
                     : ""
                 }`}
               >
-                <Link to="/roadmaps">Roadmaps</Link>
+                <a href="#roadmaps">Roadmaps</a>
               </li>
               <li
                 className={`${
@@ -153,12 +158,27 @@ const Navbar = () => {
                     : ""
                 }`}
               >
-                <Link to="/contactus">ContactUs</Link>
+                <a href="#contactus">ContactUs</a>
               </li>
             </ul>
           </div>
           <div id="right" className="flex items-center">
-            <ul className="flex items-center">
+            <ul className="flex items-center space-x-2">
+            <li>
+                {!token ? (
+                <div className="flex space-x-2 mr-2 items-center">
+                  <Link to={"/login"} className="md:px-3 md:py-2 px-1 py-1 text-sm ">Login</Link>
+                  <Link to={"/signup"} className="bg-white rounded-md md:px-3 md:py-2 px-1 py-1 text-sm text-black ">Sign Up</Link>
+                </div>
+                ) : (
+                  <button
+                    // onClick={handleDisconnectWallet}
+                    className=" text-white px-2 py-1 rounded-full"
+                  >
+                    <UserCircleIcon/>
+                  </button>
+                )}
+              </li>
               <li>
                 {!wallet ? (
                   <ConnectModal
@@ -178,6 +198,22 @@ const Navbar = () => {
                   </button>
                 )}
               </li>
+
+              <li>
+          {token && user && (
+            <AvatarDropDown
+              triggerButton={
+                <button className="rounded-full flex items-center">
+                  <img
+                    className="h-8 w-8"
+                    src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                    alt="User Avatar"
+                  />
+                </button>
+              }
+            />
+          )}
+        </li>
             </ul>
           </div>
         </div>

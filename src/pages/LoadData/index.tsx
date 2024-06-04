@@ -1,34 +1,37 @@
 import { useState } from "react";
-// import NavBar from "../common/NavBar";
 import classNames from "classnames";
-import { Link, useNavigate } from "react-router-dom";
-// import DropDown from "../../components/Select";
-// import ChatBox from "../common/Chat/ChatBox";
+import { Link,  } from "react-router-dom";
 const LoadData = () => {
   const [uploadFile, setUploadFile] = useState(true);
-  const navigate = useNavigate();
-  // const [isChatBoxOpen, setIsChatBoxOpen] = useState(true);
-  // useEffect(() => {
-  //   const isMobileDevice = () => {
-  //     return window.innerWidth <= 768;
-  //   };
+  // const navigate = useNavigate();
+  const [privateKey, setPrivateKey] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [isLoading,setIsLoading] = useState(false);
 
-  //   setIsChatBoxOpen(!isMobileDevice());
-  // }, []);
-//   const handleFileSelect = (val:string)=>{
-//     setUploadFile(val==="Custom");
-//   }
+  const handleLoadFile = (e:any)=>{
+      try {
+        e.preventDefault()
+        setIsLoading(true);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
+      } catch (error) {
+        
+      }
+      finally{
+        // setIsLoading(false);
+      }
+  }
   return (
-    <div className="bg-black">
-      {/* <NavBar /> */}
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 ">
-        <div className=" relative w-full rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 bg-purple overflow-hidden bg-opacity-70">
-        <div className="absolute h-full w-full inset-0 flex z-0">
-                            <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 opacity-90 bg-blur"></div>
-                            <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
-                            {/* <div className="absolute h-44 w-44 bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div> */}
-                            <div className="absolute h-44 w-44 bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
-                        </div>
+    <div className="mb-4">
+      <div className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
+        <div className=" relative w-full rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-purple bg-opacity-70">
+          <div className="absolute h-full w-full inset-0 flex z-0">
+            <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 opacity-90 bg-blur"></div>
+            <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
+            {/* <div className="absolute h-44 w-44 bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div> */}
+            <div className="absolute h-44 w-44 bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
+          </div>
           <form className="p-6 space-y-4 md:space-y-6 sm:p-8 z-10">
             <Link to="/">
               <div className="flex items-center z-10">
@@ -60,15 +63,12 @@ const LoadData = () => {
                 <div>
                   <input
                     className={classNames({
-                      // button colors
                       "file:bg-purple text-sm opacity-70 file:text-white hover:file:bg-purple_dark":
                         true,
-                      // button shape and spacing
                       "file:rounded-lg text-sm file:rounded-tr-none file:rounded-br-none":
                         true,
                       "file:px-4 file:py-2 text-sm file:mr-4 file:border-none":
                         true,
-                      // overall input styling
                       "hover:cursor-pointer w-full border rounded-lg text-white mt-4":
                         true,
                     })}
@@ -81,51 +81,37 @@ const LoadData = () => {
             <div className="text-sm ">
               <p className="mb-3 font-bold">Private User Key</p>
               <input
-                className=" bg-purple  border border-purple_dark text-white sm:text-sm rounded-lg  outline-none block w-full p-2.5 "
-                // style={{ border: "0.7px solid black" }}
-                type="password"
-                placeholder="Enter your private key"
+               type="password"
+               placeholder="Enter your private key"
+                value={privateKey}
+                onChange={(e) => {
+                  setPrivateKey(e.target.value);
+                }}
+                className=" bg-purple relative  border border-purple_dark text-white sm:text-sm rounded-lg  outline-none  w-full p-2.5 "
               />
             </div>
-            <div>
+            <div className="relative">
               <label className="text-sm">
                 <input
                   className="mr-1"
                   type="checkbox"
-                  //   checked={isChecked}
-                  //   onChange={handleCheckboxChange}
+                    checked={termsAccepted}
+                    onChange={(e)=>{setTermsAccepted(e.target.checked)}}
                 />
                 I accept the terms and conditions
               </label>
             </div>{" "}
-            <div>
+            <div className="relative">
               <button
-                onClick={() => {
-                  navigate("/activatesaint");
-                }}
+                disabled={isLoading || !termsAccepted}
+                onClick={handleLoadFile}
                 type="submit"
-                className="w-full text-white bg-primary  focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="w-full text-white bg-primary  focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:bg-slate-500"
               >
-                Load
+               {isLoading?"Loading...":"Load"}
               </button>
             </div>
-        {/* <Link
-            to={"/activatesaint"}
-            className="flex justify-between items-center mt-16"
-        >
-            <h1 className="mb-3 font-bold text-sm">Activate S.AI.N.T</h1>
-            <div className=" ">
-            <button
-                type="button"
-                // onClick={() => setIsChatBoxOpen(!isChatBoxOpen)}
-                className="p-1 rounded-full shadow-md"
-            >
-                <img className="h-8 w-8" src="logo-circle.png" alt="" />
-            </button>
-            </div>
-        </Link> */}
           </form>
-          {/* <ChatBox className="" setIsOpen={setIsChatBoxOpen} isOpen={isChatBoxOpen} /> */}
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { Suspense, lazy } from "react";
 // import { ProtectedRoute } from "./protectedRoute";
 import App from "../App";
 import LoadData from "../pages/LoadData";
+import { ProtectedRoute } from "./ProtectedRoutes";
 
 // Lazy Loading all the pages
 const LandingPage = lazy(():any => import("../pages/Landing"));
@@ -12,6 +13,9 @@ const Roadmap = lazy(():any=> import("../pages/RoadMap"))
 const ContactUs = lazy(():any=> import("../pages/ContactUs"))
 const Network = lazy(():any=> import("../pages/Network"))
 const Login = lazy(():any=>import ("../pages/Auth/Login"));
+const SignUp = lazy(():any=>import("../pages/Auth/SignUp"));
+const VerifyOTP = lazy(():any=>import("../pages/Auth/OTP"));
+
 // const WidgetsPage = lazy(()=>import("../pages/Widgets"));
 const router = createBrowserRouter([
   {
@@ -63,12 +67,31 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/signup",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SignUp/>
+          </Suspense>
+        ),
+      },
+      {
         path: "/loaddata",
         element: (
+          <ProtectedRoute>
           <Suspense fallback={<Loader />}>
             <LoadData/>
           </Suspense>
+          </ProtectedRoute>
         ),
+      },
+      {
+        path:"/verifyOTP", 
+        element:(
+          <Suspense fallback={<Loader/>}>
+            <VerifyOTP/>
+
+          </Suspense>
+        )
       },
       {
         path: "*",

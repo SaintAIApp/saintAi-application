@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { revealVariant } from "../../constants/animations";
 import Button from "../../components/Button";
-import MissionCard from "../../components/MissionCard";
+import {MissionCard} from "../../components/MissionCard";
 
 const index = () => {
   const navigate = useNavigate();
