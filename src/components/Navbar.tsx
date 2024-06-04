@@ -140,7 +140,7 @@ const Navbar = () => {
                     : ""
                 }`}
               >
-                <a href="#network">Network</a>
+                <a href="/#network">Network</a>
               </li>
               <li
                 className={`${
@@ -149,7 +149,7 @@ const Navbar = () => {
                     : ""
                 }`}
               >
-                <a href="#roadmaps">Roadmaps</a>
+                <a href="/#roadmaps">Roadmaps</a>
               </li>
               <li
                 className={`${
@@ -158,7 +158,7 @@ const Navbar = () => {
                     : ""
                 }`}
               >
-                <a href="#contactus">ContactUs</a>
+                <a href="/#contactus">ContactUs</a>
               </li>
             </ul>
           </div>
