@@ -5,7 +5,7 @@ import { useAppSelector } from "../redux/hooks";
 import ConnectModal from "./ConnectModal";
 import NavMenu from  "./NavMenu.tsx"
 import { IoMenu, IoWallet } from "react-icons/io5";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
+
 import AvatarDropDown from "./AvatarDropDown.tsx";
 
 const Navbar = () => {
@@ -47,7 +47,7 @@ const Navbar = () => {
                   {!wallet ? (
                     <ConnectModal
                       triggerButton={
-                        <button className="bg-[#2f2e38]  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
+                        <button className="bg-[#2f2e38] focus:ring-2 focus:ring-primary outline-none  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
                           <span className="">Connect Wallet</span>
                           <IoWallet size={20} />
                         </button>
@@ -66,7 +66,7 @@ const Navbar = () => {
                  
                  <NavMenu
                    triggerButton={
-                     <button className="bg-[#2f2e38]  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
+                     <button className="bg-[#2f2e38] focus:ring-2 focus:ring-primary outline-none  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
                        <span className="">Menu</span>
                        <IoMenu/>
                      </button>
@@ -131,7 +131,7 @@ const Navbar = () => {
                   location.pathname === "/" ? "text-primary font-bold" : ""
                 }`}
               >
-                <a href="#">Home</a>
+                <Link to="/">Home</Link>
               </li>
               <li
                 className={`${
@@ -140,7 +140,7 @@ const Navbar = () => {
                     : ""
                 }`}
               >
-                <a href="#network">Network</a>
+                <a href="/#network">Network</a>
               </li>
               <li
                 className={`${
@@ -149,7 +149,7 @@ const Navbar = () => {
                     : ""
                 }`}
               >
-                <a href="#roadmaps">Roadmaps</a>
+                <a href="/#roadmaps">Roadmaps</a>
               </li>
               <li
                 className={`${
@@ -158,27 +158,21 @@ const Navbar = () => {
                     : ""
                 }`}
               >
-                <a href="#contactus">ContactUs</a>
+                <a href="/#contactus">ContactUs</a>
+              </li>
+              <li>
+                {!token && 
+                <div className="flex space-x-2 mr-2 items-center">
+                  <Link to={"/login"} className="">Login</Link>
+                  <Link to={"/signup"} className=" ">Sign Up</Link>
+                </div>
+                }
               </li>
             </ul>
           </div>
           <div id="right" className="flex items-center">
             <ul className="flex items-center space-x-2">
-            <li>
-                {!token ? (
-                <div className="flex space-x-2 mr-2 items-center">
-                  <Link to={"/login"} className="md:px-3 md:py-2 px-1 py-1 text-sm ">Login</Link>
-                  <Link to={"/signup"} className="bg-white rounded-md md:px-3 md:py-2 px-1 py-1 text-sm text-black ">Sign Up</Link>
-                </div>
-                ) : (
-                  <button
-                    // onClick={handleDisconnectWallet}
-                    className=" text-white px-2 py-1 rounded-full"
-                  >
-                    <UserCircleIcon/>
-                  </button>
-                )}
-              </li>
+           
               <li>
                 {!wallet ? (
                   <ConnectModal
@@ -198,6 +192,7 @@ const Navbar = () => {
                   </button>
                 )}
               </li>
+            
 
               <li>
           {token && user && (

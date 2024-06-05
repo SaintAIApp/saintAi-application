@@ -95,8 +95,13 @@ const SignUp = () => {
   return (
     <>
       <section className="mb-6">
+      <div className="h-[50rem] w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
+      {/* Radial gradient for the container to give a faded look */}
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+
         <div className="flex flex-col items-center justify-center  md:h-screen lg:py-0">
-          <div className="relative w-full rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-purple bg-opacity-70">
+          <div className="relative w-full rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-[#473086] bg-opacity-100">
+          <img src="/cube3.png" className="h-56 absolute w-56  rotate-45   top-[-15%] right-[-10%]" alt="" />
             <div className="absolute h-full w-full inset-0 flex z-0">
               <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 opacity-90 bg-blur"></div>
               <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
@@ -125,14 +130,14 @@ const SignUp = () => {
                     name="username"
                     id="username"
                     onChange={handleInputChange}
-                    className={`bg-purple border  sm:text-sm rounded-lg outline-none block w-full p-2.5 text-white ${
+                    className={`bg-purple border font-semibold  sm:text-sm rounded-lg outline-none block w-full p-2.5 text-white ${
                       errors.username && touched.username
                         ? "border-red-500"
                         : "border-purple_dark"
                     }`}
                     placeholder="john doe"
                   />
-                 <p className={`text-red-500 transition-opacity duration-300 ${errors.username ? "opacity-100 visible" : "opacity-0 invisible"}`}>
+                 <p className={`text-red-500  transition-opacity duration-300 ${errors.username ? "opacity-100 visible" : "opacity-0 invisible"}`}>
                       {errors.username as string}
                     </p>
 
@@ -150,7 +155,7 @@ const SignUp = () => {
                     type="email"
                     name="email"
                     id="email"
-                    className={`bg-purple border  sm:text-sm rounded-lg outline-none block w-full p-2.5 text-white ${
+                    className={`bg-purple border font-semibold  sm:text-sm rounded-lg outline-none block w-full p-2.5 text-white ${
                         errors.email && touched.email
                           ? "border-red-500"
                           : "border-purple_dark"
@@ -168,7 +173,7 @@ const SignUp = () => {
                   >
                     Password
                   </label>
-                  <div className={`bg-purple border  sm:text-sm rounded-lg outline-none  w-full p-2.5 text-white flex items-center ${ 
+                  <div className={`bg-purple border font-semibold  sm:text-sm rounded-lg outline-none  w-full p-2.5 text-white flex items-center ${ 
                         errors.password && touched.password
                           ? "border-red-500"
                           : "border-purple_dark"
@@ -180,7 +185,7 @@ const SignUp = () => {
                     name="password"
                     id="password"
                     placeholder="••••••••"
-                    className={` bg-transparent   sm:text-sm rounded-lg outline-none block w-full  text-white`}
+                    className={` bg-transparent   font-semibold sm:text-sm rounded-lg outline-none block w-full  text-white`}
                   />
                   <button type="button" onClick={()=>setShowPassword(!showPassword)}> {showPassword? <GoEyeClosed/> :<GoEye/>} </button>
                   </div>
@@ -197,7 +202,7 @@ const SignUp = () => {
                   >
                     Confirm Password
                   </label>
-                  <div className={`bg-purple border  sm:text-sm rounded-lg outline-none  w-full p-2.5 text-white flex items-center ${ 
+                  <div className={`bg-purple border   sm:text-sm rounded-lg outline-none  w-full p-2.5 text-white flex items-center ${ 
                         errors.confirmpassword && touched.confirmpassword
                           ? "border-red-500"
                           : "border-purple_dark"
@@ -209,7 +214,7 @@ const SignUp = () => {
                     name="confirmpassword"
                     id="confirmpassword"
                     placeholder="••••••••"
-                    className={` bg-transparent   sm:text-sm rounded-lg outline-none block w-full  text-white`}
+                    className={` bg-transparent font-semibold   sm:text-sm rounded-lg outline-none block w-full  text-white`}
                   />
                   <button type="button" onClick={()=>setShowConfirmPassword(!showConfirmPassword)}> {showConfirmPassword? <GoEyeClosed/> :<GoEye/>} </button>
                   </div>
@@ -266,6 +271,7 @@ const SignUp = () => {
             </div>
           </div>
         </div>
+      </div>
       </section>
     </>
   );

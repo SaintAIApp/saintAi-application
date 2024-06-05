@@ -128,7 +128,7 @@ const Index = () => {
 
       {/* VISION SECTION */}
       <div id="vision">
-        <h1 className="text-sm font-thin mb-5">Vision</h1>
+        <h1 className="text-lg font-thin mb-5">Vision</h1>
         <h1 className="text-3xl sm:text-center md:text-6xl font-thin">
           Prioritize technology-driven participation that rewards output
         </h1>
@@ -143,7 +143,7 @@ const Index = () => {
 
       {/* MISSION AND GOALS SECTION */}
       <div className="my-16">
-        <h1 className="text-center text-sm my-5 font-thin  z-10">
+        <h1 className="text-center text-lg my-5 font-thin  z-10">
           Mission
         </h1>
         <h1 className="text-3xl md:text-6xl font-thin text-center my-4  z-10">
@@ -178,9 +178,9 @@ const Index = () => {
       </div>
     </section>
 
-    <section id="network" className="my-10">
+    <section id="network" className="pt-10">
       <div id="hero" className="flex flex-col space-y-5">
-        <h1 className="font-thin text-sm">Endless Scaling</h1>
+        <h1 className="font-thin text-lg">Endless Scaling</h1>
         <h1 className="text-4xl">A little bit about the</h1>
         <h1 className="text-4xl text-purple_dark">Network</h1>
         <ul className="flex  flex-col items-start space-y-2 md:space-y-0 md:flex-row md:space-x-4 ">
@@ -312,7 +312,7 @@ const Index = () => {
     </section>
 
     <section id="roadmaps">
-      <div id="hero" className="flex w-full mb-32 relative py-10">
+      <div id="hero" className="flex w-full pt-32 relative py-10">
         <div className="absolute top-0 h-full w-full left-0 inline-flex inset-0 justify-center">
           <div className="absolute h-64 w-64 bg-shape1 bottom-0 right-20"></div>
           <div className="absolute h-64 w-64 bg-shape2 top-96 left-10"></div>
@@ -459,7 +459,7 @@ const Index = () => {
     </section>
 
     <section id="contactus">
-      <div id="hero" className="relative flex w-full mb-32 py-10">
+      <div id="hero" className="relative flex w-full mb-32 pt-32 py-10">
         <div className="absolute top-0 h-full w-full left-0 inline-flex inset-0 justify-center">
           <div className="absolute h-64 w-64 bg-shape1 bottom-0 right-20"></div>
           <div className="absolute h-64 w-64 bg-shape2 top-96 left-10"></div>
@@ -518,7 +518,7 @@ const Index = () => {
       <div className="my-3">
         <ContactUsForm />
       </div>
-      <div className="relative my-10 overflow-hidden border-[1.8px] p-10 py-12 rounded-3xl border-purple_dark bg-purple bg-opacity-70 flex flex-col place-content-between">
+      <div className="relative  my-10 overflow-hidden border-[1.8px] p-10 py-12 rounded-3xl border-purple_dark bg-purple bg-opacity-70 flex flex-col place-content-between">
         <h1 className="text-3xl">Mine Pass Available now!</h1>
         <h1 className="py-4 text-slate-400 text-xl">{`Mine opens in: ${time.days} : ${time.hrs} : ${time.mins} : ${time.sec}`}</h1>
         <Button
@@ -529,6 +529,7 @@ const Index = () => {
               }}
               text="Saint APP"
             />
+          <img className="absolute h-80 w-80  bottom-[-70%] md:top-[10%] left-1/2  md:right-0 rotate-45" src="/cube.png"/>
       </div>
     </section>
     

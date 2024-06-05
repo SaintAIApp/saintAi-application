@@ -39,9 +39,26 @@ const deleteAccount = async (userId:string) => {
   } catch (error: any) {
       throw new Error(error.response?.data?.message||"Something went wrong")
   }
+};
 
+const forgotOTP = async (email:string) => {
+  try {
+    const res = await api.post(`/user/forgot-password/`,{email});
+    return res;
+  } catch (error: any) {
+      throw new Error(error.response?.data?.message||"Something went wrong")
+  }
+};
+
+const resetPassword  = async (otp:number,password:string) => {
+  try {
+    const res = await api.post(`/user/reset-password/`,{otp,password});
+    return res;
+  } catch (error: any) {
+      throw new Error(error.response?.data?.message||"Something went wrong")
+  }
 };
   
-  return { loginUser,signup,verifyOTP,deleteAccount };
+  return { loginUser,signup,verifyOTP,deleteAccount,forgotOTP,resetPassword};
 };
 export default useAuthService;
