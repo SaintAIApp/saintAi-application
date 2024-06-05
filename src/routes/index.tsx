@@ -4,6 +4,7 @@ import { Suspense, lazy } from "react";
 import App from "../App";
 import LoadData from "../pages/LoadData";
 import { ProtectedRoute } from "./ProtectedRoutes";
+import ForgotPassword from "../pages/Auth/ForgotPassword";
 
 // Lazy Loading all the pages
 const LandingPage = lazy(():any => import("../pages/Landing"));
@@ -90,6 +91,14 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loader/>}>
             <VerifyOTP/>
 
+          </Suspense>
+        )
+      },
+      {
+        path:"/resetPassword", 
+        element:(
+          <Suspense fallback={<Loader/>}>
+            <ForgotPassword/>
           </Suspense>
         )
       },
