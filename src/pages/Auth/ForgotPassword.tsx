@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import imgSrc from "../../../public/logo.png";
+import imgSrc from "../../assets/saintailogo.png";
 
 import useAuthService from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
@@ -120,11 +120,11 @@ const ForgotPassword = () => {
   return (
     <>
       <section className="mb-6">
-        <div className="h-[50rem] w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
+        <div className=" w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
           {/* Radial gradient for the container to give a faded look */}
           <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
-          <div className="flex flex-col items-center justify-center  md:h-screen lg:py-0">
+          <div className="flex flex-col items-center mt-10  md:h-screen lg:py-0">
             <div className="relative w-full min-w-[80vw] md:min-w-[500px] rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-[#473086] bg-opacity-100">
               <img
                 src="/cube3.png"
@@ -139,10 +139,8 @@ const ForgotPassword = () => {
               </div>
               <div className="relative z-10 p-10 space-y-4 md:space-y-6 sm:p-8">
                 <div className="flex items-center flex-row justify-start mb-4">
-                  <img className="w-12 h-12 mr-2" src={imgSrc} alt="logo" />
-                  <h1 className="text-primary text-3xl font-heading">
-                    S.AI.N.T
-                  </h1>
+                  <img className="h-12 mr-2" src={imgSrc} alt="logo" />
+                 
                 </div>
                 <h1 className="lg:text-lg text-md text-center">
                   Reset Password

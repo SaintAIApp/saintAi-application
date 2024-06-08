@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Suspense, lazy } from "react";
 // import { ProtectedRoute } from "./protectedRoute";
 import App from "../App";
-import LoadData from "../pages/LoadData";
+import LoadData from "../pages/LoadData2";
 import { ProtectedRoute } from "./ProtectedRoutes";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 

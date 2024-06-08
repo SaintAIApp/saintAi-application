@@ -1,7 +1,7 @@
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import {MissionCard,MissionCardWithAnimation} from "../../components/MissionCard";
-
+import logo from "../../assets/saintailogo.png"
 import { motion } from "framer-motion";
 import { revealVariant } from "../../constants/animations";
 import { useEffect, useState } from "react";
@@ -50,7 +50,7 @@ const Index = () => {
   return (
     <section>
 
-    <section className="relative">
+    <section id="home" className="relative pt-10">
       {/* Hero section  */}
       <div className=" z-0 absolute h-64 w-64 bg-shape1 bottom-0 right-20"></div>
       <div className=" z-0 absolute  h-64 w-64 bg-shape2 top-96 left-10"></div>
@@ -86,7 +86,7 @@ const Index = () => {
             animate="visible"
             className="text-primary text-5xl md:text-8xl mb-10 font-heading z-10  "
             >
-            SaintAi
+            <img className="h-20 " src={logo}/>
           </motion.h1>
 
           <motion.h1
