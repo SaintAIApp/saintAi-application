@@ -109,7 +109,7 @@ const SignUp = () => {
 
   return (
     <>
-      <section className="">
+      <section className="mb-3">
         <div className=" w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
           <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
@@ -282,9 +282,9 @@ const SignUp = () => {
                     </p>
                   </div>
                   </div>
-                  <div className="sm:mb-0 md:mb-4 flex items-center justify-between">
-                    <div className="flex items-start">
-                      <div className="flex items-center h-5">
+                  <div className="sm:my-0 md:mb-4 flex items-center justify-between ">
+                    <div className="md:my-0 my-3  flex items-start">
+                      <div className=" mr-1 md:mr-0 flex items-center h-5">
                         <input
                           defaultChecked={termsAccepted}
                           onChange={(e) => setTermsAccepted(e.target.checked)}
@@ -294,7 +294,7 @@ const SignUp = () => {
                           className="w-4 h-4 bg-purple border border-purple_dark rounded focus:ring-3 focus:ring-primary-300"
                         />
                       </div>
-                      <div className="ml-3 text-sm">
+                      <div className=" md:ml-3 text-sm">
                         <label htmlFor="remember" className="text-white">
                           Yes, I agree to the{" "}
                           <Link

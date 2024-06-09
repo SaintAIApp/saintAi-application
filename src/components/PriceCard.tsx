@@ -40,7 +40,8 @@ export const PriceCard: React.FC<Props> = ({ price, heading, benefits, className
         // navigate("/"+res.data.data)
       }
       console.log(res);
-    } catch (error) {
+    } catch (error:any) {
+      notify(error.message,false);
       console.log(error)
     }
   }
