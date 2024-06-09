@@ -458,8 +458,8 @@ const Index = () => {
         </div>
       </div>
     </section>
-    <section>
-    <div className="my-16">
+    <section id="pricing">
+    <div className="my-16 pt-12">
         <h1 className="text-center text-lg my-5 font-thin  z-10">
           Pricing
         </h1>

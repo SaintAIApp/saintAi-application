@@ -135,6 +135,13 @@ const Navbar = () => {
               </li>
               <li
                 className={
+                  currentSection === "pricing"  ? "text-primary font-bold" : ""
+                }
+              >
+                <a href="/#pricing">Pricing</a>
+              </li>
+              <li
+                className={
                   currentSection === "contactus"  ? "text-primary font-bold" : ""
                 }
               >

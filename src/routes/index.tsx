@@ -17,6 +17,9 @@ const Login = lazy(():any=>import ("../pages/Auth/Login"));
 const SignUp = lazy(():any=>import("../pages/Auth/SignUp"));
 const LoadData = lazy(():any=>import("../pages/LoadData"));
 const VerifyOTP = lazy(():any=>import("../pages/Auth/OTP"));
+const PaymentSuccess = lazy(():any=>import("../pages/Payment/PaymentSuccess"));
+const PaymentFailed = lazy(():any=>import("../pages/Payment/PaymentFailed"));
+
 
 // const WidgetsPage = lazy(()=>import("../pages/Widgets"));
 const router = createBrowserRouter([
@@ -107,7 +110,7 @@ const router = createBrowserRouter([
         path:"/payment/success", 
         element:(
           <Suspense fallback={<Loader/>}>
-            <ForgotPassword/>
+            <PaymentSuccess/>
           </Suspense>
         )
       },
@@ -115,7 +118,7 @@ const router = createBrowserRouter([
         path:"/payment/failed", 
         element:(
           <Suspense fallback={<Loader/>}>
-            <ForgotPassword/>
+            <PaymentFailed/>
           </Suspense>
         )
       },
