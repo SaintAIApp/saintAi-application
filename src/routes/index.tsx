@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Suspense, lazy } from "react";
 // import { ProtectedRoute } from "./protectedRoute";
 import App from "../App";
-import LoadData from "../pages/LoadData2";
+// import LoadData from "../pages/LoadData2";
 import { ProtectedRoute } from "./ProtectedRoutes";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 
@@ -15,6 +15,7 @@ const ContactUs = lazy(():any=> import("../pages/ContactUs"))
 const Network = lazy(():any=> import("../pages/Network"))
 const Login = lazy(():any=>import ("../pages/Auth/Login"));
 const SignUp = lazy(():any=>import("../pages/Auth/SignUp"));
+const LoadData = lazy(():any=>import("../pages/LoadData"));
 const VerifyOTP = lazy(():any=>import("../pages/Auth/OTP"));
 
 // const WidgetsPage = lazy(()=>import("../pages/Widgets"));
@@ -96,6 +97,22 @@ const router = createBrowserRouter([
       },
       {
         path:"/resetPassword", 
+        element:(
+          <Suspense fallback={<Loader/>}>
+            <ForgotPassword/>
+          </Suspense>
+        )
+      },
+      {
+        path:"/payment/success", 
+        element:(
+          <Suspense fallback={<Loader/>}>
+            <ForgotPassword/>
+          </Suspense>
+        )
+      },
+      {
+        path:"/payment/failed", 
         element:(
           <Suspense fallback={<Loader/>}>
             <ForgotPassword/>

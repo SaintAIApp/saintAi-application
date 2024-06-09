@@ -5,15 +5,15 @@ import { FaChevronRight } from "react-icons/fa";
 
 const Index = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const [file, setFile] = useState<null | File>(null);
+  // const [file, setFile] = useState<null | File>(null);
   const [uploadFile, setUploadFile] = useState(true);
   const [privateKey, setPrivateKey] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false);
 
-  const handleChange = (file: File) => {
-    setFile(file);
-  };
+  // const handleChange = (file: File) => {
+  //   setFile(file);
+  // };
 
   const handleToggleSideBar = () => {
     setShowSideBar(!showSideBar);
