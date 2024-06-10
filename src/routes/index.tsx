@@ -15,11 +15,11 @@ const ContactUs = lazy(():any=> import("../pages/ContactUs"))
 const Network = lazy(():any=> import("../pages/Network"))
 const Login = lazy(():any=>import ("../pages/Auth/Login"));
 const SignUp = lazy(():any=>import("../pages/Auth/SignUp"));
-const LoadData = lazy(():any=>import("../pages/LoadData"));
+const LoadData = lazy(():any=>import("../pages/LoadData2"));
 const VerifyOTP = lazy(():any=>import("../pages/Auth/OTP"));
 const PaymentSuccess = lazy(():any=>import("../pages/Payment/PaymentSuccess"));
 const PaymentFailed = lazy(():any=>import("../pages/Payment/PaymentFailed"));
-
+const Profile = lazy(()=>import("../pages/Profile"));
 
 // const WidgetsPage = lazy(()=>import("../pages/Widgets"));
 const router = createBrowserRouter([
@@ -37,6 +37,16 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <LandingPage />
           </Suspense>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <ProtectedRoute>
+          <Suspense fallback={<Loader />}>
+            <Profile />
+          </Suspense>
+          </ProtectedRoute>
         ),
       },
       {

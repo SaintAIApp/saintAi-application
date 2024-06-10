@@ -5,9 +5,11 @@ import logo from "../../assets/saintailogo.png"
 import { motion } from "framer-motion";
 import { revealVariant } from "../../constants/animations";
 import { useEffect, useState } from "react";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ContactUsForm } from "../../components/ContactUsForm";
 import { PriceCardWithAnimation } from "../../components/PriceCard";
+import useUserService from "../../hooks/useUser";
+import { updatePlan } from "../../redux/slices/subscriptionSlice";
 // Define the animation variants for the mission cards
 
 const slideInVariant = {
@@ -15,14 +17,16 @@ const slideInVariant = {
   visible: { x: 0, opacity: 1, transition: { duration: 0.5 } },
 };
 const Index = () => {
-  const navigate = useNavigate();
-  const {token} = useAppSelector((state)=>state.auth);
   const [time,setTime] = useState({days:"00",sec:"00",mins:"00",hrs:"00"});
+  const navigate = useNavigate();
+  const {token,user} = useAppSelector((state)=>state.auth);
+  const dispatch = useAppDispatch();
+  const {getUserDetails} = useUserService();
+
   useEffect(() => {
     const interval = setInterval(() => {
       const curDate = new Date();
       const releaseDate = new Date("27 July 2024");
-
       const timeDifference = releaseDate.getTime()  - curDate.getTime();
 
       if (timeDifference > 0) {
@@ -46,7 +50,20 @@ const Index = () => {
 
     return () => clearInterval(interval); // Clear interval on component unmount
   }, []);
-  
+  const fetchUserData = async ()=>{
+    try {
+      const res = await getUserDetails(user?._id||"");
+      dispatch(updatePlan(res.data.data.subscriptionData))
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(  ()=>{
+    if(token && user){
+      fetchUserData()
+    }
+  },[])
 
   return (
     <section>
@@ -485,6 +502,7 @@ const Index = () => {
               planCode="proPlus"
               price={20}
               benefits={["Free Food","Free Coffee","Free Food","Free Coffee","Free Food","Free Coffee"]}
+
               />
                 <PriceCardWithAnimation
               delay={0.6}
@@ -493,6 +511,7 @@ const Index = () => {
               planCode="pro"
               price={7}
               benefits={["Free Food","Free Coffee","Free Food","Free Coffee","",""]}
+
               />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Button from "./Button";
 import { motion, useInView } from "framer-motion";
 import { SiTicktick } from "react-icons/si";
@@ -14,7 +14,6 @@ type Props = {
   plan:string;
   planCode:string;
   className?: string;
-
 };
 const cardVariant = {
   hidden: { opacity: 0, y: 50 },
@@ -23,10 +22,12 @@ const cardVariant = {
 
 
 export const PriceCard: React.FC<Props> = ({ price, heading, benefits, className = "", planCode,plan}) => {
+  const [isRedirecting,setIsRedirecting] = useState(false);
   const {createCheckout} = usePaymentServices();
   const navigate = useNavigate();
   const token = useAppSelector((state)=>state.auth.token)
   const handleSubmit = async()=>{
+    setIsRedirecting(true);
     try {
       if(!token)
       {
@@ -44,6 +45,9 @@ export const PriceCard: React.FC<Props> = ({ price, heading, benefits, className
       notify(error.message,false);
       console.log(error)
     }
+    finally{
+      setIsRedirecting(false);
+    }
   }
   return (
     <div className={`border-[0.8px] border-purple_dark bg-opacity-40 bg-purple px-4 py-3 rounded-3xl md:w-60 lg:w-80 hover:shadow-inner hover:shadow-purple_dark duration-500 h-[28rem] ${className}`}>
@@ -59,7 +63,7 @@ export const PriceCard: React.FC<Props> = ({ price, heading, benefits, className
       </ul>
       <h1 className="text-4xl mb-10">{heading}</h1>
       {/* <h1 className={`mb-32 ${cropText?"line-clamp-3":""} `}>{description}</h1> */}
-     { price>0 &&  <Button className="" text="Upgrade" variant="rounded" onClick={handleSubmit} />}
+     { price>0 &&  <Button loading={isRedirecting} className="" text="Upgrade" variant="rounded" onClick={handleSubmit} />}
     </div>
   );
 };
@@ -68,7 +72,7 @@ export const PriceCard: React.FC<Props> = ({ price, heading, benefits, className
 
 export const PriceCardWithAnimation = ({
   price, heading, benefits , planCode,plan,
-  delay,
+  delay
 }: {
   price: number;
   heading: string;
@@ -77,6 +81,7 @@ export const PriceCardWithAnimation = ({
   planCode:string;
   className?: string;
   delay: any;
+
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -96,6 +101,7 @@ export const PriceCardWithAnimation = ({
         plan={plan}
         planCode={planCode}
         benefits={benefits}
+
       />
     </motion.div>
   );

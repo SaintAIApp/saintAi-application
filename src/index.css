@@ -33,3 +33,10 @@ html{
 .form{
   /* background: radial-gradient(circle at 10% 20%,#7344ffc4  10%, #6600cc 70%); */
 }
+
+.proPlusText{
+  background-image: linear-gradient(90deg,rgb(240, 126, 255),rgb(128, 173, 255));
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+
+}
