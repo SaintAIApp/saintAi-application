@@ -120,7 +120,7 @@ const Login = () => {
                <button
                  disabled={email.length==0 || password.length ===0 || isLoading}
                  type="submit"
-                 className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:bg-slate-500"
+                 className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:bg-slate-400"
                >
                 {!isLoading?" Sign in":"Sigining in..."}
                </button>

@@ -11,21 +11,21 @@ import { login, logout } from "../../redux/slices/authSlice";
 const OTP = () => {
     const {user} = useAppSelector((state)=>{return state.auth});
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [isLoading,setIsLoading] = useState(false);
     const {verifyOTP,deleteAccount} = useAuthService()
     if( !user)
         return <Navigate to="/login"/>
     if(user && user.isActive)
         return <Navigate to={"/"}/>
-    const navigate = useNavigate();
+
     const [otp, setOtp] = useState(new Array(6).fill(''));
     const inputRefs = useRef<any>([]);
   
     const handleChange = (element:any, index:number) => {
       if (isNaN(element.value)) return;
       setOtp([...otp.map((d, idx:number) => (idx === index ? element.value : d))]);
-  
-      // Focus next input
+
       if (element.value !== '' && index < 5) {
         inputRefs.current[index + 1].focus();
       }
@@ -76,12 +76,14 @@ const OTP = () => {
       }
       const handleCancel =async ()=>{
         try {
-            await deleteAccount(user._id);
-            dispatch(logout());
-            navigate("/signup")
-            
+            await deleteAccount(user._id)
         } catch (error:any) {
-          notify(error.message,false)
+          console.log(error)
+          // notify(error.message,false)
+        }
+        finally{
+          dispatch(logout());
+          navigate("/signup")   
         }
       }
     return (

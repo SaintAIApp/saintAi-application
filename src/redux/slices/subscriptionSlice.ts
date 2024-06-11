@@ -16,8 +16,14 @@ const authSlice = createSlice({
             state.validUntil = action.payload.validUntil;
             state.userId = action.payload.userId;
             state.customerId = action.payload.customerId;
-        },   
+        }, 
+        clearPlan : (state)=>{
+            state.plan ="";
+            state.validUntil = new Date();
+            state.userId = "";
+            state.customerId = "";
+        },  
     }
 })
-export const {updatePlan}  = authSlice.actions;
+export const {updatePlan,clearPlan}  = authSlice.actions;
 export default authSlice.reducer;

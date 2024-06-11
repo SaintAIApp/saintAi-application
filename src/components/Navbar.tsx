@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useWalletService from "../hooks/useWallet";
 import { useAppSelector } from "../redux/hooks";
 import ConnectModal from "./ConnectModal";
 import NavMenu from "./NavMenu";
 import { IoMenu, IoWallet } from "react-icons/io5";
-import AvatarDropDown from "./AvatarDropDown";
-import logo from "../assets/saintailogo.png"
+// import AvatarDropDown from "./AvatarDropDown";
+import logo from "../assets/saintailogo.png";
+import { useAppDispatch } from "../redux/hooks";
+import { logout } from "../redux/slices/authSlice";
+import { clearPlan } from "../redux/slices/subscriptionSlice";
 const Navbar = () => {
-  const location = useLocation()
+  const dispatch = useAppDispatch()
 
   const { wallet } = useAppSelector((state) => state.wallet);
   const { disconnect } = useWalletService();
   const { token, user } = useAppSelector((state) => state.auth);
   const [isMobile, setIsMobile] = useState(false);
-  const [currentSection, setCurrentSection] = useState("home");
+
 
   const handleDisconnectWallet = () => {
     disconnect();
@@ -23,6 +26,11 @@ const Navbar = () => {
   const handleResize = () => {
     setIsMobile(window.innerWidth < 762);
   };
+  const handleLogout = ()=>{
+    dispatch(logout());
+    dispatch(clearPlan());
+
+  }
 
   useEffect(() => {
     handleResize();
@@ -32,34 +40,9 @@ const Navbar = () => {
     };
   }, []);
 
-  useEffect(() => {
-   
-    const sections = document.querySelectorAll("section");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setCurrentSection(entry.target.id);
-          }
-          // else
-          //   setCurrentSection("")
-        });
-      },
-      { threshold: 0 }
-    );
-
-    sections.forEach((section) => {
-      observer.observe(section);
-    });
-    return () => {
-      sections.forEach((section) => {
-        observer.unobserve(section);
-      });
-    };
-  }, [location]);
 
   return (
-    <div className="bg-[#0008] px-[3vw] max-md:px-6 lg:px-[8vw] w-full fixed z-[100] py-4 backdrop-blur-3xl top-0">
+    <div className="bg-[#0008] px-[3vw] max-md:px-5 lg:px-[3vw] w-full fixed z-[100] py-4 backdrop-blur-3xl top-0">
       {isMobile ? (
         <div className="flex flex-col space-y-3">
           <div className="flex justify-between">
@@ -107,48 +90,13 @@ const Navbar = () => {
       ) : (
         <div className="flex items-center justify-between">
           <div id="left">
-          <img src={logo} className="h-8"/>
+
+            <Link to={"/"}>
+              <img src={logo} className="h-8"/>
+            </Link>
             {/* <h1 className="font-heading text-white text-lg">SaintAi</h1> */}
           </div>
-          <div className="center">
-            <ul className="flex md:space-x-2 px-4 py-2 rounded-full border-[0.3px] font-thin text-sm border-[#1f2550]">
-              <li
-                className={
-                  currentSection === "home"  ? "text-primary font-bold" : ""
-                }
-              >
-              <a href="/#home">Home</a>
-              </li>
-              <li
-                className={
-                  currentSection === "network"  ? "text-primary font-bold" : ""
-                }
-              >
-                <a href="/#network">Network</a>
-              </li>
-              <li
-                className={
-                  currentSection === "roadmaps"  ? "text-primary font-bold" : ""
-                }
-              >
-                <a href="/#roadmaps">Roadmaps</a>
-              </li>
-              <li
-                className={
-                  currentSection === "pricing"  ? "text-primary font-bold" : ""
-                }
-              >
-                <a href="/#pricing">Pricing</a>
-              </li>
-              <li
-                className={
-                  currentSection === "contactus"  ? "text-primary font-bold" : ""
-                }
-              >
-                <a href="/#contactus">Contact Us</a>
-              </li>
-            </ul>
-          </div>
+         
           <div id="right" className="flex items-center">
             <ul className="flex items-center space-x-2">
               {!token && (
@@ -184,17 +132,24 @@ const Navbar = () => {
               </li>
               <li>
                 {token && user && (
-                  <AvatarDropDown
-                    triggerButton={
-                      <button className="rounded-full flex items-center">
-                        <img
-                          className="h-8 w-8"
-                          src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-                          alt="User Avatar"
-                        />
-                      </button>
-                    }
-                  />
+                  // <AvatarDropDown
+                  //   triggerButton={
+                  //     <button className="rounded-full flex items-center">
+                  //       <img
+                  //         className="h-8 w-8"
+                  //         src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                  //         alt="User Avatar"
+                  //       />
+                  //     </button>
+                  //   }
+                  // />
+                  <Link to={"/profile"}>Profile</Link>
+                )}
+              </li>
+              <li>
+                {token && user && (
+                
+                  <button className="text-red-400" onClick={handleLogout}>Logout</button>
                 )}
               </li>
             </ul>
