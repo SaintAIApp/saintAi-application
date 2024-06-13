@@ -3,18 +3,18 @@ import { useLocation, Link } from "react-router-dom";
 import useWalletService from "../hooks/useWallet";
 import { useAppSelector } from "../redux/hooks";
 import ConnectModal from "./ConnectModal";
-import NavMenu from  "./NavMenu.tsx"
+import NavMenu from "./NavMenu.tsx";
 import { IoMenu, IoWallet } from "react-icons/io5";
 
 import AvatarDropDown from "./AvatarDropDown.tsx";
 
 const Navbar = () => {
   const location = useLocation();
-  const { wallet } = useAppSelector((state) => state.wallet);
-  const { disconnect } = useWalletService();
-  const {token,user} =  useAppSelector((state)=>{return  state.auth});
+  const { disconnect, isConnected, address } = useWalletService();
+  const { token, user } = useAppSelector((state) => {
+    return state.auth;
+  });
   const [isMobile, setIsMobile] = useState(false);
-
   const handleDisconnectWallet = () => {
     disconnect();
   };
@@ -35,16 +35,15 @@ const Navbar = () => {
       {isMobile ? (
         <div className="flex flex-col space-y-3">
           <div className="flex justify-between">
-            <div id="left" >
+            <div id="left">
               <Link to={"/"}>
-              <h1 className="font-heading text-white text-lg">SaintAi</h1>
+                <h1 className="font-heading text-white text-lg">SaintAi</h1>
               </Link>
             </div>
             <div id="right" className="flex items-center">
               <ul className="flex items-center space-x-3">
-              
                 <li>
-                  {!wallet ? (
+                  {!isConnected ? (
                     <ConnectModal
                       triggerButton={
                         <button className="bg-[#2f2e38] focus:ring-2 focus:ring-primary outline-none  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
@@ -63,17 +62,15 @@ const Navbar = () => {
                   )}
                 </li>
                 <li>
-                 
-                 <NavMenu
-                   triggerButton={
-                     <button className="bg-[#2f2e38] focus:ring-2 focus:ring-primary outline-none  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
-                       <span className="">Menu</span>
-                       <IoMenu/>
-                     </button>
-                   }
-                 />
-           
-             </li>
+                  <NavMenu
+                    triggerButton={
+                      <button className="bg-[#2f2e38] focus:ring-2 focus:ring-primary outline-none  space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
+                        <span className="">Menu</span>
+                        <IoMenu />
+                      </button>
+                    }
+                  />
+                </li>
               </ul>
             </div>
           </div>
@@ -161,20 +158,23 @@ const Navbar = () => {
                 <a href="/#contactus">ContactUs</a>
               </li>
               <li>
-                {!token && 
-                <div className="flex space-x-2 mr-2 items-center">
-                  <Link to={"/login"} className="">Login</Link>
-                  <Link to={"/signup"} className=" ">Sign Up</Link>
-                </div>
-                }
+                {!token && (
+                  <div className="flex space-x-2 mr-2 items-center">
+                    <Link to={"/login"} className="">
+                      Login
+                    </Link>
+                    <Link to={"/signup"} className=" ">
+                      Sign Up
+                    </Link>
+                  </div>
+                )}
               </li>
             </ul>
           </div>
           <div id="right" className="flex items-center">
             <ul className="flex items-center space-x-2">
-           
               <li>
-                {!wallet ? (
+                {!isConnected ? (
                   <ConnectModal
                     triggerButton={
                       <div className="bg-[#2f2e38] space-x-1 md:space-x-2  text-sm font-thin text-white  rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
@@ -188,27 +188,26 @@ const Navbar = () => {
                     onClick={handleDisconnectWallet}
                     className="bg-red-400 text-white px-2 py-1 rounded-full"
                   >
-                    Disconnect
+                    Disconnect {address}
                   </button>
                 )}
               </li>
-            
 
               <li>
-          {token && user && (
-            <AvatarDropDown
-              triggerButton={
-                <button className="rounded-full flex items-center">
-                  <img
-                    className="h-8 w-8"
-                    src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-                    alt="User Avatar"
+                {token && user && (
+                  <AvatarDropDown
+                    triggerButton={
+                      <button className="rounded-full flex items-center">
+                        <img
+                          className="h-8 w-8"
+                          src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                          alt="User Avatar"
+                        />
+                      </button>
+                    }
                   />
-                </button>
-              }
-            />
-          )}
-        </li>
+                )}
+              </li>
             </ul>
           </div>
         </div>
