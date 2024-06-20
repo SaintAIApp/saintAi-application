@@ -2,20 +2,25 @@ import { createBrowserRouter } from "react-router-dom";
 import { Suspense, lazy } from "react";
 // import { ProtectedRoute } from "./protectedRoute";
 import App from "../App";
-import LoadData from "../pages/LoadData";
+// import LoadData from "../pages/LoadData2";
 import { ProtectedRoute } from "./ProtectedRoutes";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 
 // Lazy Loading all the pages
-const LandingPage = lazy(():any => import("../pages/Landing"));
-const NotFound = lazy(():any => import("../pages/NotFound"));
-const Loader = lazy(():any => import("../components/Loader"));
-const Roadmap = lazy(():any=> import("../pages/RoadMap"))
-const ContactUs = lazy(():any=> import("../pages/ContactUs"))
-const Network = lazy(():any=> import("../pages/Network"))
-const Login = lazy(():any=>import ("../pages/Auth/Login"));
-const SignUp = lazy(():any=>import("../pages/Auth/SignUp"));
-const VerifyOTP = lazy(():any=>import("../pages/Auth/OTP"));
+// const LandingPage = lazy(():any => import("../pages/Landing"));
+const NotFound = lazy((): any => import("../pages/NotFound"));
+const Loader = lazy((): any => import("../components/Loader"));
+
+const Login = lazy((): any => import("../pages/Auth/Login"));
+const SignUp = lazy((): any => import("../pages/Auth/SignUp"));
+const LoadData = lazy((): any => import("../pages/LoadData2"));
+const VerifyOTP = lazy((): any => import("../pages/Auth/OTP"));
+const Pricing = lazy(()=>import("../pages/Pricing"))
+const PaymentSuccess = lazy(
+  (): any => import("../pages/Payment/PaymentSuccess")
+);
+const PaymentFailed = lazy((): any => import("../pages/Payment/PaymentFailed"));
+const Profile = lazy(() => import("../pages/Profile"));
 
 // const WidgetsPage = lazy(()=>import("../pages/Widgets"));
 const router = createBrowserRouter([
@@ -30,40 +35,37 @@ const router = createBrowserRouter([
       {
         path: "",
         element: (
-          <Suspense fallback={<Loader />}>
-            <LandingPage />
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <Profile />
+            </Suspense>
+          </ProtectedRoute>
         ),
       },
       {
-        path: "/roadmaps",
+        path: "/profile",
         element: (
-          <Suspense fallback={<Loader />}>
-            <Roadmap/>
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <Profile />
+            </Suspense>
+          </ProtectedRoute>
         ),
       },
       {
-        path: "/contactus",
+        path: "/pricing",
         element: (
           <Suspense fallback={<Loader />}>
-            <ContactUs/>
+            <Pricing />
           </Suspense>
         ),
       },
-      {
-        path: "/network",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <Network/>
-          </Suspense>
-        ),
-      },
+    
       {
         path: "/login",
         element: (
           <Suspense fallback={<Loader />}>
-            <Login/>
+            <Login />
           </Suspense>
         ),
       },
@@ -71,7 +73,7 @@ const router = createBrowserRouter([
         path: "/signup",
         element: (
           <Suspense fallback={<Loader />}>
-            <SignUp/>
+            <SignUp />
           </Suspense>
         ),
       },
@@ -79,28 +81,43 @@ const router = createBrowserRouter([
         path: "/loaddata",
         element: (
           <ProtectedRoute>
-          <Suspense fallback={<Loader />}>
-            <LoadData/>
-          </Suspense>
+            <Suspense fallback={<Loader />}>
+              <LoadData />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
       {
-        path:"/verifyOTP", 
-        element:(
-          <Suspense fallback={<Loader/>}>
-            <VerifyOTP/>
-
+        path: "/verifyOTP",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <VerifyOTP />
           </Suspense>
-        )
+        ),
       },
       {
-        path:"/resetPassword", 
-        element:(
-          <Suspense fallback={<Loader/>}>
-            <ForgotPassword/>
+        path: "/resetPassword",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ForgotPassword />
           </Suspense>
-        )
+        ),
+      },
+      {
+        path: "/payment/success",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PaymentSuccess />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/payment/failed",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PaymentFailed />
+          </Suspense>
+        ),
       },
       {
         path: "*",

@@ -2,9 +2,9 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { UserPlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FaMessage, FaUser } from "react-icons/fa6";
-import { IoGlobeOutline, IoLogOut } from "react-icons/io5";
-import { GoHome, GoProjectRoadmap } from "react-icons/go";
+import {  FaUser } from "react-icons/fa6";
+import {  IoLogOut } from "react-icons/io5";
+
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/slices/authSlice";
 import { notify } from "../utils/notify";
@@ -30,7 +30,7 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
 
           <>
             <ul className="flex flex-col space-y-3 ">
-              <li
+              {/* <li
                 className={`flex w-full items-center space-x-3  bg-[#28282f]  p-2 rounded-lg`}
               >
                 <Dialog.Close>
@@ -72,7 +72,7 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                     <FaMessage /> <span>Contact Us</span>
                   </a>
                 </Dialog.Close>
-              </li>
+              </li> */}
               {!token && (
                 <li className="bg-[#28282f] flex p-2 rounded-lg">
                   <Dialog.Close
@@ -110,7 +110,7 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                 </li>
               )}
                {token && (
-                <li className="bg-[#28282f] flex p-2 rounded-lg">
+                <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
                   <Dialog.Close
                     onClick={() => {
                       dispatch(logout());
@@ -119,7 +119,7 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                     className={`flex w-full items-center space-x-3 text-red-400`}
                   >
                     < IoLogOut height={20} width={20} />
-                    <span>Logout</span>
+                    <span className="w-full">Logout</span>
                   </Dialog.Close>
                 </li>
               )}

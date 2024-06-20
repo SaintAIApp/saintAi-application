@@ -1,5 +1,5 @@
 import {  Navigate, useNavigate } from "react-router-dom";
-import imgSrc from "../../../public/logo.png";
+import imgSrc from "../../assets/saintailogo.png";
 import { useRef, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import useAuthService from "../../hooks/useAuth";
@@ -11,21 +11,21 @@ import { login, logout } from "../../redux/slices/authSlice";
 const OTP = () => {
     const {user} = useAppSelector((state)=>{return state.auth});
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [isLoading,setIsLoading] = useState(false);
     const {verifyOTP,deleteAccount} = useAuthService()
     if( !user)
         return <Navigate to="/login"/>
     if(user && user.isActive)
         return <Navigate to={"/"}/>
-    const navigate = useNavigate();
+
     const [otp, setOtp] = useState(new Array(6).fill(''));
     const inputRefs = useRef<any>([]);
   
     const handleChange = (element:any, index:number) => {
       if (isNaN(element.value)) return;
       setOtp([...otp.map((d, idx:number) => (idx === index ? element.value : d))]);
-  
-      // Focus next input
+
       if (element.value !== '' && index < 5) {
         inputRefs.current[index + 1].focus();
       }
@@ -76,18 +76,20 @@ const OTP = () => {
       }
       const handleCancel =async ()=>{
         try {
-            await deleteAccount(user._id);
-            dispatch(logout());
-            navigate("/signup")
-            
+            await deleteAccount(user._id)
         } catch (error:any) {
-          notify(error.message,false)
+          console.log(error)
+          // notify(error.message,false)
+        }
+        finally{
+          dispatch(logout());
+          navigate("/signup")   
         }
       }
     return (
         <>
             <section className="mb-6">
-                <div className="flex flex-col items-center justify-center  md:h-screen lg:py-0">
+                <div className="flex flex-col items-center mt-10  md:h-screen lg:py-0">
                     <div className="relative w-full rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-purple bg-opacity-70">
                         <div className="absolute h-full w-full inset-0 flex z-0">
                             <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 opacity-90 bg-blur"></div>
@@ -97,8 +99,7 @@ const OTP = () => {
                         </div>
                         <div className="relative z-10 p-10 space-y-4 md:space-y-6 sm:p-8">
                             <div className="flex items-center flex-row justify-start mb-4">
-                                <img className="w-12 h-12 mr-2" src={imgSrc} alt="logo" />
-                                <h1 className="text-primary text-3xl font-heading">S.AI.N.T</h1>
+                                <img className="h-12 mr-2" src={imgSrc} alt="logo" />
                             </div>
                             <h1 className="lg:text-lg text-md text-center">
                                 Verify OTP

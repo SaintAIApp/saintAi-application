@@ -19,6 +19,7 @@ html{
     border-radius: 100%;
     background-image: linear-gradient(45deg,#6a48c9,#6343ba);
     filter: blur(100px);
+
   }
   button{
     z-index: 2;
@@ -26,10 +27,17 @@ html{
   .bg-shape2 {
     border-radius: 100%;
     filter: blur(110px);
-    background-image: linear-gradient(45deg,#7344ffc4,#5218ff);
+    background-image: linear-gradient(45deg,#6a48c9,#6343ba);
   }
 
 
 .form{
   /* background: radial-gradient(circle at 10% 20%,#7344ffc4  10%, #6600cc 70%); */
+}
+
+.proPlusText{
+  background-image: linear-gradient(90deg,rgb(240, 126, 255),rgb(128, 173, 255));
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+
 }

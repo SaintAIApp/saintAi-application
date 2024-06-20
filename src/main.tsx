@@ -7,6 +7,7 @@ import {persistStore} from "redux-persist"
 import { RouterProvider } from 'react-router-dom'
 import router from './routes'
 import { Suspense } from 'react'
+
 import Loader from './components/Loader'
 
 let persister = persistStore(store);

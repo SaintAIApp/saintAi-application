@@ -1,12 +1,15 @@
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import {MissionCard,MissionCardWithAnimation} from "../../components/MissionCard";
-
+import logo from "../../assets/saintailogo.png"
 import { motion } from "framer-motion";
 import { revealVariant } from "../../constants/animations";
 import { useEffect, useState } from "react";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ContactUsForm } from "../../components/ContactUsForm";
+import { PriceCardWithAnimation } from "../../components/PriceCard";
+import useUserService from "../../hooks/useUser";
+import { updatePlan } from "../../redux/slices/subscriptionSlice";
 // Define the animation variants for the mission cards
 
 const slideInVariant = {
@@ -14,14 +17,16 @@ const slideInVariant = {
   visible: { x: 0, opacity: 1, transition: { duration: 0.5 } },
 };
 const Index = () => {
-  const navigate = useNavigate();
-  const {token} = useAppSelector((state)=>state.auth);
   const [time,setTime] = useState({days:"00",sec:"00",mins:"00",hrs:"00"});
+  const navigate = useNavigate();
+  const {token,user} = useAppSelector((state)=>state.auth);
+  const dispatch = useAppDispatch();
+  const {getUserDetails} = useUserService();
+
   useEffect(() => {
     const interval = setInterval(() => {
       const curDate = new Date();
       const releaseDate = new Date("27 July 2024");
-
       const timeDifference = releaseDate.getTime()  - curDate.getTime();
 
       if (timeDifference > 0) {
@@ -45,12 +50,25 @@ const Index = () => {
 
     return () => clearInterval(interval); // Clear interval on component unmount
   }, []);
-  
+  const fetchUserData = async ()=>{
+    try {
+      const res = await getUserDetails(user?._id||"");
+      dispatch(updatePlan(res.data.data.subscriptionData))
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(  ()=>{
+    if(token && user){
+      fetchUserData()
+    }
+  },[])
 
   return (
     <section>
 
-    <section className="relative">
+    <section id="home" className="relative pt-10">
       {/* Hero section  */}
       <div className=" z-0 absolute h-64 w-64 bg-shape1 bottom-0 right-20"></div>
       <div className=" z-0 absolute  h-64 w-64 bg-shape2 top-96 left-10"></div>
@@ -86,7 +104,7 @@ const Index = () => {
             animate="visible"
             className="text-primary text-5xl md:text-8xl mb-10 font-heading z-10  "
             >
-            SaintAi
+            <img className="h-20 " src={logo}/>
           </motion.h1>
 
           <motion.h1
@@ -454,6 +472,47 @@ const Index = () => {
             Saint welcomes all to sign up and access cutting-edge AI technology
             while rewarding participation with cryptocurrency assets.
           </p>
+        </div>
+      </div>
+    </section>
+    <section id="pricing">
+    <div className="my-16 pt-12">
+        <h1 className="text-center text-lg my-5 font-thin  z-10">
+          Pricing
+        </h1>
+        <h1 className="text-3xl md:text-6xl font-thin text-center my-4  z-10">
+          Explore plans
+        </h1>
+        <h1 className="text-center font-thin my-5  z-10">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, laborum!
+        </h1>
+        <div className="grid sm:grid-cols-1 md:grid-cols-3  gap-4   place-items-stretch my-4  z-10">
+              <PriceCardWithAnimation
+              delay={0.2}
+              heading=""
+              plan="Free"
+              planCode="free"
+              price={0}
+              benefits={["Free Food","Free Coffee"]}
+              />
+                <PriceCardWithAnimation
+              delay={0.4}
+              heading=""
+              plan="Pro Plus"
+              planCode="proPlus"
+              price={20}
+              benefits={["Free Food","Free Coffee","Free Food","Free Coffee","Free Food","Free Coffee"]}
+
+              />
+                <PriceCardWithAnimation
+              delay={0.6}
+              heading=""
+              plan="Pro"
+              planCode="pro"
+              price={7}
+              benefits={["Free Food","Free Coffee","Free Food","Free Coffee","",""]}
+
+              />
         </div>
       </div>
     </section>

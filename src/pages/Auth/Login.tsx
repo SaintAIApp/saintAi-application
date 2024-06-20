@@ -1,8 +1,8 @@
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import imgSrc from "../../../public/logo.png";
+import imgSrc from "../../assets/saintailogo.png" ;
 // import NavBar from "../common/NavBar";
 import useAuthService from "../../hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {login} from "../../redux/slices/authSlice"
 import { notify } from "../../utils/notify";
@@ -27,8 +27,11 @@ const Login = () => {
     } finally {
       setIsLoading(false);
     }
-    
   };
+  useEffect(() => {
+    window.scrollTo(0,0)
+  }, [])
+  
   if(token)
     return <Navigate to={"/"}/>
 
@@ -36,10 +39,9 @@ const Login = () => {
     <>
       <section className="relative mb-4">
 
-      <div className="h-[50rem] w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
-      {/* Radial gradient for the container to give a faded look */}
+      <div className=" w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-      <div className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
+      <div className="flex flex-col items-center mx-auto md:h-screen mt-10 lg:py-0">
          
          <div className="relative w-full rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-[#473086] bg-opacity-100">
            <img src="/cube.png" className="h-56 absolute w-56  rotate-45 top-[-25%] right-[-10%]" alt="" />
@@ -51,11 +53,11 @@ const Login = () => {
            </div>
            <div className="relative z-10 p-10 space-y-4 md:space-y-6 sm:p-8">
              <div className="flex items-center flex-row justify-start mb-4">
-               <img className="w-12 h-12 mr-2" src={imgSrc} alt="logo" />
-               <h1 className="text-primary text-3xl font-heading">S.AI.N.T</h1>
+               <img className="h-12" src={imgSrc} alt="logo" />
+               {/* <h1 className="text-primary text-3xl font-heading">S.AI.N.T</h1> */}
              </div>
              <h1 className="lg:text-lg text-md text-center">
-               Sign up for S.AI.N.T
+                Hey! Welcome back
              </h1>
              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                <div>
@@ -118,7 +120,7 @@ const Login = () => {
                <button
                  disabled={email.length==0 || password.length ===0 || isLoading}
                  type="submit"
-                 className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:bg-slate-500"
+                 className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:bg-slate-400"
                >
                 {!isLoading?" Sign in":"Sigining in..."}
                </button>

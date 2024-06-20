@@ -10,3 +10,9 @@ export interface IUser  {
 export interface Wallet{
     walledId:string
 }
+export interface Subscription{
+  userId: string;
+  plan: string;
+  validUntil: Date;
+  customerId: string;
+}

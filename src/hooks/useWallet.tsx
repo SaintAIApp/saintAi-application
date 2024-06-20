@@ -11,7 +11,6 @@ const useWalletService = () => {
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
-        console.log(accounts[0]);
         dispath(connectWallet({ wallet: { walledId: accounts[0] } }));
 
         notify("Connected", true);
