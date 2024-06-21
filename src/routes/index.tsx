@@ -15,6 +15,8 @@ const Login = lazy((): any => import("../pages/Auth/Login"));
 const SignUp = lazy((): any => import("../pages/Auth/SignUp"));
 const LoadData = lazy((): any => import("../pages/LoadData2"));
 const VerifyOTP = lazy((): any => import("../pages/Auth/OTP"));
+const WidgetsPage = lazy(()=>import("../pages/Widgets"));
+const News = lazy(()=>import("../pages/News/SingleNews"));
 const Pricing = lazy(()=>import("../pages/Pricing"))
 const PaymentSuccess = lazy(
   (): any => import("../pages/Payment/PaymentSuccess")
@@ -22,7 +24,6 @@ const PaymentSuccess = lazy(
 const PaymentFailed = lazy((): any => import("../pages/Payment/PaymentFailed"));
 const Profile = lazy(() => import("../pages/Profile"));
 
-// const WidgetsPage = lazy(()=>import("../pages/Widgets"));
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,11 +36,11 @@ const router = createBrowserRouter([
       {
         path: "",
         element: (
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <Suspense fallback={<Loader />}>
-              <Profile />
+              <WidgetsPage />
             </Suspense>
-          </ProtectedRoute>
+          // </ProtectedRoute>
         ),
       },
       {
@@ -83,6 +84,26 @@ const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<Loader />}>
               <LoadData />
+            </Suspense>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/analysis",
+        element: (
+          // <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <WidgetsPage />
+            </Suspense>
+          // </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/news/:id",
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <News />
             </Suspense>
           </ProtectedRoute>
         ),
