@@ -10,20 +10,21 @@ import { notify } from "../../utils/notify";
 import DialogComponent from "../../components/Dialog";
 
 const Profile = () => {
-  const { user } = useAppSelector((state) => state.auth);
-  const subscription = useAppSelector((state) => state.subscription);
+  const states = useAppSelector((state) => state);
+  const {auth,subscription} = states;
+  const {user} = auth;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { getUserDetails } = useUserService();
   const { cancelSubscription } = usePaymentServices();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+
   const fetchUserData = async () => {
     try {
       const res = await getUserDetails(user?._id || "");
       if (res.data.data.subscriptionData.length > 0)
         dispatch(updatePlan(res.data.data.subscriptionData[0]));
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -52,6 +53,7 @@ const Profile = () => {
     try {
       const res = await cancelSubscription();
       if (res.status === 200) {
+        dispatch(updatePlan({validUntil:new Date(Date.now()),plan:"",userId:user?._id||"",customerId:subscription.customerId}))
         notify("Subscription cancelled", true);
         setIsDialogOpen(false); // Close the dialog on successful cancellation
       }
@@ -64,6 +66,8 @@ const Profile = () => {
     const currentDate = moment();
     const expiryDate = moment(subscription.validUntil);
     const differenceInDays = expiryDate.diff(currentDate, "days");
+    if(differenceInDays<0)
+      return `Your plan expired ${-1*differenceInDays} days ago`
     return `${differenceInDays} days`;
   };
 
@@ -74,12 +78,12 @@ const Profile = () => {
 
   return (
     <section id="profile" className="min-h-[50rem] font-roboto">
-      {subscription.plan !== "proPlus" && (
+      {(subscription.plan !== "proPlus" || moment(subscription.validUntil).isBefore(Date.now())) && (
         <div className="w-full py-2 border-[0.3px] border-slate-800 rounded-md flex justify-center items-center relative overflow-hidden">
           <div className="z-0 absolute h-64 w-64 bg-shape1 bottom-[-150px] right-20"></div>
           <div className="z-0 absolute h-64 w-64 bg-shape2 bottom-0 left-0 text-sm"></div>
           <span className="text-sm">
-            {subscription.plan === ""
+            {subscription.plan === "" || moment(subscription.validUntil).isBefore(Date.now())
               ? "Unlock More Features with Our Pro Plans!"
               : subscription.plan === "pro"
               ? "Unlock More Features with Our Pro Plus Plan!"
@@ -111,18 +115,18 @@ const Profile = () => {
                   <span>Plan:</span> {getPlan()}
                 </span>
               </h1>
-              {subscription.plan !== "free" && subscription.plan !== "" && (
+              {subscription.plan !== "free" && subscription.plan !== ""  && (
                 <div>
                   <h1 className="text-lg">
                     <span className="flex space-x-2 mr-1 items-center">
                       <span>Expires In:</span> &nbsp; {getExpiry()}
                     </span>
                   </h1>
-                  <DialogComponent
+                  { !moment(subscription.validUntil).isBefore(Date.now()) && <DialogComponent
                     open={isDialogOpen}
                     onOpenChange={setIsDialogOpen}
                     onConfirm={handleCancelSubscription}
-                  />
+                  />}
                 </div>
               )}
             </div>
