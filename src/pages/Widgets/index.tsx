@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import ChatBox from "../../components/Chat/ChatBox";
 import CategorySelector from "../../components/CategorySelector";
 import GraphLg from "../../components/Graphs/AreaChartLg";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logoCircle from "../../assets/saintlogocircle.png"
 import {LockClosedIcon} from "@heroicons/react/24/solid"
 import { useAppSelector } from "../../redux/hooks";
