@@ -9,7 +9,15 @@ const usePaymentServices = () => {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
   };
+  const cancelSubscription = async () => {
+    try {
+      const res = await api.post("/payment/cancel-subscription");
+      return res;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || "Something went wrong");
+    }
+  };
 
-  return { createCheckout };
+  return { createCheckout,cancelSubscription};
 };
 export default usePaymentServices;

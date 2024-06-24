@@ -1,0 +1,37 @@
+[
+    
+    {
+        "id": 1,
+        "title": "https://cryptologos.cc/logos/solana-sol-logo.png",
+        "color": "#038514",
+        "name":"SOL",
+        "diff":"+21.5%",
+        "type":"crypto"
+    },
+    {
+        "id": 2,
+        "title": "https://s3-symbol-logo.tradingview.com/crypto/XTVCETH--big.svg",
+        "color": "#fc2003",
+        "name":"ETH",
+        "diff":"-7.3%",
+        "type":"crypto"
+    },
+    {
+        "id": 3,
+        "title": "https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png",
+        "color": "#038514",
+        "name":"DOGE",
+        "diff":"+1.24%",
+        "type":"crypto"
+    },
+    {
+        "id": 4,
+        "title": "https://static.vecteezy.com/system/resources/previews/008/505/801/original/bitcoin-logo-color-illustration-png.png",
+        "color": "#fc2003",
+        "name":"BTC",
+        "diff":"-0.44%",
+        "type":"crypto"
+    }
+    
+]
+

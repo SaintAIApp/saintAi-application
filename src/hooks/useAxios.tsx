@@ -1,13 +1,23 @@
 import axios from 'axios';
-import { useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../redux/hooks'
 const useAxios = () => {
-  const token = useAppSelector((state) => {return state.auth.token});
+  const token  = useAppSelector((state) => {return state.auth.token});
+
   const instance = axios.create({
+    //@ts-ignore
     baseURL:import.meta.env.VITE_BASE_URL,
     headers: {
-      'Content-Type': 'application/json',
+       "Content-Type": "multipart/form-data",
       'Authorization': `Bearer ${token}` || '',
     },
+  });
+  instance.interceptors.request.use((config) => {
+    if (config.data instanceof FormData) {
+      config.headers["Content-Type"] = "multipart/form-data";
+    } else {
+      config.headers["Content-Type"] = "application/json";
+    }
+    return config;
   });
   return instance;
 };

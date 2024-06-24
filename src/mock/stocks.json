@@ -1,0 +1,35 @@
+[
+    {
+        "id": 1,
+        "title": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Apple_logo_white.svg/1200px-Apple_logo_white.svg.png",
+        "color": "#038514",
+        "name":"AAPL",
+        "diff":"+4.5%",
+        "type":"stocks"
+    },
+    {
+        "id": 2,
+        "title": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png",
+        "color": "#038514",
+        "name":"TSLA",
+        "diff":"+10.5%",
+        "type":"stocks"
+    },
+    {
+        "id": 3,
+        "title": "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-icon-png-transparent-background-osteopathy-16.png",
+        "color": "#fc2003",
+        "name":"Google LLC",
+        "diff":"-3.8%",
+        "type":"stocks"
+    },
+    {
+        "id": 4,
+        "title": "https://static.vecteezy.com/system/resources/previews/027/127/473/non_2x/microsoft-logo-microsoft-icon-transparent-free-png.png",
+        "color": "#fc2003",
+        "name":"Microsoft Co",
+        "diff":"-1.8%",
+        "type":"stocks"
+    }
+]
+

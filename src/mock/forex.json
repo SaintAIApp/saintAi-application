@@ -1,0 +1,35 @@
+[
+    {
+        "id": 3,
+        "title": "https://s3-symbol-logo.tradingview.com/country/US--big.svg",
+        "color": "#038514",
+        "name":"USD",
+        "diff":"+1.44%",
+        "type":"forex"
+    },
+    {
+        "id": 1,
+        "title": "https://s3-symbol-logo.tradingview.com/country/IN--big.svg",
+        "color": "#038514",
+        "name":"INR",
+        "diff":"+2.44%",
+        "type":"forex"
+    },
+    {
+        "id": 2,
+        "title": "https://s3-symbol-logo.tradingview.com/country/EU--big.svg",
+        "color": "#fc2003",
+        "name":"EUR",
+        "diff":"-5.44%",
+        "type":"forex"
+    },
+    {
+        "id": 4,
+        "title": "https://s3-symbol-logo.tradingview.com/country/AU--big.svg",
+        "color": "#fc2003",
+        "name":"AUD",
+        "diff":"-1.44%",
+        "type":"forex"
+    }
+]
+
