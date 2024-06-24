@@ -1,20 +1,28 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-interface FileDropzoneProps {}
+interface FileDropzoneProps {
+  onFileSelect: (file: File) => void;
+}
 
-const FileDropzone: React.FC<FileDropzoneProps> = () => {
-  const [file, setFile] = useState<File | null>(null);
-
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles.length > 0) {
-      setFile(acceptedFiles[0]);
-    }
-  }, []);
+const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileSelect }) => {
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (acceptedFiles.length > 0) {
+        onFileSelect(acceptedFiles[0]);
+      }
+    },
+    [onFileSelect]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'application/pdf': ['.pdf'] },
+    accept: {
+      'application/pdf': ['.pdf'],
+      'image/jpeg': ['.jpg', '.jpeg'],
+      'image/png': ['.png'],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+    },
     multiple: false,
   });
 
@@ -23,21 +31,16 @@ const FileDropzone: React.FC<FileDropzoneProps> = () => {
       <div
         {...getRootProps({
           className:
-            'py-20 md:py-40   p-6  w-full border-2 border-dashed border-gray-400 rounded-md text-center',
+            'py-20 md:py-40 p-6 w-full border-2 border-dashed border-slate-500 rounded-md text-center',
         })}
       >
         <input {...getInputProps()} />
         {isDragActive ? (
           <p className="text-gray-600">Drop the files here...</p>
         ) : (
-          <p className="text-gray-600">Drag and drop a PDF file here, or click to select a file</p>
+          <p className="text-gray-600">Drag and drop a PDF, image (jpg, jpeg, png), or DOCX file here, or click to select a file</p>
         )}
       </div>
-      {file && (
-        <div className="mt-4">
-          <p className="text-gray-700">File: {file.name}</p>
-        </div>
-      )}
     </div>
   );
 };

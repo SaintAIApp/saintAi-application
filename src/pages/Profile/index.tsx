@@ -92,15 +92,15 @@ const Profile = () => {
           </span>
         </div>
       )}
-      <div className="relative flex flex-col space-y-4 rounded-md bg-opacity-70 overflow-hidden p-10">
-        <div className="relative">
+      <div className="relative w-full flex flex-col space-y-4 rounded-md bg-opacity-70 overflow-hidden p-0 md:p-10">
+        <div className="relative w-full">
           <div className="bg-dark flex flex-col space-y-2 p-3 rounded-md mt-3 md:mt-6">
-            <h1 className="text-2xl">Personal Details</h1>
+            <h1 className="text-md md:text-2xl">Personal Details</h1>
             <div className="mb-7">
-              <h1 className="text-lg">
+              <h1 className="text-md md:text-lg">
                 <span>Email: </span> {user?.email}
               </h1>
-              <h1 className="text-lg">
+              <h1 className="text-md md:text-lg">
                 <span>User Name: </span> {user?.username}
               </h1>
             </div>
@@ -108,7 +108,7 @@ const Profile = () => {
 
           {/* SUBSCRIPTION DETAILS */}
           <div className="bg-dark p-3 rounded-md mt-3 md:mt-6 flex flex-col space-y-2">
-            <h1 className="text-2xl">Subscription Details</h1>
+            <h1 className="text-md md:text-2xl">Subscription Details</h1>
             <div>
               <h1 className="text-lg">
                 <span className="flex space-x-2 items-center">

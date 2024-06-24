@@ -3,7 +3,7 @@ import { UserPlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {  FaUser } from "react-icons/fa6";
-import {  IoLogOut } from "react-icons/io5";
+
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/slices/authSlice";
@@ -109,6 +109,17 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                   </Dialog.Close>
                 </li>
               )}
+              {token && (
+                <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                  <Dialog.Close
+      onClick={()=>{navigate("/profile")}}
+                    className={`flex w-full items-center space-x-3 text-white`}
+                  >
+                    
+                    <span className="w-full">Profile</span>
+                  </Dialog.Close>
+                </li>
+              )}
                {token && (
                 <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
                   <Dialog.Close
@@ -118,7 +129,7 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                     }}
                     className={`flex w-full items-center space-x-3 text-red-400`}
                   >
-                    < IoLogOut height={20} width={20} />
+                    {/* < IoLogOut height={20} width={20} /> */}
                     <span className="w-full">Logout</span>
                   </Dialog.Close>
                 </li>

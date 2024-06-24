@@ -16,3 +16,10 @@ export interface Subscription{
   validUntil: Date;
   customerId: string;
 }
+export interface Upload{
+  _id:string
+  userId: string;
+    name: string;
+    fileKey: string;
+    fileUrl: string;
+}
