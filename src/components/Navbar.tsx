@@ -10,7 +10,9 @@ import AvatarDropDown from "./AvatarDropDown.tsx";
 
 const Navbar = () => {
   const location = useLocation();
-  const { disconnect, isConnected, address } = useWalletService();
+  const { disconnect, isConnected, currentNetwork, address } =
+    useWalletService();
+  console.log(currentNetwork, "currentNetworkcurrentNetwork");
   const { token, user } = useAppSelector((state) => {
     return state.auth;
   });
@@ -188,7 +190,8 @@ const Navbar = () => {
                     onClick={handleDisconnectWallet}
                     className="bg-red-400 text-white px-2 py-1 rounded-full"
                   >
-                    Disconnect {address}
+                    Disconnect {address} &nbsp;
+                    {currentNetwork}
                   </button>
                 )}
               </li>
