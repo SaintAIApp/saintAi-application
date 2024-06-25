@@ -7,11 +7,11 @@ import NavMenu from "./NavMenu";
 import { IoMenu, IoWallet } from "react-icons/io5";
 // import AvatarDropDown from "./AvatarDropDown";
 import logo from "../assets/saintailogo.png";
-import { useAppDispatch } from "../redux/hooks";
-import { logout } from "../redux/slices/authSlice";
-import { clearPlan } from "../redux/slices/subscriptionSlice";
+// import { useAppDispatch } from "../redux/hooks";
+// import { logout } from "../redux/slices/authSlice";
+// import { clearPlan } from "../redux/slices/subscriptionSlice";
 const Navbar = () => {
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
   const { wallet } = useAppSelector((state) => state.wallet);
   const { disconnect } = useWalletService();
@@ -26,11 +26,7 @@ const Navbar = () => {
   const handleResize = () => {
     setIsMobile(window.innerWidth < 762);
   };
-  const handleLogout = ()=>{
-    dispatch(logout());
-    dispatch(clearPlan());
 
-  }
 
   useEffect(() => {
     handleResize();
@@ -99,6 +95,9 @@ const Navbar = () => {
          
           <div id="right" className="flex items-center">
             <ul className="flex items-center space-x-2">
+              {/* <li>    <Link className="bg-white text-black px-2 py-2 rounded-md" to={"/loaddata"}>
+               Manual upload
+               </Link> </li> */}
               {!token && (
                 <li>
                   <Link to={"/login"}>Login</Link>
@@ -146,12 +145,7 @@ const Navbar = () => {
                   <Link to={"/profile"}>Profile</Link>
                 )}
               </li>
-              <li>
-                {token && user && (
-                
-                  <button className="text-red-400" onClick={handleLogout}>Logout</button>
-                )}
-              </li>
+              
             </ul>
           </div>
         </div>

@@ -156,7 +156,7 @@ export const Graph = ({
   return (
     <div
       style={style}
-      className="p-3 bg-dark w-[90%] md:w-[70%] lg:w-[50%] my-5 md:my-10 shadow-md rounded-lg border border-darkSecondary "
+      className="px-3 bg-dark w-[90%] md:w-[100%] lg:w-[90%] my-5 md:mb-10 shadow-md rounded-lg border border-darkSecondary "
 
     >
       <div className="flex space-x-2 items-center">

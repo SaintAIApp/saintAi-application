@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import useUserService from "../../hooks/useUser";
-import { updatePlan } from "../../redux/slices/subscriptionSlice";
+import { clearPlan, updatePlan } from "../../redux/slices/subscriptionSlice";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "../../components/Badge";
 import moment from "moment";
 import usePaymentServices from "../../hooks/usePayment";
 import { notify } from "../../utils/notify";
 import DialogComponent from "../../components/Dialog";
+import { logout } from "../../redux/slices/authSlice";
 
 const Profile = () => {
+  const handleLogout = ()=>{
+    dispatch(logout());
+    dispatch(clearPlan());
+
+  }
   const states = useAppSelector((state) => state);
   const {auth,subscription} = states;
   const {user} = auth;
@@ -103,7 +109,14 @@ const Profile = () => {
               <h1 className="text-md md:text-lg">
                 <span>User Name: </span> {user?.username}
               </h1>
+              <h1> {auth.token && user && (
+                
+                <button className="text-red-400" onClick={handleLogout}>Logout</button>
+              )}</h1>
             </div>
+
+               
+
           </div>
 
           {/* SUBSCRIPTION DETAILS */}
