@@ -59,10 +59,10 @@ export const Column = ({
   }, [curCategory, list]);
   // const [graphSelected, setGraphSelected] = useState<any>(null);
   return (
-    <div className="column w-full flex justify-center flex-col items-center md:items-start md:ml-10">
+    <div className="column w-full flex justify-center flex-col items-center md:items-start ">
     
       {graphData.length == 0 && curCategory === "news" && (
-        <div className="container w-full gap-3 grid grid-cols-1 md:grid-cols-1 ">
+        <div className="container w-full  grid grid-cols-1 md:grid-cols-1 ">
          {
           news.map((e,i)=>(<News key={i} title={e.title}
             description={e.short_description}
