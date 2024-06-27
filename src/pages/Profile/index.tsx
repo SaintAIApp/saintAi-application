@@ -83,7 +83,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <section id="profile" className="min-h-[50rem] font-roboto">
+    <section id="profile" className="min-h-[50rem] font-roboto z-20">
       {(subscription.plan !== "proPlus" || moment(subscription.validUntil).isBefore(Date.now())) && (
         <div className="w-full py-2 border-[0.3px] border-slate-800 rounded-md flex justify-center items-center relative overflow-hidden">
           <div className="z-0 absolute h-64 w-64 bg-shape1 bottom-[-150px] right-20"></div>
@@ -98,7 +98,7 @@ const Profile = () => {
           </span>
         </div>
       )}
-      <div className="relative w-full flex flex-col space-y-4 rounded-md bg-opacity-70 overflow-hidden p-0 md:p-10">
+      <div className="relative z-20 w-full flex flex-col space-y-4 rounded-md bg-opacity-70 overflow-hidden p-0 md:p-10">
         <div className="relative w-full">
           <div className="bg-dark flex flex-col space-y-2 p-3 rounded-md mt-3 md:mt-6">
             <h1 className="text-md md:text-2xl">Personal Details</h1>
