@@ -29,7 +29,7 @@ const index = ({
   return (
     <a
       href="#"
-      className="flex flex-col items-center overflow-hidden bg-dark border border-darkSecondary rounded-lg shadow md:flex-row md:max-w-xl "
+      className="flex flex-col   z-10 items-center overflow-hidden bg-dark border border-darkSecondary rounded-lg shadow md:flex-row md:max-w-xl "
     >
       <img
         className="object-cover w-full rounded-t-lg h-56 md:h-full md:w-48 md:rounded-none md:rounded-s-lg"

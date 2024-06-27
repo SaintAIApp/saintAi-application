@@ -4,7 +4,7 @@ import { FaTelegramPlane,FaGithub } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className=" relative border-[1.8px] p-10 rounded-3xl  border-purple_dark bg-purple bg-opacity-70 grid grid-cols-1 md:grid-cols-3 place-content-between ">
+    <div className="  border-[1.8px] p-10 rounded-3xl  border-purple_dark bg-purple bg-opacity-70 grid grid-cols-1 md:grid-cols-3 place-content-between ">
       
        <div className="absolute rounded-3xl overflow-hidden h-full w-full inset-0 flex">
           <div className="absolute  h-44 w-44 bg-shape1 top-[0px] left-0 z-0 opacity-90 bg-blur"></div>
@@ -24,13 +24,16 @@ const Footer = () => {
         </p>
       </div>
       <div className="md:px-5">
-        {" "}
+
         <h1 className=" font-bold">Social Media</h1>
         <ul>
-          <li className=" flex space-x-1 items-center"> <span className=" font-semibold"> Twitter</span><FaXTwitter/> </li>
-          <li className=" flex space-x-1 items-center"> <span className="font-semibold"> Telegram</span> <FaTelegramPlane/> </li>
-          <li className="flex space-x-1 items-center"> <span className="font-semibold"> Github</span> <FaGithub/> </li>
+          <li > <a target="_blank" className="  flex space-x-1 items-center" href="https://x.com/saintai_io"> <span className=" font-semibold"> Twitter</span><FaXTwitter/></a> </li>
+
+          <li > <a target="_blank" className=" flex space-x-1 items-center" href="https://t.me/saintweb3portal"> <span className=" font-semibold"> Telegram</span> <FaTelegramPlane/></a></li>
+
+          <li className=" flex space-x-1 items-center"> <span className="font-semibold"> Github</span> <FaGithub/> </li>
         </ul>
+        <p className="text-sm text-slate-300">Copyright 2024 Saint-AI</p>
       </div>
     </div>
   );

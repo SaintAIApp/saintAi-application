@@ -10,7 +10,7 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileSelect }) => {
     (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
         onFileSelect(acceptedFiles[0]);
-      }
+    }
     },
     [onFileSelect]
   );

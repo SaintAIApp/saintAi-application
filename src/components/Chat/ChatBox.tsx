@@ -8,7 +8,6 @@ const ChatBox = ({
   className = "",
   isOpen,
 
-  closable,
 }: {
   isOpen: boolean;
   className?: string;
@@ -29,9 +28,9 @@ const ChatBox = ({
   // console.log(activate)
   return (
     <div
-      className={`${
-        closable ? "fixed right-0 md:right-10 md:w-[400px] md:h-[80vh]" : "md:right-0 w-full"
-      } flex flex-col justify-between bg-dark my-1 bottom-0 md:bottom-10  w-[100vw] h-[90vh]   shadow-2xl rounded-xl z-40   ${className}`}
+      className={`
+       fixed right-0 md:right-10 md:w-[400px] md:h-[80vh]
+       flex flex-col justify-between bg-dark my-1 bottom-0 md:bottom-10  w-[100vw] h-[90vh]   shadow-2xl rounded-xl z-[65]   ${className}`}
       style={{
         border: "1.2px solid black",
         pointerEvents: "auto",

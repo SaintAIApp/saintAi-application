@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {login} from "../../redux/slices/authSlice"
 import { notify } from "../../utils/notify";
 import loader from '../../assets/loader.webp'
+import { GoEye, GoEyeClosed } from "react-icons/go";
 const Login = () => {
   const {token} = useAppSelector((state)=>state.auth)
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [showPassword,setShowPassword]=useState(false);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
@@ -78,22 +79,38 @@ const Login = () => {
                    placeholder="name@company.com"
                  />
                </div>
-               <div>
+               
+                
+               <div className="flex sm:mb-0 md:mb-4 items-start space-x-0 md:space-x-2 justify-between w-full md:flex-row flex-col space-y-2 md:space-y-0">
+
+               <div className="w-full">
                  <label
                    htmlFor="password"
                    className="block mb-2 text-sm font-bold spaceGrotesk"
                  >
                    Password
                  </label>
+                 <div
+                      className={`bg-purple border font-semibold sm:text-sm rounded-lg outline-none w-full p-2.5 text-white flex items-center border-purple_dark`}
+                    >
                  <input
                    value={password}
                    onChange={(e)=>{setPassword(e.target.value)}}
-                   type="password"
+                   type={showPassword?"text":"password"}
                    name="password"
                    id="password"
                    placeholder="••••••••"
-                   className="bg-purple border border-purple_dark sm:text-sm rounded-lg outline-none block w-full p-2.5 font-semibold"
+                   className="bg-transparent font-semibold sm:text-sm rounded-lg outline-none block w-full text-white"
+
                  />
+                   <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <GoEyeClosed /> : <GoEye />}
+                      </button>
+                      </div>
+               </div>
                </div>
                <div className="flex items-center justify-between">
                  <div className="flex items-start">
