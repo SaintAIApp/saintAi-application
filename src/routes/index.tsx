@@ -24,7 +24,7 @@ const PaymentSuccess = lazy(
 );
 const PaymentFailed = lazy((): any => import("../pages/Payment/PaymentFailed"));
 const Profile = lazy(() => import("../pages/Profile"));
-const Dashboard = lazy(()=>import("../pages/Dashboard"))
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         element: (
           // <ProtectedRoute>
             <Suspense fallback={<Loader />}>
-              < Dashboard/>
+              < WidgetsPage/>
             </Suspense>
           // </ProtectedRoute>
         ),

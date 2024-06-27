@@ -32,7 +32,7 @@ export const Graph = ({
   name: string;
   type: string;
   setGraphSelected: React.Dispatch<any>;
-  setIsChatBoxOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsChatBoxOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [pricesList, setPrices] = useState<number[]>(prices);
   const [datesList, setDates] = useState<string[]>(dates);
@@ -140,7 +140,7 @@ export const Graph = ({
       top: 0,
       behavior: "smooth",
     });
-    setIsChatBoxOpen(false);
+    setIsChatBoxOpen&& setIsChatBoxOpen(false);
     setGraphSelected({
       color,
       id,
