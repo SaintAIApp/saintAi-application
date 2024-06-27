@@ -129,7 +129,7 @@ const Generic2 = () => {
       )}{" "}
       {/* Show the overlay if not logged in */}
       {graphSelected !== null && (
-        <div className=" h-full  w-full  z-40 backdrop-blur-md absolute top-0">
+        <div className=" h-full  w-full  z-[100] backdrop-blur-md absolute top-0">
           <div className="  flex w-full justify-center">
             <GraphLg
 
