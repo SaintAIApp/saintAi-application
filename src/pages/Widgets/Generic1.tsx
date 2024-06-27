@@ -109,7 +109,7 @@ import {
     return (
       <section className={`overflow-x-hidden `}>
         {!isLoggedIn && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-[2px]">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-[2px]">
             <div className="text-center text-white flex justify-center flex-col items-center">
               <LockClosedIcon height={40} width={40} />
               <h1>Please log in to access this content.</h1>
@@ -121,7 +121,7 @@ import {
         )}{" "}
         {/* Show the overlay if not logged in */}
         {graphSelected !== null && (
-          <div className=" h-full  w-full  z-40 backdrop-blur-md absolute top-0">
+          <div className=" h-full  w-full  z-50 backdrop-blur-md absolute top-0">
             <div className="  flex w-full justify-center">
               <GraphLg
                 setIsChatBoxOpen={setIsChatBoxOpen}
@@ -161,7 +161,7 @@ import {
                 />
               </DndContext>
             </div>
-            <div className="w-full z-[100] relative md:w-[40%] md:fixed right-10">
+            <div className="w-full z-[90] relative md:w-[40%] md:fixed right-10">
               <ChatBox
                 
                 setIsOpen={setIsChatBoxOpen}
