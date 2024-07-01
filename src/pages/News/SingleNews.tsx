@@ -80,15 +80,16 @@ const SingleNews = () => {
             )
         )}
       </div>
+     
       <button
         onClick={() => {
           setIsChatBoxOpen((prev: any) => !prev);
         }}
-        className="fixed bottom-2 right-8 shadow-xl rounded-full bg-white"
+        className="fixed bottom-2 z-30 right-8 shadow-xl p-1 rounded-full bg-dar"
       >
         <img
           src={logo}
-          className="h-10 w-10 md:h-14 md:w-14 bg-white rounded-full "
+          className="h-10 w-10 object-contain  md:h-12 md:w-12 bg-black rounded-full "
           alt="Chat Button"
         />
       </button>
