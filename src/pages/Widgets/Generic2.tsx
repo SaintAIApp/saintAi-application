@@ -12,7 +12,7 @@ import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { Column } from "../../components/Column";
 import { useEffect, useState } from "react";
 
-import GraphLg from "../../components/Graphs/AreaChartLg";
+
 
 import { Link, useLocation } from "react-router-dom";
 
@@ -41,7 +41,7 @@ const Generic2 = () => {
 
   // const [isChatBoxOpen, setIsChatBoxOpen] = useState(true);
 
-  const [graphSelected, setGraphSelected] = useState<any>(null);
+  // const [graphSelected, setGraphSelected] = useState<any>(null);
   const [list, setList] = useState([]);
   const { getStocksData, getCryptoData, getNewsData } = useFinanceService();
 
@@ -151,7 +151,7 @@ const Generic2 = () => {
                 onDragEnd={handleDragEnd}
               >
                 <Column
-                  setGraphSelected={setGraphSelected}
+                  // setGraphSelected={setGraphSelected}
                   // setIsChatBoxOpen={setIsChatBoxOpen}
                   curCategory={curCategory}
                   list={list}

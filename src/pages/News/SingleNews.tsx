@@ -98,3 +98,13 @@
 // };
 
 // export default SingleNews;
+
+
+
+const SingleNews = () => {
+  return (
+    <div>SingleNews</div>
+  )
+}
+
+export default SingleNews

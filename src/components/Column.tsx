@@ -13,7 +13,7 @@ export const Column = ({
   curCategory: string;
   list: any;
   setIsChatBoxOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  setGraphSelected: React.Dispatch<React.SetStateAction<any>>;
+  setGraphSelected?: React.Dispatch<React.SetStateAction<any>>;
 }) => {
 
   return (
