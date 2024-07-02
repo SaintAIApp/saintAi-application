@@ -1,15 +1,15 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import imgSrc from "../../assets/saintailogo.png" ;
 // import NavBar from "../common/NavBar";
 import useAuthService from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import {login} from "../../redux/slices/authSlice"
 import { notify } from "../../utils/notify";
 import loader from '../../assets/loader.webp'
 import { GoEye, GoEyeClosed } from "react-icons/go";
 const Login = () => {
-  const {token} = useAppSelector((state)=>state.auth)
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { loginUser } = useAuthService();
@@ -34,8 +34,7 @@ const Login = () => {
     window.scrollTo(0,0)
   }, [])
   
-  if(token)
-    return <Navigate to={"/"}/>
+ 
 
   return (
     <>
