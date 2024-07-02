@@ -2,6 +2,9 @@
 import Chart from 'react-apexcharts';
 
 const StockChart = ({ data }: any) => {
+    if(!data.data){
+        return;
+    }
     const series = [{
         name: data.symbol,
         data: Object.keys(data.data).map(key => ({
