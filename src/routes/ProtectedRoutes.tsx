@@ -1,10 +1,12 @@
 import { Navigate, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../redux/hooks"
+import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { jwtDecode } from "jwt-decode";
+import { logout } from "../redux/slices/authSlice";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const authObject = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const {user,token} = authObject; 
   if (!token) {
     return <Navigate to="/login" />;
@@ -17,7 +19,9 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const decodedToken: any = jwtDecode(token);
 
     if (decodedToken.exp * 1000 < Date.now()) {
+      
       alert("Session Expired, please login again");
+      dispatch(logout());
       navigate("/login")
     }
   } catch (error) {
