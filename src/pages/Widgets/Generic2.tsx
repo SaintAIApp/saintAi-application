@@ -1,3 +1,4 @@
+
 import {
   DndContext,
   KeyboardSensor,
@@ -7,23 +8,25 @@ import {
   closestCorners,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import crypto from "../../mock/crypto.json";
-import stocks from "../../mock/stocks.json";
-import forex from "../../mock/forex.json";
+
 import { Column } from "../../components/Column";
 import { useEffect, useState } from "react";
 
-import GraphLg from "../../components/Graphs/AreaChartLg";
+
 
 import { Link, useLocation } from "react-router-dom";
 
 import logoCircle from "../../assets/saintailogo.png";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { jwtDecode } from "jwt-decode";
 import ChatItem from "../../components/Chat/ChatItem";
+import useFinanceService from "../../hooks/useFinance";
+import Loader from "../../components/Loader";
+import { updateCurCategory } from "../../redux/slices/widgetSlice";
 
 const Generic2 = () => {
+  const dispatch = useAppDispatch();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   //Authentication
   const { auth: authObject, widget } = useAppSelector((state) => state);
@@ -40,12 +43,11 @@ const Generic2 = () => {
 
   // const [isChatBoxOpen, setIsChatBoxOpen] = useState(true);
 
-  const [graphSelected, setGraphSelected] = useState<any>(null);
-  const [list, setList] = useState(stocks);
+  // const [graphSelected, setGraphSelected] = useState<any>(null);
+  const [list, setList] = useState([]);
+  const { getStocksData, getCryptoData, getNewsData } = useFinanceService();
 
-  // useEffect(() => {
-  //   window.innerWidth <= 768 && setIsChatBoxOpen(false);
-  // }, [graphSelected]);
+  const [isDataLoading, setIsDataLoading] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -54,7 +56,7 @@ const Generic2 = () => {
     })
   );
 
-  const getTaskPos = (id: any) => list.findIndex((task) => task.id === id);
+  const getTaskPos = (id: any) => list.findIndex((task:any) => task._id === id);
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -69,33 +71,42 @@ const Generic2 = () => {
     });
   };
 
-  const changeCategory = (category: any) => {
-    switch (category) {
-      case "crypto":
-        setList(crypto);
-        break;
-      case "stocks":
-        setList(stocks);
-        break;
-      case "forex":
-        setList(forex);
-        break;
-      case "news":
-        setList([]);
-        break;
-      default:
-        break;
+  const fetchCategoryData = async (category: string) => {
+    try {
+      setIsDataLoading(true);
+      let res;
+      switch (category) {
+        case "stocks":
+          res = await getStocksData();
+          break;
+        case "crypto":
+          res = await getCryptoData();
+          break;
+        case "news":
+          res = await getNewsData();
+          break;
+        default:
+          dispatch(updateCurCategory({curCategory:"stocks",genericType:"generic1"}))
+          res = await getStocksData();
+      }
+      if (res) {
+        setList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsDataLoading(false);
     }
   };
   useEffect(() => {
-    // console.log(curCategory)
+    window.scrollTo({ top: 0 });
     const queryParams = new URLSearchParams(location.search);
     const category = queryParams.get("category");
-    if (category !=null ) {
-      console.log(category)
-      changeCategory(category);
-    } else { console.log(curCategory); changeCategory(curCategory);}
+    if (category !== null) {
+      fetchCategoryData(category);
+    } else {  fetchCategoryData(curCategory);}
   }, [curCategory]);
+
 
   useEffect(() => {
     const { user, token } = authObject;
@@ -128,32 +139,12 @@ const Generic2 = () => {
         </div>
       )}{" "}
       {/* Show the overlay if not logged in */}
-      {graphSelected !== null && (
-        <div className=" h-full  w-full  z-[100] backdrop-blur-md absolute top-0">
-          <div className="  flex w-full justify-center">
-            <GraphLg
-
-              setGraphSelected={setGraphSelected}
-              graphSelected={graphSelected}
-            />
-          </div>
-        </div>
-      )}
-      {graphSelected !== null && (
-        <div className=" h-full  w-full  z-40 backdrop-blur-md absolute top-0">
-          <div className="  flex w-full justify-center">
-            <GraphLg
-
-              setGraphSelected={setGraphSelected}
-              graphSelected={graphSelected}
-            />
-          </div>
-        </div>
-      )}
-      <div className={` `}>
+      
+     
+   { isDataLoading?<Loader/>:  <div className={` `}>
 
         <div
-          className={` flex flex-col items-start justify-between  -red-100 `}
+          className={` flex flex-col items-start justify-between   `}
         >
           <div className="top w-full flex ">
             <div className="left w-full md:w-[50%]">
@@ -163,7 +154,7 @@ const Generic2 = () => {
                 onDragEnd={handleDragEnd}
               >
                 <Column
-                  setGraphSelected={setGraphSelected}
+                  // setGraphSelected={setGraphSelected}
                   // setIsChatBoxOpen={setIsChatBoxOpen}
                   curCategory={curCategory}
                   list={list}
@@ -206,7 +197,7 @@ const Generic2 = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div>}
     </section>
   );
 };

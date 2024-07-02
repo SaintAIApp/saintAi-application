@@ -6,6 +6,7 @@ import useFileService from "../../hooks/useFileService";
 import { Link, useNavigate } from "react-router-dom";
 import { Upload } from "../../types/data";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import { notify } from "../../utils/notify";
 
 const Index = () => {
   const {uploadFile,getAllFiles} = useFileService()
@@ -44,8 +45,9 @@ const Index = () => {
         setFileUploadStage("Redirecting...");
       },1000)
       navigate(`/upload/${response.data.data._id}`)
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error uploading file:", error);
+      notify(error.message,false);
     } finally {
       setIsLoading(false);
       setFileUploadStage("")
@@ -81,7 +83,7 @@ const Index = () => {
   }, []);
 
   return (
-    <section className="h-[90vh] py-4 mb-56">
+    <section className="h-screen min-h-screen py-4 ">
      
       <div className="flex relative w-full h-full rounded-xl overflow-hidden md:bg-transparent">
         {isMobile && (
@@ -166,7 +168,7 @@ const Index = () => {
 
         <div
           id="right"
-          className="w-full relative md:w-3/4 space-y-1 md:space-y-2 lg:space-y-4 flex flex-col justify-center items-center px-10 md:px-32 lg:px-[10vw] py-5"
+          className="w-full relative md:w-3/4 space-y-1 md:space-y-2 lg:space-y-4 flex flex-col justify-center items-center px-6 md:px-32 lg:px-[5vw] py-5"
         >
           {isLoading && (
             <div className="h-full w-full absolute top-0 left-0 bg-[#000] bg-opacity-70 flex items-center justify-center flex-col">
