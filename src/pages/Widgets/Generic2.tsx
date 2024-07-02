@@ -104,7 +104,7 @@ const Generic2 = () => {
     const category = queryParams.get("category");
     if (category !== null) {
       fetchCategoryData(category);
-    } else { dispatch(updateCurCategory({curCategory:"stocks",genericType:"generic1"})); fetchCategoryData("stocks");}
+    } else {  fetchCategoryData(curCategory);}
   }, [curCategory]);
 
 
