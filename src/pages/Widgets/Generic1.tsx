@@ -54,7 +54,9 @@ const Generic1 = () => {
           res = await getNewsData();
           break;
         default:
+          dispatch(updateCurCategory({curCategory:"stocks",genericType:"generic1"}))
           res = await getStocksData();
+          break;
       }
       if (res) {
         setList(res.data.data);
@@ -71,7 +73,7 @@ const Generic1 = () => {
     const category = queryParams.get("category");
     if (category !== null) {
       fetchCategoryData(category);
-    } else { dispatch(updateCurCategory({curCategory:"stocks",genericType:"generic1"})); fetchCategoryData("stocks");}
+    } else {  fetchCategoryData(curCategory);}
   }, [curCategory]);
 
   useEffect(() => {

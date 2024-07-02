@@ -86,7 +86,8 @@ const Generic2 = () => {
           res = await getNewsData();
           break;
         default:
-          alert("Error: Category not found");
+          dispatch(updateCurCategory({curCategory:"stocks",genericType:"generic1"}))
+          res = await getStocksData();
       }
       if (res) {
         setList(res.data.data);
