@@ -18,13 +18,15 @@ import { Link, useLocation } from "react-router-dom";
 
 import logoCircle from "../../assets/saintailogo.png";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { jwtDecode } from "jwt-decode";
 import ChatItem from "../../components/Chat/ChatItem";
 import useFinanceService from "../../hooks/useFinance";
 import Loader from "../../components/Loader";
+import { updateCurCategory } from "../../redux/slices/widgetSlice";
 
 const Generic2 = () => {
+  const dispatch = useAppDispatch();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   //Authentication
   const { auth: authObject, widget } = useAppSelector((state) => state);
@@ -101,7 +103,7 @@ const Generic2 = () => {
     const category = queryParams.get("category");
     if (category !== null) {
       fetchCategoryData(category);
-    } else fetchCategoryData(curCategory);
+    } else { dispatch(updateCurCategory({curCategory:"stocks",genericType:"generic1"})); fetchCategoryData("stocks");}
   }, [curCategory]);
 
 

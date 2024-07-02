@@ -16,13 +16,15 @@ import ChatBox from "../../components/Chat/ChatBox";
 import { Link, useLocation } from "react-router-dom";
 import logoCircle from "../../assets/saintlogocircle.png";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { jwtDecode } from "jwt-decode";
 import useFinanceService from "../../hooks/useFinance";
 import Loader from "../../components/Loader";
+import { updateCurCategory } from "../../redux/slices/widgetSlice";
 
 const Generic1 = () => {
   const { getStocksData, getCryptoData, getNewsData } = useFinanceService();
+  const dispatch = useAppDispatch();
   //Authentication
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const store = useAppSelector((state) => state);
@@ -52,7 +54,7 @@ const Generic1 = () => {
           res = await getNewsData();
           break;
         default:
-          alert("Error: Category not found");
+          res = await getStocksData();
       }
       if (res) {
         setList(res.data.data);
@@ -69,7 +71,7 @@ const Generic1 = () => {
     const category = queryParams.get("category");
     if (category !== null) {
       fetchCategoryData(category);
-    } else fetchCategoryData(curCategory);
+    } else { dispatch(updateCurCategory({curCategory:"stocks",genericType:"generic1"})); fetchCategoryData("stocks");}
   }, [curCategory]);
 
   useEffect(() => {
