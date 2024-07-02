@@ -11,9 +11,9 @@ type Props = {
 function DefaultLayout({ children }: Props) {
   const genericType = useAppSelector((state)=>{return state.widget.genericType})
   return (
-    <main className="bg-black flex flex-col  text-white overflow-hidden font-roboto font-light ">
+    <main className="bg-black  flex flex-col  text-white overflow-hidden font-roboto font-light ">
       <Navbar />
-      <section className="px-[3vw] max-md:px-5 lg:px-[3vw] py-4 mb-4 min-h-screen mt-36">
+      <section className="px-[3vw]  max-md:px-5 lg:px-[3vw] py-4 mb-4 min-h-screen mt-36">
         {children}
         {genericType!=="generic2" && <Footer />}
       </section>

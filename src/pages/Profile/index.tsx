@@ -28,9 +28,17 @@ const Profile = () => {
 
   const fetchUserData = async () => {
     try {
-      const res = await getUserDetails(user?._id || "");
-      if (res.data.data.subscriptionData.length > 0)
-        dispatch(updatePlan(res.data.data.subscriptionData[0]));
+      const {data} = await getUserDetails(user?._id || "");
+      const subscriptionData = data.data.subscriptionData;
+      const userGroup = data.data.userGroup;
+      //If user has already made any payments in Past
+      if (subscriptionData.length > 0)
+        {
+          const {customerId,userId,validUntil} = subscriptionData[subscriptionData.length-1];
+          dispatch(updatePlan({plan:userGroup.name,customerId:customerId,userId:userId,validUntil:validUntil}));
+        }
+      else 
+        dispatch(clearPlan())
     } catch (error) {
       console.log(error);
     }
@@ -38,14 +46,14 @@ const Profile = () => {
 
   const getPlan = () => {
     const plan = subscription.plan;
-    if (plan === "") return <span className="text-slate-400">Free</span>;
-    else if (plan === "pro")
+    if (plan === "" || plan.toLowerCase()==="free") return <span className="text-slate-400">Free</span>;
+    else if (plan.toLowerCase() === "pro")
       return (
-        <span className="px-3 text-white py-1 bg-opacity-50 bg-slate-300 border border-slate-700 rounded-full">
+        <span className="px-4 text-green-100  bg-green-600 border border-green-700 rounded-full text-sm">
           Pro
         </span>
       );
-    else if (plan === "proPlus")
+    else if (plan.toLowerCase() === "proplus")
       return (
         <span className="flex w-fit rounded-full">
           <h1 className="proPlusText font-bold">
@@ -83,7 +91,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <section id="profile" className="min-h-[50rem] font-roboto z-20">
+    <section id="profile" className="min-h-[50rem] font-roboto">
       {(subscription.plan !== "proPlus" || moment(subscription.validUntil).isBefore(Date.now())) && (
         <div className="w-full py-2 border-[0.3px] border-slate-800 rounded-md flex justify-center items-center relative overflow-hidden">
           <div className="z-0 absolute h-64 w-64 bg-shape1 bottom-[-150px] right-20"></div>
@@ -98,7 +106,7 @@ const Profile = () => {
           </span>
         </div>
       )}
-      <div className="relative z-20 w-full flex flex-col space-y-4 rounded-md bg-opacity-70 overflow-hidden p-0 md:p-10">
+      <div className="relative w-full flex flex-col space-y-4 rounded-md bg-opacity-70 overflow-hidden p-0 md:p-10">
         <div className="relative w-full">
           <div className="bg-dark flex flex-col space-y-2 p-3 rounded-md mt-3 md:mt-6">
             <h1 className="text-md md:text-2xl">Personal Details</h1>
@@ -128,7 +136,7 @@ const Profile = () => {
                   <span>Plan:</span> {getPlan()}
                 </span>
               </h1>
-              {subscription.plan !== "free" && subscription.plan !== ""  && (
+              {subscription.plan.toLowerCase() !== "free" && subscription.plan.toLowerCase() !== ""  && (
                 <div>
                   <h1 className="text-lg">
                     <span className="flex space-x-2 mr-1 items-center">

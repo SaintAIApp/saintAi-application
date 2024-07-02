@@ -3,7 +3,7 @@ import { updateCurCategory } from "../redux/slices/widgetSlice";
 import { GoGraph } from "react-icons/go";
 // import { FaBitcoin } from "react-icons/fa";
 
-import {  FaBitcoin, FaDollarSign, FaNewspaper } from "react-icons/fa6";
+import {  FaBitcoin, FaNewspaper } from "react-icons/fa6";
 
 
 const index = () => {
@@ -40,7 +40,7 @@ const index = () => {
                     curCategory === "crypto" ? "#CC9900" : "",
                 }}/>   Crypto
               </li>
-              <li
+              {/* <li
                 className={`${
                   curCategory === "forex" ? "font-semibold text-[#C0C0C0]" : ""
                 } px-2 py-1 flex items-center`}
@@ -52,7 +52,7 @@ const index = () => {
 
               >
               <FaDollarSign className="mr-2"/>   Forex
-              </li>
+              </li> */}
               <li
                 className={`${
                   curCategory === "news" ? "font-semibold text-blue" : ""
