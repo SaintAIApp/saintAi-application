@@ -18,7 +18,7 @@ const VerifyOTP = lazy((): any => import("../pages/Auth/OTP"));
 const WidgetsPage = lazy(()=>import("../pages/Widgets"));
 const News = lazy(()=>import("../pages/News/SingleNews"));
 const Pricing = lazy(()=>import("../pages/Pricing"))
-const ViewDocument = lazy(()=>import("../pages/ViewDocument"))
+// const ViewDocument = lazy(()=>import("../pages/ViewDocument"))
 const PaymentSuccess = lazy(
   (): any => import("../pages/Payment/PaymentSuccess")
 );
@@ -89,16 +89,16 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      {
-        path: "/upload/:uploadId",
-        element: (
-          <ProtectedRoute>
-            <Suspense fallback={<Loader />}>
-              <ViewDocument/>
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
+      // {
+      //   path: "/upload/:uploadId",
+      //   element: (
+      //     <ProtectedRoute>
+      //       <Suspense fallback={<Loader />}>
+      //         <ViewDocument/>
+      //       </Suspense>
+      //     </ProtectedRoute>
+      //   ),
+      // },
       {
         path: "/analysis",
         element: (
