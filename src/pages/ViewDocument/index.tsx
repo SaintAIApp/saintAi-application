@@ -111,11 +111,11 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId }) => {
               </div>
               <div className="flex items-start">
                 <div className="flex-shrink-0 mr-3">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-primary">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-primary bg-opacity-50">
                     S
                   </div>
                 </div>
-                <div className="rounded-lg p-3 bg-primary max-w-3/4">
+                <div className="rounded-lg p-3 bg-primary max-w-3/4 bg-opacity-50">
                   <p className="text-sm font-semibold mb-1 text-white">SAINTAI</p>
                   <div className="text-gray-200" dangerouslySetInnerHTML={{ __html: chat.agent }}></div>
                 </div>
@@ -134,12 +134,12 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId }) => {
             value={curChat}
             onChange={(e) => setCurChat(e.target.value)}
             placeholder="Type your message..."
-            className="flex-1 bg-black disabled:bg-gray-500 text-white border border-gray-600 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 bg-black disabled:bg-gray-300 text-white border border-gray-600 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             disabled={isResponseLoading}
             onClick={handleSendMessage}
-            className="bg-primary disabled:bg-gray-500 text-white px-4 py-3 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="bg-primary disabled:bg-gray-300 text-white px-4 py-3 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <IoIosSend fill='green' />
           </button>

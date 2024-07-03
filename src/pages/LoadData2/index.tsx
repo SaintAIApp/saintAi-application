@@ -84,7 +84,7 @@ const FileUploadAndChat: React.FC = () => {
   }, []);
 
   return (
-    <section className="h-screen min-h-screen py-4">
+    <section className="h-[80vh] min-h-[80vh] py-4">
       <div className="flex relative w-full h-full rounded-xl overflow-hidden md:bg-transparent">
         {isMobile && (
           <>
@@ -196,7 +196,7 @@ const SidebarContent: React.FC<{
             onClick={() => onFileSelect(e._id)} 
             className={`flex justify-between w-full p-2 rounded-md transition-colors duration-200 ${
               selectedFileId === e._id 
-                ? 'bg-primary text-white' 
+                ? 'bg-primary text-white bg-opacity-50' 
                 : 'hover:bg-gray-700'
             }`}
           >
