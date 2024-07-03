@@ -136,7 +136,7 @@ const Profile = () => {
                   <span>Plan:</span> {getPlan()}
                 </span>
               </h1>
-              {subscription.plan.toLowerCase() !== "free" && subscription.plan.toLowerCase() !== ""  && (
+              {subscription && subscription.plan && subscription.plan.toLowerCase() !== "free" && subscription.plan.toLowerCase() !== ""  && (
                 <div>
                   <h1 className="text-lg">
                     <span className="flex space-x-2 mr-1 items-center">
