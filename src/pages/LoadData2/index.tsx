@@ -128,7 +128,7 @@ const Index = () => {
             }
             <ul className="flex flex-col space-y-2">
                 {
-                  files?.map((e)=>{return <li className="px-4 ">
+                  files?.map((e,ind:number)=>{return <li key={ind} className="px-4 ">
                     <Link to={"/upload/"+e._id} className="flex justify-between ">
                     <span> {e.name}</span>
                      <span><ChevronRightIcon height={15}/></span>
@@ -154,7 +154,7 @@ const Index = () => {
             }
             <ul className="flex flex-col space-y-2">
                 {
-                  files?.map((e)=>{return <li className="px-4 ">
+                  files?.map((e,ind:number)=>{return <li key={ind} className="px-4 ">
                     <Link to={"/upload/"+e._id} className="flex justify-between ">
                     <span> {e.name}</span>
                      <span><ChevronRightIcon height={15}/></span>

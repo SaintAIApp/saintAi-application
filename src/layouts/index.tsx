@@ -15,7 +15,7 @@ function DefaultLayout({ children }: Props) {
       <Navbar />
       <section className="px-[3vw]  max-md:px-5 lg:px-[3vw] py-4 mb-4 min-h-screen mt-36">
         {children}
-        {genericType!=="generic2" && <Footer />}
+        {genericType!=="generic2" && !window.location.href.includes("upload/") && <Footer />}
       </section>
       <Toaster position="bottom-right" reverseOrder={false} />
     </main>
