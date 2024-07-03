@@ -19,6 +19,14 @@ const useFileService = () => {
       throw new Error(error.response?.data?.message||"Something went wrong")
     }
     };
+    const deleteFile = async (uploadId:string) => {
+      try {
+        const res = await api.delete("/upload/"+uploadId);
+        return res;
+      } catch (error: any) {
+        throw new Error(error.response?.data?.message||"Something went wrong")
+      }
+      };
     const getAllFiles = async () => {
       try {
         const res = await api.get("/upload/");
@@ -46,6 +54,6 @@ const useFileService = () => {
 
 
   
-  return { uploadFile,getFile,getAllFiles,getChatHistory,sendMessage};
+  return { uploadFile,getFile,getAllFiles,getChatHistory,sendMessage,deleteFile};
 };
 export default useFileService;

@@ -22,4 +22,5 @@ export interface Upload{
     name: string;
     fileKey: string;
     fileUrl: string;
+    createdAt:Date
 }

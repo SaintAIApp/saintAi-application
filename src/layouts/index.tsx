@@ -14,10 +14,12 @@ function DefaultLayout({ children }: Props) {
   const isUploadPage = location.pathname.startsWith("/loaddata");
 
   return (
-    <main className="bg-black flex flex-col text-white overflow-hidden font-roboto font-light">
+    <main className="bg-black flex flex-col text-white font-roboto font-light min-h-screen">
       <Navbar />
-      <section className={`px-[3vw] max-md:px-5 lg:px-[3vw] py-4 mb-4 min-h-screen ${
-        isUploadPage ? "mt-12" : "mt-36"
+      <section className={`flex-grow ${
+        isUploadPage 
+          ? "flex items-center justify-center mt-12 overflow-hidden" 
+          : "px-[3vw] max-md:px-5 lg:px-[3vw] py-4 mb-4 mt-36 overflow-auto"
       }`}>
         {children}
         {genericType !== "generic2" && !isUploadPage && <Footer />}
