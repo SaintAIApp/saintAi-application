@@ -34,7 +34,7 @@ const index = ({
     >
       <img
         className="object-cover w-full rounded-t-lg h-56 md:h-full md:w-48 md:rounded-none md:rounded-s-lg"
-        src={image}
+        src={image==="" || !image? "/news.jpg":image}
         alt="image"
       />
       <div className="flex flex-col justify-between p-4 leading-normal">

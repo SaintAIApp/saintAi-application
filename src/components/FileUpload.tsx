@@ -31,7 +31,7 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileSelect }) => {
       <div
         {...getRootProps({
           className:
-            'py-20 md:py-40 p-6 w-full border-2 border-dashed border-slate-500 rounded-md text-center',
+            'py-[5vh] sm:py-[10vh] md:py-[15vh] lg:py-[20vh] p-6 w-full border-2 border-dashed border-slate-500 rounded-md text-center'
         })}
       >
         <input {...getInputProps()} />
