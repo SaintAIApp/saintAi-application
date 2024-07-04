@@ -23,7 +23,7 @@ const Login = () => {
       setIsLoading(true);
       const res = await loginUser(email, password);
       dispatch(login({user:res.data.user,token:res.data.token}));
-      navigate("/loaddata");
+      navigate("/profile");
     } catch (error:any) {
         notify(error.message,false)
     } finally {

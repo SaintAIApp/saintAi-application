@@ -87,7 +87,10 @@ const FileUploadAndChat: React.FC = () => {
     setIsFilesLoading(true);
     try {
       const res = await getAllFiles();
-      setFiles(res.data.data);
+      const filteredFiles = res.data.data.filter((file:any) => 
+        file.name !== "SAINT_AI" && file.name !== "SAINT_AI_DOC"
+      );
+      setFiles(filteredFiles);
     } catch (error) {
       console.error("Error fetching files:", error);
     } finally {
@@ -252,6 +255,7 @@ const SidebarContent: React.FC<{
 
   const categorizedFiles = useMemo(() => {
     if (!files) return null;
+   
     interface CategorizedFiles {
       today: Upload[];
       yesterday: Upload[];
