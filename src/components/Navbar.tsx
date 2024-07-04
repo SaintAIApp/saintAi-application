@@ -116,22 +116,22 @@ const Navbar = () => {
                 {token && (
                   <>
 
-                    <li>
-                      <Link
-                        className="bg-white text-black rounded-md px-3 py-2"
-                        to={"/"}
-                      >
-                        Generic
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className=" px-3 py-2 border border-white rounded-md"
-                        to={"/loaddata"}
-                      >
-                        Manual upload
-                      </Link>
-                    </li>
+<li>
+          <Link
+            className={`nav-link px-1 py-2 ${location.pathname === '/' ? 'active' : ''}`}
+            to="/"
+          >
+            Generic
+          </Link>
+        </li>
+        <li>
+          <Link
+            className={`nav-link px-1 py-2 ${location.pathname === '/loaddata' ? 'active' : ''}`}
+            to="/loaddata"
+          >
+            Manual upload
+          </Link>
+        </li>
                   </>
                 )}
                 <li>
@@ -170,6 +170,7 @@ const Navbar = () => {
                   )}
                 </li>
               </ul>
+              
             </div>
           </div>
           {location.pathname == "/" && (
