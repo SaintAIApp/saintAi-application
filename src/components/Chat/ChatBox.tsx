@@ -14,7 +14,7 @@ const ChatBox: React.FC<{
   className?: string;
   closable?: boolean;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ className = "", isOpen }) => {
+}> = ({ className = "", isOpen,setIsOpen }) => {
   const [chats, setChats] = useState<any[]>([]);
   const [chat, setChat] = useState("");
   const [isHistoryLoading, setIsHistoryLoading] = useState(false);
@@ -42,11 +42,9 @@ const ChatBox: React.FC<{
     const fetchData = async () => {
       const uploadId = localStorage.getItem("UPLOAD_ID");
       if (uploadId) {
-        console.log(uploadId)
         await fetchChatHistory(uploadId);
       }
       else{
-        console.log("first")
         fetchUploadId();
       }
     };
@@ -153,6 +151,9 @@ const ChatBox: React.FC<{
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-700 flex justify-between items-center">
         <img className="h-8 object-contain" src={logo} alt="S.AI.N.T Logo" />
         {/* {uploadData?.createdAt && <span className='text-sm text-slate-300'>Uploaded: {format(uploadData.createdAt)}</span>} */}
+        {
+          window.innerWidth<=768 && <button onClick={()=>{setIsOpen && setIsOpen(false)}} className="text-md text-white ">Close X</button>
+        }
       </div>
       
       <div 
