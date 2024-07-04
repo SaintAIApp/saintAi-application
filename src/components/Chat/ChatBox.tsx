@@ -18,13 +18,13 @@ const ChatBox: React.FC<{
   const [chats, setChats] = useState<any[]>([]);
   const [chat, setChat] = useState("");
   const [isHistoryLoading, setIsHistoryLoading] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isResponseLoading, setIsResponseLoading] = useState(false);
 
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   
-  const { uploadFile, sendMessage, getChatHistory } = useFileService();
+  const { uploadFile, sendMessage, getAllFiles, getChatHistory } = useFileService();
 
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -42,26 +42,34 @@ const ChatBox: React.FC<{
     const fetchData = async () => {
       const uploadId = localStorage.getItem("UPLOAD_ID");
       if (uploadId) {
-        // await fetchFile(uploadId);
+        console.log(uploadId)
         await fetchChatHistory(uploadId);
+      }
+      else{
+        console.log("first")
+        fetchUploadId();
       }
     };
     fetchData();
   }, []);
 
-  // const fetchFile = async (uploadId: string) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const res = await getFile(uploadId);
-  //     if (res.status === 200) {
-  //       setUploadData(res.data.data);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+  const fetchUploadId = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getAllFiles();
+      if (res.status === 200) {
+        res.data?.data?.map((e:any)=>{
+          if(e.name==="SAINT_AI"){
+            localStorage.setItem("UPLOAD_ID",e._id);
+          }
+        }) 
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const fetchChatHistory = async (uploadId: string) => {
     try {
@@ -127,9 +135,9 @@ const ChatBox: React.FC<{
     }
   };
 
-  // if (isLoading) {
-  //   return <div className="text-white">Loading...</div>;
-  // }
+  if (isLoading) {
+    return <div className="text-white">Loading...</div>;
+  }
 
   return (
     <div
