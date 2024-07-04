@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import useFileService from '../../hooks/useFileService';
 import { Upload } from '../../types/data';
 import { IoIosSend } from 'react-icons/io';
+import {format} from 'timeago.js'
+import { BiConversation } from 'react-icons/bi';
 
 interface ChatComponentProps {
   uploadId: string;
@@ -10,6 +12,7 @@ interface ChatComponentProps {
 const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId }) => {
   const [chats, setChats] = useState<any[]>([]);
   const [curChat, setCurChat] = useState("");
+  const [isHistoryLoading,setIsHistoryLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isResponseLoading, setIsResponseLoading] = useState(false);
   const [uploadData, setUploadData] = useState<Upload | null>(null);
@@ -33,13 +36,19 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId }) => {
 
     const fetchChatHistory = async () => {
       try {
+        setIsHistoryLoading(true)
         const res = await getChatHistory(uploadId);
         if (res.status === 200) {
           console.log(res.data.data);
           setChats(res.data.data);
         }
       } catch (error) {
+        setChats([]);
         console.log(error);
+      }
+      finally{
+        setIsHistoryLoading(false);
+
       }
     };
 
@@ -90,12 +99,19 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId }) => {
 
   return (
     <div className="flex flex-col h-full bg-dark">
-      <header className="bg-dark shadow-sm p-4">
+      <header className="bg-dark shadow-sm p-4 flex justify-between">
         <h1 className="text-xl font-semibold text-white">File: {uploadData?.name}</h1>
+        {uploadData?.createdAt && <h1 className='text-sm text-slate-300'>Uploaded:{format(uploadData?.createdAt)}</h1>}
       </header>
       
       <main className="flex-1 overflow-y-auto p-4 pb-24">
-        {chats.map((chat, index) => (
+        {
+          isHistoryLoading && <div className='flex items-center justify-center h-full flex-col'><h1>Loading chat history...</h1>   </div>
+        }
+        {
+          chats.length==0 && !isHistoryLoading && <div className='flex items-center justify-center h-full flex-col'><BiConversation className='text-lg md:text-3xl'/> <h1>Start the conversation with SaintAI</h1>   </div>
+        }
+        {!isHistoryLoading && chats.map((chat, index) => (
           <div key={index} className="mb-4">
             <div className="flex flex-col space-y-4">
               <div className="flex items-start justify-end">
@@ -133,6 +149,11 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId }) => {
             type="text"
             value={curChat}
             onChange={(e) => setCurChat(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !isResponseLoading) {
+                handleSendMessage();
+              }
+            }}
             placeholder="Type your message..."
             className="flex-1 bg-black disabled:bg-gray-300 text-white border border-gray-600 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

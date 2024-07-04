@@ -1,91 +1,206 @@
+import React, { useState, useRef, useEffect } from "react";
 import ChatItem from "./ChatItem";
-import { useState } from "react";
-
 import { IoIosSend } from "react-icons/io";
-
+import { BiConversation } from "react-icons/bi";
 import logo from "../../assets/saintailogo.png";
-const ChatBox = ({
-  className = "",
-  isOpen,
+import SaintSampleFile from "../../assets/saintai.pdf";
+import useFileService from "../../hooks/useFileService";
 
-}: {
+
+import { notify } from "../../utils/notify";
+
+const ChatBox: React.FC<{
   isOpen: boolean;
   className?: string;
   closable?: boolean;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-
-  const [chats, setChats] = useState([
-    {
-      sender: "Mia",
-      message:
-        "Hello, welcome to S.AI.N.T. I am your streamlined AI providing Analytical Market intelligence. But you can call me Mia, your market intelligence analyst. How can I help you?",
-    },
-  ]);
+}> = ({ className = "", isOpen }) => {
+  const [chats, setChats] = useState<any[]>([]);
   const [chat, setChat] = useState("");
+  const [isHistoryLoading, setIsHistoryLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  const [isResponseLoading, setIsResponseLoading] = useState(false);
 
-  const isMobile = window.innerWidth <= 768;
-  // console.log(activate)
+  const chatBodyRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  
+  const { uploadFile, sendMessage, getChatHistory } = useFileService();
+
+  useEffect(() => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [chats]);
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const uploadId = localStorage.getItem("UPLOAD_ID");
+      if (uploadId) {
+        // await fetchFile(uploadId);
+        await fetchChatHistory(uploadId);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // const fetchFile = async (uploadId: string) => {
+  //   setIsLoading(true);
+  //   try {
+  //     const res = await getFile(uploadId);
+  //     if (res.status === 200) {
+  //       setUploadData(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  const fetchChatHistory = async (uploadId: string) => {
+    try {
+      setIsHistoryLoading(true);
+      const res = await getChatHistory(uploadId);
+      if (res.status === 200) {
+        setChats(res.data.data);
+      }
+    } catch (error) {
+      setChats([]);
+      console.log(error);
+    } finally {
+      setIsHistoryLoading(false);
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (chat.trim() === "") return;
+
+    let uploadId = localStorage.getItem("UPLOAD_ID");
+    try {
+      if (!uploadId) {
+        const fileResponse = await fetch(SaintSampleFile);
+        const fileBlob = await fileResponse.blob();
+        const formData = new FormData();
+        formData.append("file", fileBlob);
+        formData.append("name", "SAINT_AI");
+        formData.append("featureId", import.meta.env.VITE_UPLOAD_DOC_FEATURE_ID);
+        try {
+          const res = await uploadFile(formData);
+          uploadId = res.data?.data?._id;
+          localStorage.setItem("UPLOAD_ID", uploadId!);
+          localStorage.setItem("AGENT_ID", res.data?.data?._agentId);
+        } catch (error:any) {
+          notify(error.message,false);
+          return;
+        }
+        // await fetchFile(uploadId!);
+      }
+
+      setIsResponseLoading(true);
+      setChats((prev) => [...prev, { user: chat, agent: "Processing..." }]);
+      
+      const res = await sendMessage(uploadId!, chat);
+      
+      if (res.status === 200) {
+        setChats((prev) => {
+          const newChats = [...prev];
+          newChats[newChats.length - 1] = { user: chat, agent: res.data.data };
+          return newChats;
+        });
+        setChat("");
+      }
+    } catch (error) {
+      console.log(error);
+      setChats((prev) => {
+        const newChats = [...prev];
+        newChats[newChats.length - 1] = { user: chat, agent: "Error occurred while processing" };
+        return newChats;
+      });
+    } finally {
+      setIsResponseLoading(false);
+    }
+  };
+
+  // if (isLoading) {
+  //   return <div className="text-white">Loading...</div>;
+  // }
+
   return (
     <div
-      className={`
-       fixed right-0 md:right-10 md:w-[400px] md:h-[80vh]
-       flex flex-col justify-between bg-dark my-1 bottom-0 md:bottom-10  w-[100vw] h-[90vh]   shadow-2xl rounded-xl z-[65]   ${className}`}
+      className={`fixed inset-0 md:inset-auto md:right-10 md:bottom-10 md:w-[400px] md:h-[80vh] 
+                  flex flex-col bg-dark shadow-2xl rounded-xl z-[65] ${className}`}
       style={{
-        border: "1.2px solid black",
-        pointerEvents: "auto",
+        border: "1.2px solid #333",
         visibility: isOpen ? "visible" : "hidden",
         opacity: isOpen ? 1 : 0,
+        transition: "opacity 0.3s ease-in-out",
       }}
     >
-      <div className="flex flex-col h-full">
-        <div id="header" className="px-3 flex py-3 justify-between ">
-          <h1 className="text-3xl">
-            <img className=" h-10 object-contain w-48" src={logo} />
-          </h1>
-        </div>
-        <div
-          id="body"
-          className="px-3 justify-start w-full items-end overflow-y-auto max-h-[calc(100%-64px)]"
-        >
-          {chats.map((chat, index) => {
-            return (
-              <ChatItem
-                key={index}
-                sender={chat.sender}
-                message={chat.message}
-              />
-            );
-          })}
-        </div>
+      <div className="flex-shrink-0 px-4 py-3 border-b border-gray-700 flex justify-between items-center">
+        <img className="h-8 object-contain" src={logo} alt="S.AI.N.T Logo" />
+        {/* {uploadData?.createdAt && <span className='text-sm text-slate-300'>Uploaded: {format(uploadData.createdAt)}</span>} */}
       </div>
-      <div
-        id="footer"
-        className="flex flex-col  space-y-2 md:space-y-0 md:flex-row rounded-bl-xl rounded-br-xl self-end space-x-1 py-3 items-center justify-between w-full bg-dark px-3 bottom-0 "
-        style={{ borderTop: "0.8px solid black" }}
+      
+      <div 
+        ref={chatBodyRef}
+        className="flex-grow overflow-y-auto px-4 py-2"
       >
-        <input
-          placeholder="Type your message"
-          type="text"
-          value={chat}
-          onChange={(e) => {
-            setChat(e.target.value);
-          }}
-          className=" bg-black rounded-full w-full py-2 px-4 md:w-[80%] outline-none"
-          style={{ border: "0.8px solid #1e1e1e" }}
-        />
-        <button
-          onClick={() => {
-            chat !== "" &&
-              setChats((prev) => [...prev, { sender: "Me", message: chat }]);
-            setChat("");
-          }}
-          className="rounded-full flex items-center  justify-center py-2 px-4  w-full md:w-[20%] bg-[#54b584] text-white "
-        >
-          {isMobile && <span className="mr-2">Send Message</span>} <IoIosSend />
-        </button>
+        {isHistoryLoading && <div className='flex items-center justify-center h-full flex-col'><h1>Loading chat history...</h1></div>}
+        {chats.length === 0 && !isHistoryLoading && (
+          <div className='flex items-center justify-center h-full flex-col'>
+            <BiConversation className='text-lg md:text-3xl'/>
+            <h1>Start the conversation with SaintAI</h1>
+          </div>
+        )}
+        {!isHistoryLoading && chats.map((chat, index) => (
+          <div key={index}>
+
+          <ChatItem
+
+            sender={"Me"}
+            message={chat.user}
+          />
+           <ChatItem
+
+            sender={"SAINTAI"}
+            message={ chat.agent}
+          />
+          </div>
+        ))}
       </div>
-     
+      
+      <div className="flex-shrink-0 p-4 border-t border-gray-700">
+        <div className="flex items-center space-x-2">
+          <input
+            ref={inputRef}
+            disabled={isResponseLoading}
+            placeholder="Type your message"
+            type="text"
+            value={chat}
+            onChange={(e) => setChat(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey && !isResponseLoading) {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
+            className="flex-grow bg-black disabled:bg-gray-300 text-white border border-gray-600 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            disabled={isResponseLoading}
+            onClick={handleSendMessage}
+            className="flex-shrink-0 rounded-full flex items-center justify-center p-2 bg-primary disabled:bg-gray-300 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <IoIosSend fill='green' />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
