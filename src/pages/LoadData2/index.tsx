@@ -115,15 +115,15 @@ const FileUploadAndChat: React.FC = () => {
     };
   }, []);
 
+  useEffect(()=>{
+    if(selectedFileId && isMobile)
+      setShowSideBar(false);
+  },[selectedFileId])
+
   return (
-    <section className="h-[90vh] min-w-[95vw] max-w-[95vw] min-h-[90vh] py-4 mx-3">
+    <section className="h-[90vh]  min-w-[95vw] max-w-[95vw] min-h-[90vh] py-4 mx-3 ">
+        
       <div className="flex relative w-full h-full rounded-xl overflow-hidden md:bg-transparent">
-        {isMobile && (
-          <>
-            <div className="z-0 absolute h-64 w-64 bg-shape1 bottom-[-10%] right-[-20%]"></div>
-            <div className="z-0 absolute h-64 w-64 bg-shape2 top-[-30%] left-10"></div>
-          </>
-        )}
         {isMobile && (
           <div
             onClick={handleToggleSideBar}
@@ -150,7 +150,7 @@ const FileUploadAndChat: React.FC = () => {
             initial={{ x: "-100%" }}
             animate={{ x: showSideBar ? 0 : "-100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="fixed top-0 left-0 w-3/4 sm:w-1/4 h-full bg-purple z-50 pt-20"
+            className="fixed top-0 left-0 w-3/4 sm:w-1/4 h-full bg-black  z-50 pt-20"
           >
             <SidebarContent
               files={files}
@@ -180,9 +180,9 @@ const FileUploadAndChat: React.FC = () => {
           </div>
         )}
 
-        <div className="w-full md:w-3/4 h-full">
+        <div className="w-full md:w-3/4 h-full relative">
           {selectedFileId ? (
-            <ChatComponent uploadId={selectedFileId} />
+            <ChatComponent selectedFileId={selectedFileId} setShowSideBar={setShowSideBar} uploadId={selectedFileId} setSelectedFileId={setSelectedFileId} />
           ) : (
             <div className="w-full h-full flex flex-col justify-center items-center px-6 md:px-32 lg:px-[5vw] py-5">
               {isLoading && (
@@ -191,14 +191,14 @@ const FileUploadAndChat: React.FC = () => {
                   <h1 className="text-center">{fileUploadStage}</h1>
                 </div>
               )}
-              <h1 className="text-3xl font-bold text-white">Load Data</h1>
+              <h1 className="text-3xl font-bold text-white my-5">Load Data</h1>
               <form onSubmit={handleLoadData} encType="multipart/form-data">
                 <div className="w-full">
                   <FileDropzone onFileSelect={handleFileSelect} />
                   {file && <h1 className="my-2">Uploaded: {file.name}</h1>}
                 </div>
                 <div className="self-start w-full">
-                  <label htmlFor="key" className="block mb-2 text-sm font-bold">
+                  <label htmlFor="key" className="block mb-2 text-sm mt-2 font-bold">
                     File name
                   </label>
                   <input
@@ -214,7 +214,7 @@ const FileUploadAndChat: React.FC = () => {
                 <div className="w-full self-start my-2">
                   <button
                     type="submit"
-                    className="w-full py-2 bg-primary text-white rounded-md font-semibold"
+                    className="w-full py-2 bg-primary text-white rounded-md font-semibold relative"
                   >
                     Load Data
                   </button>

@@ -113,7 +113,7 @@ const SignUp = () => {
         <div className=" w-full bg-black  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
           <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
-          <div className="flex flex-col items-center mt-10  min-w-full md:h-screen lg:py-0">
+          <div className="flex flex-col items-center md:mt-10 mt-0  min-w-full md:h-screen lg:py-0">
             <div className="relative  rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-[#473086] bg-opacity-100">
               <img
                 src="/cube3.png"
@@ -320,7 +320,7 @@ const SignUp = () => {
                   >
                     {isLoading ? "Submitting..." : "Submit"}
                   </button>
-                  <p className="col-span-2 text-md font-medium text-center">
+                  <p className="col-span-2 text-md font-medium text-center mt-2 md:mt-0">
                     Already have an account?
                     <Link
                       to="/login"

@@ -109,16 +109,27 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                   </Dialog.Close>
                 </li>
               )}
-              {token && (
+              {token && (<>
                 <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
                   <Dialog.Close
-      onClick={()=>{navigate("/profile")}}
+                    onClick={()=>{navigate("/profile")}}
                     className={`flex w-full items-center space-x-3 text-white`}
-                  >
+                    >
                     
                     <span className="w-full">Profile</span>
                   </Dialog.Close>
                 </li>
+                <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                  <Dialog.Close
+                    onClick={()=>{navigate("/loaddata")}}
+                    className={`flex w-full items-center space-x-3 text-white`}
+                    >
+                    
+                    <span className="w-full">Custom Upload</span>
+                  </Dialog.Close>
+                </li>
+                    </>
+
               )}
                {token && (
                 <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
