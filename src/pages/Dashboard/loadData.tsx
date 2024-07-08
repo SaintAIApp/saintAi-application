@@ -91,14 +91,12 @@ const Index = () => {
         )}
         {isMobile && (
           <div onClick={handleToggleSideBar} className="absolute z-[40]  top-5 left-5">
-            {/* <button onClick={handleToggleSideBar}> */}
               <FaChevronRight
                 height={6}
                 width={6}
                 fill="white"
                 className="h-6 w-6"
               />
-            {/* </button> */}
           </div>
         )}
 
@@ -182,7 +180,7 @@ const Index = () => {
           </div>
 
           <div className="self-start w-full">
-            <label htmlFor="key" className="block mb-2 text-sm font-bold">
+            <label htmlFor="key" className="block   my-2 text-sm font-bold mt-5">
               File name
             </label>
             <input
@@ -202,7 +200,7 @@ const Index = () => {
             <button
               type="submit"
               onClick={handleLoadData}
-              className="w-full py-2 bg-primary text-white rounded-md font-semibold"
+              className="w-full relative  py-2 bg-primary text-white rounded-md font-semibold"
             >
               Load Data
             </button>

@@ -19,7 +19,7 @@ function DefaultLayout({ children }: Props) {
       <section className={`flex-grow ${
         isUploadPage 
           ? "flex items-center justify-center mt-12 overflow-hidden" 
-          : "px-[3vw] max-md:px-5 lg:px-[3vw] py-4 mb-4 mt-36 overflow-auto"
+          : "px-[3vw] max-md:px-5 lg:px-[3vw] py-4 mb-4 mt-24 md:mt-36 overflow-auto"
       }`}>
         {children}
         {genericType !== "generic2" && !isUploadPage && <Footer />}

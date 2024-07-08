@@ -49,7 +49,7 @@ const Profile = () => {
     if (plan === "" || plan.toLowerCase()==="free") return <span className="text-slate-400">Free</span>;
     else if (plan.toLowerCase() === "pro")
       return (
-        <span className="px-4 text-green-100  bg-green-600 border border-green-700 rounded-full text-sm">
+        <span className="  proText rounded-full text-sm">
           Pro
         </span>
       );
@@ -91,9 +91,9 @@ const Profile = () => {
   }, []);
 
   return (
-    <section id="profile" className="min-h-[50rem] font-roboto">
+    <section id="profile" className=" pb-10 font-roboto">
       {(subscription.plan !== "proPlus" || moment(subscription.validUntil).isBefore(Date.now())) && (
-        <div className="w-full py-2 border-[0.3px] border-slate-800 rounded-md flex justify-center items-center relative overflow-hidden">
+        <div className="w-full  md:py-2 md:px-0 px-2 py-2 border-[0.3px] border-slate-800 rounded-md flex justify-center items-center relative overflow-hidden">
           <div className="z-0 absolute h-64 w-64 bg-shape1 bottom-[-150px] right-20"></div>
           <div className="z-0 absolute h-64 w-64 bg-shape2 bottom-0 left-0 text-sm"></div>
           <span className="text-sm">

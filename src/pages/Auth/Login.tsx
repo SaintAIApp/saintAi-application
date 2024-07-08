@@ -42,7 +42,7 @@ const Login = () => {
 
       <div className=" w-full  bg-black dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-      <div className="flex flex-col items-center mx-auto md:h-screen mt-10 lg:py-0">
+      <div className="flex flex-col items-center mx-auto md:h-screen  mt-0 md:mt-10 lg:py-0">
          
          <div className="relative w-full rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-[#473086] bg-opacity-100">
            <img src="/cube.png" className="h-56 absolute w-56  rotate-45 top-[-25%] right-[-10%]" alt="" />

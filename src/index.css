@@ -66,3 +66,8 @@ html{
 .nav-link.active::after {
   width: 100%;
 }
+.proText{
+  background-image: linear-gradient(90deg,rgb(126, 126, 255),rgb(249, 255, 128));
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}

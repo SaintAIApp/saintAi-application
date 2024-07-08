@@ -23,20 +23,20 @@ const DialogComponent = ({ open, onOpenChange, onConfirm }:any) => {
           animate={open ? "visible" : "hidden"}
           variants={contentVariants}
         >
-        <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#1e1e1e] p-6 rounded-md max-w-sm w-full space-y-4">
-          <Dialog.Title className="text-2xl text-white">Confirm Cancellation</Dialog.Title>
-          <Dialog.Description className="text-lg text-white">
+        <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#1e1e1e] p-3 md:p-6 rounded-md max-w-sm w-[90%] space-y-4 md:mx-0 ">
+          <Dialog.Title className=" text-lg md:text-2xl text-white">Confirm Cancellation</Dialog.Title>
+          <Dialog.Description className=" text-md md:text-lg text-white">
             Are you sure you want to cancel your subscription? This action cannot be undone.
           </Dialog.Description>
           <div className="flex justify-end space-x-2">
             <Dialog.Close asChild>
-              <button className="px-4 py-2 bg-gray-600 text-white rounded-md">
+              <button className="md:px-4 md:py-2 px-2 py-1 bg-gray-600 text-white rounded-md">
                 Cancel
               </button>
             </Dialog.Close>
             <button
               onClick={onConfirm}
-              className="px-4 py-2 bg-red-600 text-white rounded-md"
+              className="md:px-4 md:py-2 px-2 py-1 bg-red-600 text-white rounded-md"
             >
               Confirm
             </button>

@@ -4,12 +4,16 @@ import { Upload } from '../../types/data';
 import { IoIosSend } from 'react-icons/io';
 import {format} from 'timeago.js'
 import { BiConversation } from 'react-icons/bi';
+import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 
 interface ChatComponentProps {
   uploadId: string;
+  setSelectedFileId?:any;
+  setShowSideBar?:any;
+  selectedFileId?:any
 }
 
-const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId }) => {
+const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId,setSelectedFileId,setShowSideBar,selectedFileId }) => {
   const [chats, setChats] = useState<any[]>([]);
   const [curChat, setCurChat] = useState("");
   const [isHistoryLoading,setIsHistoryLoading] = useState(false);
@@ -39,7 +43,6 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId }) => {
         setIsHistoryLoading(true)
         const res = await getChatHistory(uploadId);
         if (res.status === 200) {
-          console.log(res.data.data);
           setChats(res.data.data);
         }
       } catch (error) {
@@ -98,9 +101,10 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId }) => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-dark">
-      <header className="bg-dark shadow-sm p-4 flex justify-between">
-        <h1 className="text-xl font-semibold text-white">File: {uploadData?.name}</h1>
+    <div className={`flex flex-col h-full bg-dark ${selectedFileId && "mt-20"}  md:mt-0`}>
+
+      <header className="bg-dark shadow-sm items-center p-4 flex justify-between">
+        <h1 className="text-xl font-semibold text-white flex items-center">  {window.innerWidth<=700 && <button onClick={()=>{setSelectedFileId(null);setShowSideBar(true)}}> <ChevronLeftIcon height={20} width={20}/> </button>  } File: {uploadData?.name}</h1>
         {uploadData?.createdAt && <h1 className='text-sm text-slate-300'>Uploaded:{format(uploadData?.createdAt)}</h1>}
       </header>
       
