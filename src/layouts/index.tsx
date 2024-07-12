@@ -14,7 +14,7 @@ function DefaultLayout({ children }: Props) {
   const isUploadPage = location.pathname.startsWith("/loaddata");
 
   return (
-    <main className="bg-black flex flex-col text-white font-roboto font-light min-h-screen">
+    <main className="bg-black flex flex-col text-white font-light min-h-screen">
       <Navbar />
       <section className={`flex-grow ${
         isUploadPage 

@@ -6,6 +6,7 @@ import usePaymentServices from "../hooks/usePayment";
 import { useAppSelector } from "../redux/hooks";
 import { useNavigate } from "react-router-dom";
 import { notify } from "../utils/notify";
+import PaymentModeModal from "./PaymentModeModal";
 
 type Props = {
   price: number;
@@ -14,6 +15,7 @@ type Props = {
   plan:string;
   planCode:string;
   className?: string;
+  sol:number
 };
 const cardVariant = {
   hidden: { opacity: 0, y: 50 },
@@ -21,11 +23,16 @@ const cardVariant = {
 };
 
 
-export const PriceCard: React.FC<Props> = ({ price, heading, benefits, className = "", planCode,plan}) => {
+export const PriceCard: React.FC<Props> = ({ price, benefits, className = "", planCode,plan,sol}) => {
+
   const [isRedirecting,setIsRedirecting] = useState(false);
   const {createCheckout} = usePaymentServices();
   const navigate = useNavigate();
   const token = useAppSelector((state)=>state.auth.token)
+
+  const createCoinbaseCheckout = async ()=>{
+    notify("Coinbase payment not supported yet",false);
+  }
   const handleSubmit = async()=>{
     setIsRedirecting(true);
     try {
@@ -50,42 +57,53 @@ export const PriceCard: React.FC<Props> = ({ price, heading, benefits, className
     }
   }
   return (
-    <div className={`border-[0.8px] border-purple_dark bg-opacity-40 bg-purple px-4 py-3 rounded-3xl md:w-60 lg:w-80 hover:shadow-inner hover:shadow-purple_dark duration-500 h-[28rem] ${className}`}>
-      <h1 className="py-3 text-2xl">{plan}</h1>
-      <h1 className="text-primary text-4xl font-bold mb-4">${price}/month</h1>
-      <ul className="flex flex-col space-y-2">
-      {
-        benefits.map((item:string,index:number)=>{return <li key={index} className="flex items-center space-x-1">
-         { <SiTicktick className={ ` ${item===""?"text-transparent":"text-primary"}  h-5 w-5 mr-2`}/>}
-          {item}
-        </li> })
-      }
-      </ul>
-      <h1 className="text-4xl mb-10">{heading}</h1>
-      {/* <h1 className={`mb-32 ${cropText?"line-clamp-3":""} `}>{description}</h1> */}
-     { price>0 &&  <Button loading={isRedirecting} className="" text="Upgrade" variant="rounded" onClick={handleSubmit} />}
+    <div className={`flex flex-col justify-between border-[0.8px] border-purple_dark bg-opacity-40 bg-purple px-6 py-6 rounded-3xl md:w-64 lg:w-80 hover:shadow-lg hover:shadow-purple_dark hover:scale-105 transition-all duration-300 h-full ${className}`}>
+      <div>
+        <h1 className="py-3 text-2xl font-semibold">{plan}</h1>
+        <h1 className="text-primary text-2xl font-bold mb-3">${price}/month</h1>
+        <h1 className="text-slate-600 text-xl font-bold mb-3">OR</h1>
+        <h1 className="text-primary text-2xl font-bold mb-3">{sol} SOL/month</h1>
+        <ul className="flex flex-col space-y-3">
+          {benefits.map((item: string, index: number) => (
+            <li key={index} className="flex items-start space-x-2">
+              <SiTicktick className={`${item === "" ? "text-transparent" : "text-primary"} h-5 w-5 mt-1 flex-shrink-0`} />
+              <span className="text-sm">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="mt-8">
+        {price > 0 && (
+          <PaymentModeModal createCoinbaseCheckout={createCoinbaseCheckout} createStripeCheckout={handleSubmit} triggerButton={
+            <Button
+              loading={isRedirecting}
+              className="w-full"
+              text="Upgrade"
+              variant="rounded"
+              // onClick={handleSubmit}
+              />
+
+          }>
+
+            </PaymentModeModal>
+        )}
+      </div>
     </div>
   );
 };
 
-
-
 export const PriceCardWithAnimation = ({
-  price, heading, benefits , planCode,plan,
-  delay
-}: {
-  price: number;
-  heading: string;
-  benefits: string[];
-  plan:string;
-  planCode:string;
-  className?: string;
-  delay: any;
-
-}) => {
+  price,
+  heading,
+  benefits,
+  planCode,
+  plan,
+  delay,
+  sol
+}: Props & { delay: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
- 
+
   return (
     <motion.div
       ref={ref}
@@ -93,15 +111,15 @@ export const PriceCardWithAnimation = ({
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       transition={{ delay }}
-
+      className="h-full"
     >
       <PriceCard
+        sol={sol}
         price={price}
         heading={heading}
         plan={plan}
         planCode={planCode}
         benefits={benefits}
-
       />
     </motion.div>
   );
