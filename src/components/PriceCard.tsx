@@ -15,7 +15,7 @@ type Props = {
   plan:string;
   planCode:string;
   className?: string;
-  sol:number
+  sol?:number
 };
 const cardVariant = {
   hidden: { opacity: 0, y: 50 },
