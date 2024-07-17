@@ -36,10 +36,16 @@ export const Column = ({
       )}
 
       {(curCategory === "stocks" || curCategory === "crypto") && (
-        <SortableContext items={list} strategy={verticalListSortingStrategy}>
-          {list.map((data: any, index: number) => (
-            <StockChart key={index} data={data} />
-          ))}
+        <SortableContext
+          items={list || []}
+          strategy={verticalListSortingStrategy}
+        >
+          {!list
+            ? null
+            : list?.map((data: any, index: number) => (
+                <StockChart key={index} data={data} />
+              ))}
+          {console.log(list)}
         </SortableContext>
       )}
     </div>
