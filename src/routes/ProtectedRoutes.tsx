@@ -9,7 +9,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
   const {user,token} = authObject; 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
   if(user && !user.isActive){
     return <Navigate to={"/verifyOTP"}/>;
@@ -22,11 +22,11 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       
       alert("Session Expired, please login again");
       dispatch(logout());
-      navigate("/login")
+      navigate("/")
     }
   } catch (error) {
     console.log(error)
-    navigate("/login")
+    navigate("/")
   }
   return children;
 };

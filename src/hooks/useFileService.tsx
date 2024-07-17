@@ -51,9 +51,17 @@ const useFileService = () => {
         throw new Error(error.response?.data?.message||"Something went wrong")
       }
     };
+    const sendMessageTrade = async (body:string) => {
+      try {
+        const res = await api.post(import.meta.env.VITE_FAST_API_URL+"/chat_with_trade_data",{message:body});
+        return res;
+      } catch (error: any) {
+        throw new Error(error.response?.data?.message||"Something went wrong")
+      }
+    };
 
 
   
-  return { uploadFile,getFile,getAllFiles,getChatHistory,sendMessage,deleteFile};
+  return { uploadFile,getFile,getAllFiles,getChatHistory,sendMessage,deleteFile,sendMessageTrade};
 };
 export default useFileService;

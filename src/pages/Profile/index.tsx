@@ -46,18 +46,18 @@ const Profile = () => {
 
   const getPlan = () => {
     const plan = subscription.plan;
-    if (plan === "" || plan.toLowerCase()==="free") return <span className="text-slate-400">Free</span>;
+    if (plan === "" || plan.toLowerCase()==="free") return <span className="text-slate-400">Genesis</span>;
     else if (plan.toLowerCase() === "pro")
       return (
         <span className="  proText rounded-full text-sm">
-          Pro
+          Medius
         </span>
       );
     else if (plan.toLowerCase() === "proplus")
       return (
         <span className="flex w-fit rounded-full">
           <h1 className="proPlusText font-bold">
-            <span></span> Pro Plus
+            <span></span> Odysseus
           </h1>
         </span>
       );
@@ -98,9 +98,9 @@ const Profile = () => {
           <div className="z-0 absolute h-64 w-64 bg-shape2 bottom-0 left-0 text-sm"></div>
           <span className="text-sm">
             {subscription.plan === "" || moment(subscription.validUntil).isBefore(Date.now())
-              ? "Unlock More Features with Our Pro Plans!"
+              ? "Unlock More Features with Our Odysseus Plans!"
               : subscription.plan === "pro"
-              ? "Unlock More Features with Our Pro Plus Plan!"
+              ? "Unlock More Features with Our Odysseus Plan!"
               : ""}
             <Badge text="View Plans" />
           </span>

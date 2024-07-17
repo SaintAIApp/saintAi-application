@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { login, logout } from "../../redux/slices/authSlice";
 // import NavBar from "../common/NavBar";
 
-const OTP = () => {
+const OTP = ({setCurrentModal}:{setCurrentModal:any}) => {
     const {user} = useAppSelector((state)=>{return state.auth});
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -83,20 +83,19 @@ const OTP = () => {
         }
         finally{
           dispatch(logout());
-          navigate("/signup")   
+          setCurrentModal("signup")
         }
       }
     return (
         <>
-            <section className="mb-6">
-                <div className="flex flex-col items-center mt-10  md:h-screen lg:py-0">
-                    <div className="relative w-full rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-purple bg-opacity-70">
-                        <div className="absolute h-full w-full inset-0 flex z-0">
+            {/* <section className="mb-6"> */}
+                {/* <div className="flex flex-col items-center mt-10  md:h-screen lg:py-0"> */}
+                    <div className="relative w-full rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-purple ">
+                        {/* <div className="absolute h-full w-full inset-0 flex z-0">
                             <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 opacity-90 bg-blur"></div>
                             <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
-                            {/* <div className="absolute h-44 w-44 bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div> */}
                             <div className="absolute h-44 w-44 bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
-                        </div>
+                        </div> */}
                         <div className="relative z-10 p-10 space-y-4 md:space-y-6 sm:p-8">
                             <div className="flex items-center flex-row justify-start mb-4">
                                 <img className="h-12 mr-2" src={imgSrc} alt="logo" />
@@ -124,8 +123,8 @@ const OTP = () => {
                                 <button type="button" onClick={handleCancel} className=" outline-none text-white py-2 rounded-lg w-full">Cancel</button>
                         </div>
                     </div>
-                </div>
-            </section>
+                {/* </div> */}
+            {/* </section> */}
         </>
     );
 };

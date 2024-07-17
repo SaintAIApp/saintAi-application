@@ -19,7 +19,8 @@ export default {
         purple:"#513799",
         purple_dark:"#893bff",
         blue_darK:"#1a0166",
-        blue:"#016FC8"
+        blue:"#016FC8",
+        grey:"#2C3140"
       },
       fontFamily:{
         body:["Inter"],

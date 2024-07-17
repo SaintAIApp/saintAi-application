@@ -11,14 +11,14 @@ import ForgotPassword from "../pages/Auth/ForgotPassword";
 const NotFound = lazy((): any => import("../pages/NotFound"));
 const Loader = lazy((): any => import("../components/Loader"));
 
-const Login = lazy((): any => import("../pages/Auth/Login"));
-const SignUp = lazy((): any => import("../pages/Auth/SignUp"));
+// const Login = lazy((): any => import("../pages/Auth/Login"));
+// const SignUp = lazy((): any => import("../pages/Auth/SignUp"));
 const LoadData = lazy((): any => import("../pages/LoadData2"));
 const VerifyOTP = lazy((): any => import("../pages/Auth/OTP"));
 const WidgetsPage = lazy(()=>import("../pages/Widgets"));
 const News = lazy(()=>import("../pages/News/SingleNews"));
 const Pricing = lazy(()=>import("../pages/Pricing"))
-// const ViewDocument = lazy(()=>import("../pages/ViewDocument"))
+const Mine = lazy(()=>import("../pages/Mine"))
 const PaymentSuccess = lazy(
   (): any => import("../pages/Payment/PaymentSuccess")
 );
@@ -64,22 +64,6 @@ const router = createBrowserRouter([
       },
     
       {
-        path: "/login",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <Login />
-          </Suspense>
-        ),
-      },
-      {
-        path: "/signup",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <SignUp />
-          </Suspense>
-        ),
-      },
-      {
         path: "/loaddata",
         element: (
           <ProtectedRoute>
@@ -89,16 +73,16 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      // {
-      //   path: "/upload/:uploadId",
-      //   element: (
-      //     <ProtectedRoute>
-      //       <Suspense fallback={<Loader />}>
-      //         <ViewDocument/>
-      //       </Suspense>
-      //     </ProtectedRoute>
-      //   ),
-      // },
+      {
+        path: "/mine",
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <Mine/>
+            </Suspense>
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "/analysis",
         element: (

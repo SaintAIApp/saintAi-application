@@ -78,7 +78,7 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                   <Dialog.Close
                     onClick={() => {
                       window.scrollTo({ top: 0 });
-                      navigate("/login");
+                      navigate("/");
                     }}
                     className={`flex w-full items-center space-x-3 ${
                       location.pathname.includes("login")

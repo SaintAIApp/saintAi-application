@@ -76,3 +76,40 @@ body{
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
 }
+#pricing{
+  background-size: cover;
+  background-image: url("/public/saintaiBackground.jpeg");
+  background-position: 52% -10%
+}
+
+.ant-pagination-item a {
+
+  background-color: #000000 !important;
+  /* border: 1px solid #fff !important;
+  border-radius: 10px !important; */
+  color: #fff !important;
+}
+
+.ant-pagination-item:hover a {
+  color: #8e44ad !important;
+  color: #fff !important;
+}
+
+.ant-pagination-item-active  {
+  color: white !important;
+    border: 1px solid #fff !important;
+  /* border-radius: 50% !important; */
+}
+
+.ant-pagination-prev:hover .ant-pagination-item-link,
+.ant-pagination-next:hover .ant-pagination-item-link {
+  color: #8e44ad !important;
+
+}
+.ant-pagination-item-link, .ant-pagination-next, .ant-pagination-next{
+  color: wheat !important;
+}
+.ant-pagination-item-ellipsis{
+  color: #fff;
+}
+

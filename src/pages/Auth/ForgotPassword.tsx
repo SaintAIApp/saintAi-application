@@ -97,7 +97,7 @@ const ForgotPassword = () => {
       const { otp, password } = credentials;
       await resetPassword(Number(otp), password);
       notify("Password Updated!", true);
-      navigate("/login");
+      navigate("/");
     } catch (error: any) {
       console.log(error);
       notify(error.message, false);

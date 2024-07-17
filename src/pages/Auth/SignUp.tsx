@@ -7,7 +7,7 @@ import { validate } from "../../utils/validation";
 import { notify } from "../../utils/notify";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { login } from "../../redux/slices/authSlice";
-const SignUp = () => {
+const SignUp = ({setCurrentModal}:{setCurrentModal: any}) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { user, token } = useAppSelector((state) => state.auth);
@@ -70,7 +70,7 @@ const SignUp = () => {
       setTimeout(() => {
         notify("OTP sent successfully!", true);
       }, 1000);
-      navigate("/verifyOTP");
+      setCurrentModal("otp");
       setCredentials({
         username: "",
         confirmpassword: "",
@@ -109,11 +109,11 @@ const SignUp = () => {
 
   return (
     <>
-      <section className="mb-3">
+      {/* <section className="mb-3">
         <div className=" w-full bg-black  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
-          <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+          <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div> */}
 
-          <div className="flex flex-col items-center md:mt-10 mt-0  min-w-full md:h-screen lg:py-0">
+          {/* <div className="flex flex-col items-center md:mt-10 mt-0  min-w-full md:h-screen lg:py-0"> */}
             <div className="relative  rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-[#473086] bg-opacity-100">
               <img
                 src="/cube3.png"
@@ -322,19 +322,21 @@ const SignUp = () => {
                   </button>
                   <p className="col-span-2 text-md font-medium text-center mt-2 md:mt-0">
                     Already have an account?
-                    <Link
-                      to="/login"
+                    <button
+                    type="button"
+                      onClick={()=>{setCurrentModal("login")}}
+                      // to="/login"
                       className="font-bold ml-1 text-[#618ef0] hover:underline"
                     >
                       Login here
-                    </Link>
+                    </button>
                   </p>
                 </form>
               </div>
             </div>
-          </div>
+          {/* </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 };

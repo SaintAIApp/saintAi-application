@@ -1,122 +1,85 @@
-import { useRef, useState } from "react";
-import Button from "./Button";
-import { motion, useInView } from "framer-motion";
-import { SiTicktick } from "react-icons/si";
-import usePaymentServices from "../hooks/usePayment";
-import { useAppSelector } from "../redux/hooks";
-import { useNavigate } from "react-router-dom";
-import { notify } from "../utils/notify";
-import PaymentModeModal from "./PaymentModeModal";
+import React from "react";
+import { motion } from "framer-motion";
 
-type Props = {
+type PriceCardProps = {
   price: number;
-  heading: string;
   benefits: string[];
-  plan:string;
-  planCode:string;
-  className?: string;
-  sol?:number
+  planCode: string;
+  plan: string;
+  sol: number;
+  type: "light" | "dark";
 };
+
 const cardVariant = {
   hidden: { opacity: 0, y: 50 },
   visible: { opacity: 1, y: 0, transition: { duration: 1 } },
 };
 
+export const PriceCard: React.FC<PriceCardProps> = ({
+  price,
+  benefits,
 
-export const PriceCard: React.FC<Props> = ({ price, benefits, className = "", planCode,plan,sol}) => {
-
-  const [isRedirecting,setIsRedirecting] = useState(false);
-  const {createCheckout} = usePaymentServices();
-  const navigate = useNavigate();
-  const token = useAppSelector((state)=>state.auth.token)
-
-  const createCoinbaseCheckout = async ()=>{
-    notify("Coinbase payment not supported yet",false);
-  }
-  const handleSubmit = async()=>{
-    setIsRedirecting(true);
-    try {
-      if(!token)
-      {
-          navigate("/login");
-          return;
-      }
-      const res = await createCheckout(planCode);
-      if(res.status===200){
-        notify("Redirecting",true);
-        window.location.href = res.data.data;
-        // navigate("/"+res.data.data)
-      }
-      console.log(res);
-    } catch (error:any) {
-      notify(error.message,false);
-      console.log(error)
-    }
-    finally{
-      setIsRedirecting(false);
-    }
-  }
+  plan,
+  sol,
+  type,
+}) => {
   return (
-    <div className={`flex flex-col justify-between border-[0.8px] border-purple_dark bg-opacity-40 bg-purple px-6 py-6 rounded-3xl md:w-64 lg:w-80 hover:shadow-lg hover:shadow-purple_dark hover:scale-105 transition-all duration-300 h-full ${className}`}>
+    <div
+      className={`flex flex-col justify-between px-6 py-8 rounded-3xl ${
+        type === "light" ? "bg-white text-black" : "bg-[#2a2a3e] text-white"
+      } hover:shadow-lg hover:scale-105 transition-all duration-300 h-full`}
+    >
       <div>
-        <h1 className="py-3 text-2xl font-semibold">{plan}</h1>
-        <h1 className="text-primary text-2xl font-bold mb-3">${price}/month</h1>
-        <h1 className="text-slate-600 text-xl font-bold mb-3">OR</h1>
-        <h1 className="text-primary text-2xl font-bold mb-3">{sol} SOL/month</h1>
-        <ul className="flex flex-col space-y-3">
-          {benefits.map((item: string, index: number) => (
-            <li key={index} className="flex items-start space-x-2">
-              <SiTicktick className={`${item === "" ? "text-transparent" : "text-primary"} h-5 w-5 mt-1 flex-shrink-0`} />
-              <span className="text-sm">{item}</span>
+        <h2 className="text-2xl font-semibold mb-2 text-center">{plan}</h2>
+        <h3 className="text-3xl font-bold mb-1 text-center">
+          {price === 0 ? "Free" : `${price}`}
+        </h3>
+        <p className="text-sm text-gray-500 mb-4 text-center">per user, per month</p>
+        <p className="text-sm font-semibold mb-1 text-center">OR</p>
+        <p className="text-xl font-bold text-[#8e44ad] mb-6 text-center">{sol} SOL/month</p>
+        <button className={`w-full py-2 px-4 rounded-full ${
+          type === "light" ? "bg-[#fff] text-[#1465FA] border-[#1465FA] border-2" : "bg-[#1465FA] border-[#1465FA] border-2 text-white"
+        } hover:opacity-90 transition-opacity duration-300 font-bold`}>
+          Choose Plan
+        </button>
+        <ul className={`pt-3 mt-3 space-y-2 ${type==="light"? "border-gray-200":"border-gray-100"} border-t-[0.6px]`}>
+          {benefits.map((item, index) => (
+            <li key={index} className="flex items-start space-x-2 text-sm">
+              <span className="text-green-500">✓</span>
+              <span>{item}</span>
             </li>
           ))}
         </ul>
-      </div>
-      <div className="mt-8">
-        {price > 0 && (
-          <PaymentModeModal createCoinbaseCheckout={createCoinbaseCheckout} createStripeCheckout={handleSubmit} triggerButton={
-            <Button
-              loading={isRedirecting}
-              className="w-full"
-              text="Upgrade"
-              variant="rounded"
-              // onClick={handleSubmit}
-              />
-
-          }>
-
-            </PaymentModeModal>
-        )}
       </div>
     </div>
   );
 };
 
-export const PriceCardWithAnimation = ({
+type PriceCardWithAnimationProps = PriceCardProps & {
+  delay: number;
+};
+
+export const PriceCardWithAnimation: React.FC<PriceCardWithAnimationProps> = ({
+  type,
   price,
-  heading,
   benefits,
   planCode,
   plan,
   delay,
-  sol
-}: Props & { delay: number }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-
+  sol,
+}) => {
   return (
     <motion.div
-      ref={ref}
       variants={cardVariant}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      animate="visible"
       transition={{ delay }}
       className="h-full"
     >
       <PriceCard
+        type={type}
         sol={sol}
         price={price}
-        heading={heading}
         plan={plan}
         planCode={planCode}
         benefits={benefits}
