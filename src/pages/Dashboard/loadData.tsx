@@ -6,7 +6,7 @@ import useFileService from "../../hooks/useFileService";
 import { Link, useNavigate } from "react-router-dom";
 import { Upload } from "../../types/data";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-
+import logoCircle from '../../assets/saintlogocircle.png'
 const Index = () => {
   const {uploadFile,getAllFiles} = useFileService()
   const navigate = useNavigate();
@@ -137,6 +137,53 @@ const Index = () => {
         )}
 
         {!isMobile && (
+          <div className="flex">
+                          <div id="sideBar" className="w-[10%] pt-10 min-h-full flex flex-col justify-between  ">
+                  <div>
+                  <div className="flex items-center space-x-2">
+                    <div id="left">
+                        <img className=" w-8" src={logoCircle}/>
+                    </div>
+                    <div id="right" className="flex flex-col  justify-center">
+                    <h1>SaintAI </h1>
+                    <h1 className=" text-slate-600">Dashboard</h1>
+                    </div>
+                  </div>
+                  <ul className="flex flex-col space-y-2 mt-2">
+                    <li onClick={()=>{navigate("/")}} className={` cursor-pointer py-2 rounded-full  flex px-2 space-x-2 ${window.location.pathname=="/"?"bg-[#333333]":""} `}>  <img src="/icons/generic.svg" className="mr-2"/> Generic</li>
+                    <li onClick={()=>{navigate("/loaddata")}} className={` cursor-pointer py-2 rounded-full  flex px-2 space-x-2 ${window.location.pathname=="/loaddata"?"bg-[#333333]":""} `}> <img src="/icons/personal.svg" className="mr-2"/> Personal</li>
+                    <li onClick={()=>{navigate("/")}} className={` cursor-pointer py-2 rounded-full  flex px-2 space-x-2 ${window.location.pathname=="/mine"?"bg-[#333333]":""} `}> <img src="/icons/mine.svg" className="mr-2"/> Mine</li>
+                  </ul>
+                  </div>
+                  <div>
+                    <button onClick={()=>{navigate("/profile")}} className="text-center w-full p-2 rounded-full bg-[#333333]">
+                      Profile
+                    </button>
+                  </div>
+                </div>
+              <div id="sideBar" className="w-[10%] pt-10 min-h-full flex flex-col justify-between  ">
+                  <div>
+                  <div className="flex items-center space-x-2">
+                    <div id="left">
+                        <img className=" w-8" src={logoCircle}/>
+                    </div>
+                    <div id="right" className="flex flex-col  justify-center">
+                    <h1>SaintAI </h1>
+                    <h1 className=" text-slate-600">Dashboard</h1>
+                    </div>
+                  </div>
+                  <ul className="flex flex-col space-y-2 mt-2">
+                    <li onClick={()=>{navigate("/")}} className={` cursor-pointer py-2 rounded-full  flex px-2 space-x-2 ${window.location.pathname=="/"?"bg-[#333333]":""} `}>  <img src="/icons/generic.svg" className="mr-2"/> Generic</li>
+                    <li onClick={()=>{navigate("/loaddata")}} className={` cursor-pointer py-2 rounded-full  flex px-2 space-x-2 ${window.location.pathname=="/loaddata"?"bg-[#333333]":""} `}> <img src="/icons/personal.svg" className="mr-2"/> Personal</li>
+                    <li onClick={()=>{navigate("/")}} className={` cursor-pointer py-2 rounded-full  flex px-2 space-x-2 ${window.location.pathname=="/mine"?"bg-[#333333]":""} `}> <img src="/icons/mine.svg" className="mr-2"/> Mine</li>
+                  </ul>
+                  </div>
+                  <div>
+                    <button onClick={()=>{navigate("/profile")}} className="text-center w-full p-2 rounded-full bg-[#333333]">
+                      Profile
+                    </button>
+                  </div>
+                </div>
           <div
             id="sideBar"
             className="relative w-1/4 bg-purple bg-opacity-40 h-full overflow-hidden"
@@ -159,7 +206,7 @@ const Index = () => {
                 }
             </ul>
           </div>
-        )}
+       </div> )}
 
         <div
           id="right"

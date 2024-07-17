@@ -6,7 +6,6 @@ const index = () => {
   const data = useAppSelector((state)=>{return state.widget.genericType})
   return (
     <div className=''>
-     
       {data==="generic1"?<Generic1/>:<Generic2/>}
     </div>
   )

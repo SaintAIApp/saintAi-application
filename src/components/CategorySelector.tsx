@@ -11,14 +11,14 @@ const index = () => {
   const {curCategory,genericType} = useAppSelector((state)=>{return state.widget});
   return (
     <div className="  left-0  w-full  pb-3 z-50 ">
-          <ul className="w-full  text-sm h-full  flex justify-center text-white space-x-5  cursor-pointer  ">
+          <ul className="w-full  text-sm h-full  flex justify-start text-white space-x-5  cursor-pointer  ">
               <li
                 className={`${
                   curCategory === "stocks" ? "font-semibold text-[#17B982]" : ""
-                } px-2 py-1 flex items-center`}
+                } px-3 py-2 flex items-center rounded-full`}
                 style={{
-                  borderBottom:
-                    curCategory === "stocks" ? "1px solid #17B982" : "",
+                  background:
+                    curCategory === "stocks" ? "#292929" : "",
                 }}
                 onClick={() => dispatch(updateCurCategory({curCategory:"stocks",genericType}))}
               >
@@ -27,10 +27,10 @@ const index = () => {
               <li
                 className={`${
                   curCategory === "crypto" ? "font-semibold text-[#CC9900]" : ""
-                } px-2 py-1 flex items-center`}
+                } px-2 py-1 flex items-center rounded-full`}
                 style={{
-                  borderBottom:
-                    curCategory === "crypto" ? "1px solid #CC9900" : "",
+                  background:
+                    curCategory === "crypto" ? "#292929" : "",
                 }}
                 onClick={() => dispatch(updateCurCategory({curCategory:"crypto",genericType}))}
 
@@ -40,25 +40,13 @@ const index = () => {
                     curCategory === "crypto" ? "#CC9900" : "",
                 }}/>   Crypto
               </li>
-              {/* <li
-                className={`${
-                  curCategory === "forex" ? "font-semibold text-[#C0C0C0]" : ""
-                } px-2 py-1 flex items-center`}
-                style={{
-                  borderBottom:
-                    curCategory === "forex" ? "1px solid #C0C0C0" : "",
-                }}
-                onClick={() => dispatch(updateCurCategory({curCategory:"forex",genericType}))}
-
-              >
-              <FaDollarSign className="mr-2"/>   Forex
-              </li> */}
+          
               <li
                 className={`${
                   curCategory === "news" ? "font-semibold text-blue" : ""
-                } px-2 py-1 flex items-center`}
+                } px-2 py-1 flex items-center rounded-full`}
                 style={{
-                  borderBottom: curCategory === "news" ? "1px solid #016FC8" : "",
+                  background: curCategory === "news" ? "#292929" : "",
                 }}
                 onClick={() => dispatch(updateCurCategory({curCategory:"news",genericType}))}
 
@@ -68,6 +56,9 @@ const index = () => {
 
 
             </ul>
+            <div>
+              
+            </div>
     </div>
   )
 }

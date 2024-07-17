@@ -7,25 +7,27 @@ import {
   closestCorners,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-
 import { Column } from "../../components/Column";
 import { useEffect, useState } from "react";
 import ChatBox from "../../components/Chat/ChatBox";
-
-
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import logoCircle from "../../assets/saintlogocircle.png";
-import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { jwtDecode } from "jwt-decode";
 import useFinanceService from "../../hooks/useFinance";
 import Loader from "../../components/Loader";
 import { updateCurCategory } from "../../redux/slices/widgetSlice";
+import LoginPage from "../Auth/Login";
+import Signup from "../Auth/SignUp";
+import VerifyOtp from "../Auth/OTP";
+import CategorySelector from "../../components/CategorySelector";
+import SideBar from "../../components/SideBar";
 
 const Generic1 = () => {
   const { getStocksData, getCryptoData, getNewsData } = useFinanceService();
   const dispatch = useAppDispatch();
-  //Authentication
+
+  // Authentication
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const store = useAppSelector((state) => state);
   const { auth: authObject, widget } = store;
@@ -33,10 +35,9 @@ const Generic1 = () => {
   const location = useLocation();
 
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(true);
-
   const [graphSelected, setGraphSelected] = useState<any>(null);
   const [list, setList] = useState<any[]>([]);
-
+  const [currentModal, setCurrentModal] = useState("login");
   const [isDataLoading, setIsDataLoading] = useState(false);
 
   const fetchCategoryData = async (category: string) => {
@@ -54,7 +55,12 @@ const Generic1 = () => {
           res = await getNewsData();
           break;
         default:
-          dispatch(updateCurCategory({curCategory:"stocks",genericType:"generic1"}))
+          dispatch(
+            updateCurCategory({
+              curCategory: "stocks",
+              genericType: "generic1",
+            })
+          );
           res = await getStocksData();
           break;
       }
@@ -67,18 +73,20 @@ const Generic1 = () => {
       setIsDataLoading(false);
     }
   };
+
   useEffect(() => {
     window.scrollTo({ top: 0 });
     const queryParams = new URLSearchParams(location.search);
     const category = queryParams.get("category");
     if (category !== null) {
       fetchCategoryData(category);
-    } else {  fetchCategoryData(curCategory);}
+    } else {
+      fetchCategoryData(curCategory);
+    }
   }, [curCategory]);
 
   useEffect(() => {
     window.innerWidth <= 768 && setIsChatBoxOpen(false);
-    //   changeCategory(curCategory);
   }, [graphSelected]);
 
   const sensors = useSensors(
@@ -92,7 +100,6 @@ const Generic1 = () => {
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
-    console.log(active + " " + over);
 
     if (active._id === over._id) return;
 
@@ -122,46 +129,50 @@ const Generic1 = () => {
   }, [authObject]);
 
   return (
-    <section className={`overflow-x-hidden `}>
-      {!isLoggedIn && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-[2px]">
-          <div className="text-center text-white flex justify-center flex-col items-center">
-            <LockClosedIcon height={40} width={40} />
-            <h1>Please log in to access this content.</h1>
-            <Link to="/login" className=" bg-primary rounded-md px-5 py-1 mt-2">
-              Login
-            </Link>
-          </div>
-        </div>
-      )}{" "}
-      {/* Show the overlay if not logged in */}
-      <div className={` h-full `}>
-        {isDataLoading ? (
-          <Loader />
-        ) : (
-          <div
-            className={` flex flex-col md:flex-row items-start justify-between `}
-          >
-            <div className=" z-20  w-full md:w-[60%]">
-              <DndContext
-                sensors={sensors}
-                collisionDetection={closestCorners}
-                onDragEnd={handleDragEnd}
-              >
-                <Column
-                  setGraphSelected={setGraphSelected}
-                  setIsChatBoxOpen={setIsChatBoxOpen}
-                  curCategory={curCategory}
-                  list={list}
-                />
-              </DndContext>
-            </div>
-            <div className="w-full z-[90] relative md:w-[40%] md:fixed right-10">
-              <ChatBox setIsOpen={setIsChatBoxOpen} isOpen={isChatBoxOpen} />
+    <section className="overflow-x-hidden flex flex-row space-x-3">
+      {window.innerWidth >= 768 &&  <SideBar />
+
+
+      }
+      <div className="w-full md:w-4/5 h-full">
+        {location.pathname === "/" && <CategorySelector />}
+        {!isLoggedIn && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+            <div className="text-center text-white flex flex-col items-center">
+              {currentModal === "login" ? (
+                <LoginPage setCurrentModal={setCurrentModal} />
+              ) : currentModal === "signup" ? (
+                <Signup setCurrentModal={setCurrentModal} />
+              ) : (
+                <VerifyOtp setCurrentModal={setCurrentModal} />
+              )}
             </div>
           </div>
         )}
-        {
+        <div className="h-full">
+          {isDataLoading ? (
+            <Loader />
+          ) : (
+            <div className="flex flex-col md:flex-row items-start justify-between ">
+              <div className="z-20 w-full md:w-[60%] ">
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCorners}
+                  onDragEnd={handleDragEnd}
+                >
+                  <Column
+                    setGraphSelected={setGraphSelected}
+                    setIsChatBoxOpen={setIsChatBoxOpen}
+                    curCategory={curCategory}
+                    list={list}
+                  />
+                </DndContext>
+              </div>
+              <div className="w-full z-90 relative md:w-[40%] md:fixed right-10">
+                <ChatBox setIsOpen={setIsChatBoxOpen} isOpen={isChatBoxOpen} />
+              </div>
+            </div>
+          )}
           <button
             onClick={() => {
               setIsChatBoxOpen((prev) => !prev);
@@ -170,11 +181,11 @@ const Generic1 = () => {
           >
             <img
               src={logoCircle}
-              className="h-10 w-10 object-contain  md:h-12 md:w-12 bg-black rounded-full "
+              className="h-10 w-10 object-contain md:h-12 md:w-12 bg-black rounded-full"
               alt="Chat Button"
             />
           </button>
-        }
+        </div>
       </div>
     </section>
   );

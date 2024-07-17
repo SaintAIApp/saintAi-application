@@ -3,11 +3,11 @@ import ChatItem from "./ChatItem";
 import { IoIosSend } from "react-icons/io";
 import { BiConversation } from "react-icons/bi";
 import logo from "../../assets/saintailogo.png";
-import SaintSampleFile from "../../assets/saintai.pdf";
+
 import useFileService from "../../hooks/useFileService";
 
 
-import { notify } from "../../utils/notify";
+
 
 const ChatBox: React.FC<{
   isOpen: boolean;
@@ -24,7 +24,7 @@ const ChatBox: React.FC<{
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   
-  const { uploadFile, sendMessage, getAllFiles, getChatHistory } = useFileService();
+  const {  sendMessageTrade, getAllFiles, getChatHistory } = useFileService();
 
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -87,31 +87,30 @@ const ChatBox: React.FC<{
   const handleSendMessage = async () => {
     if (chat.trim() === "") return;
 
-    let uploadId = localStorage.getItem("UPLOAD_ID");
     try {
-      if (!uploadId) {
-        const fileResponse = await fetch(SaintSampleFile);
-        const fileBlob = await fileResponse.blob();
-        const formData = new FormData();
-        formData.append("file", fileBlob);
-        formData.append("name", "SAINT_AI");
-        formData.append("featureId", import.meta.env.VITE_UPLOAD_DOC_FEATURE_ID);
-        try {
-          const res = await uploadFile(formData);
-          uploadId = res.data?.data?._id;
-          localStorage.setItem("UPLOAD_ID", uploadId!);
-          localStorage.setItem("AGENT_ID", res.data?.data?._agentId);
-        } catch (error:any) {
-          notify(error.message,false);
-          return;
-        }
-        // await fetchFile(uploadId!);
-      }
+      // if (!uploadId) {
+      //   const fileResponse = await fetch(SaintSampleFile);
+      //   const fileBlob = await fileResponse.blob();
+      //   const formData = new FormData();
+      //   formData.append("file", fileBlob);
+      //   formData.append("name", "SAINT_AI");
+      //   formData.append("featureId", import.meta.env.VITE_UPLOAD_DOC_FEATURE_ID);
+      //   try {
+      //     const res = await uploadFile(formData);
+      //     uploadId = res.data?.data?._id;
+      //     localStorage.setItem("UPLOAD_ID", uploadId!);
+      //     localStorage.setItem("AGENT_ID", res.data?.data?._agentId);
+      //   } catch (error:any) {
+      //     notify(error.message,false);
+      //     return;
+      //   }
+      //   // await fetchFile(uploadId!);
+      // }
 
       setIsResponseLoading(true);
       setChats((prev) => [...prev, { user: chat, agent: "Processing..." }]);
       
-      const res = await sendMessage(uploadId!, chat);
+      const res = await sendMessageTrade( chat);
       
       if (res.status === 200) {
         setChats((prev) => {
@@ -139,8 +138,8 @@ const ChatBox: React.FC<{
 
   return (
     <div
-      className={`fixed inset-0 md:inset-auto md:right-10 md:bottom-10 md:w-[400px] md:h-[80vh] 
-                  flex flex-col bg-dark shadow-2xl rounded-xl z-[65] ${className}`}
+      className={`fixed inset-0  md:inset-auto md:right-10 md:bottom-10 md:w-[400px] md:h-[80vh] 
+                  flex flex-col bg-dark shadow-2xl rounded-xl z-[10005] ${className}`}
       style={{
         border: "1.2px solid #333",
         visibility: isOpen ? "visible" : "hidden",
