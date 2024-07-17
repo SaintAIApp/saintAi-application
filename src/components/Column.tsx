@@ -1,4 +1,3 @@
-
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -15,7 +14,6 @@ export const Column = ({
   setIsChatBoxOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   setGraphSelected?: React.Dispatch<React.SetStateAction<any>>;
 }) => {
-
   return (
     <div className="column w-full flex justify-center flex-col items-center md:items-start mb-2 ">
       {curCategory === "news" && (
@@ -37,11 +35,17 @@ export const Column = ({
         </div>
       )}
 
-      {(curCategory === "stocks" || curCategory==="crypto" )&& (
-        <SortableContext items={list} strategy={verticalListSortingStrategy}>
-          {list.map((data: any,index:number) => (
-            <StockChart key={index} data={data} />
-          ))}
+      {(curCategory === "stocks" || curCategory === "crypto") && (
+        <SortableContext
+          items={list || []}
+          strategy={verticalListSortingStrategy}
+        >
+          {!list
+            ? null
+            : list?.map((data: any, index: number) => (
+                <StockChart key={index} data={data} />
+              ))}
+          {console.log(list)}
         </SortableContext>
       )}
     </div>
