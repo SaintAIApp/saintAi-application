@@ -59,6 +59,7 @@ const useWalletService = () => {
           connectWallet({
             wallet: {
               walletNetwork: "metamask",
+              walledId:""
             },
           })
         );
@@ -81,6 +82,7 @@ const useWalletService = () => {
           connectWallet({
             wallet: {
               walletNetwork: "solana",
+             
             },
           })
         );
@@ -102,7 +104,7 @@ const useWalletService = () => {
           method: "eth_accounts",
         });
         if (accounts.length > 0) {
-          dispath(connectWallet({ wallet: { walledId: accounts[0] } }));
+          dispatch(connectWallet({ wallet: { walledId: accounts[0],walletNetwork:"" } }));
         } else {
           console.log("Connect to wallet");
         }
@@ -119,7 +121,7 @@ const useWalletService = () => {
     if (typeof window != "undefined" && typeof window.ethereum != "undefined") {
       //@ts-ignore
       window.ethereum.on("accountsChanged", (account) => {
-        dispath(connectWallet({ wallet: { walledId: account[0] } }));
+        dispatch(connectWallet({ wallet: { walledId: account[0],walletNetwork:"" } }));
       });
     } else {
       notify("Please install metamask wallet", false);
