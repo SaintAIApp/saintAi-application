@@ -16,7 +16,7 @@ export const signupService = async (username: string, email: string, password: s
         const res = await api.post("/user/signup", { username, email, password });
         return res.data;
     } catch (err: any) {
-        throw {
+    throw {
             message: err.response?.data?.message || "Something went wrong!",
         };
     }

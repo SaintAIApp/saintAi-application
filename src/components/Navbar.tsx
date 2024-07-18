@@ -1,25 +1,22 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useWalletService from "../hooks/useWallet";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import ConnectModal from "./ConnectModal";
 import NavMenu from "./NavMenu";
 import { IoMenu, IoWallet } from "react-icons/io5";
-import CategorySelector from "../components/CategorySelector";
-
 import logo from "../assets/saintailogo.png";
 import { updateGenericType } from "../redux/slices/widgetSlice";
-
+import CategorySelector from "../components/CategorySelector";
 const Navbar = () => {
   const dispatch = useAppDispatch();
-  const location = useLocation();
+  const navigate = useNavigate();
   const { wallet } = useAppSelector((state) => state.wallet);
   const { disconnect } = useWalletService();
-  const { token, user } = useAppSelector((state) => state.auth);
-  const { genericType, curCategory } = useAppSelector((state) => {
-    return state.widget;
-  });
+
+  const { curCategory, genericType } = useAppSelector((state) => state.widget);
   const [isMobile, setIsMobile] = useState(false);
+  const { token, user } = useAppSelector((state) => state.auth);
 
   const handleDisconnectWallet = () => {
     disconnect();
@@ -43,18 +40,17 @@ const Navbar = () => {
   console.log(location.pathname);
 
   return (
-    <div className="bg-[#0008] px-[3vw] max-md:px-5 lg:px-[3vw] w-full fixed top-0 z-[90] py-4 backdrop-blur-3xl">
+    <div className="bg-[#0008] px-[3vw] max-md:px-5 lg:px-[3vw] py-4 w-full fixed left-0 top-0 z-[90] flex items-center justify-between h-12 backdrop-blur-3xl">
       {isMobile ? (
-        <div className="flex flex-col space-y-3">
-          <div className="flex justify-between">
+        <div className="flex flex-col w-full space-y-3">
+          <div className="flex w-full justify-between">
             <div id="left">
               <Link to={"/"}>
                 <img src={logo} className="h-5" />
-                {/* <h1 className="font-heading text-white text-lg">  </h1> */}
               </Link>
             </div>
             <div id="right" className="flex items-center">
-              <ul className="flex items-center space-x-3">
+              <ul className="flex justify-between items-center space-x-3">
                 <li>
                   {!wallet ? (
                     <ConnectModal
@@ -90,13 +86,12 @@ const Navbar = () => {
           {location.pathname == "/" && <CategorySelector />}
         </div>
       ) : (
-        <div className="flex flex-col ">
-          <div className="flex items-center justify-between top">
+        <>
+          <div>
             <div id="left">
               <Link to={"/"}>
                 <img src={logo} className="h-8" />
               </Link>
-              {/* <h1 className="font-heading text-white text-lg">SaintAi</h1> */}
             </div>
 
             <div id="right" className="flex items-center">
@@ -138,12 +133,22 @@ const Navbar = () => {
                   </>
                 )}
                 <li>
+                  <button
+                    onClick={() => {
+                      navigate("/pricing");
+                    }}
+                    className=" bg-[#333] text-white px-4 mr-2 py-2 rounded-full"
+                  >
+                    Pricing
+                  </button>
+                </li>
+                <li>
                   {!wallet ? (
                     <ConnectModal
                       triggerButton={
-                        <div className="bg-[#2f2e38] space-x-1 md:space-x-2 text-sm font-thin text-white rounded-md md:px-3 md:py-2 px-1 py-1 flex items-center">
+                        <div className="bg-[#fff] space-x-1 md:space-x-2 text-sm font-thin text-black rounded-full md:px-3 md:py-2 px-1 py-1 flex items-center">
                           <span className="">Connect Wallet</span>
-                          <IoWallet size={20} />
+                          {/* <IoWallet size={20} /> */}
                         </div>
                       }
                     />
@@ -154,22 +159,6 @@ const Navbar = () => {
                     >
                       Disconnect
                     </button>
-                  )}
-                </li>
-                <li>
-                  {token && user && (
-                    // <AvatarDropDown
-                    //   triggerButton={
-                    //     <button className="rounded-full flex items-center">
-                    //       <img
-                    //         className="h-8 w-8"
-                    //         src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-                    //         alt="User Avatar"
-                    //       />
-                    //     </button>
-                    //   }
-                    // />
-                    <Link to={"/profile"}>Profile</Link>
                   )}
                 </li>
               </ul>
@@ -218,7 +207,7 @@ const Navbar = () => {
               <CategorySelector />
             </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

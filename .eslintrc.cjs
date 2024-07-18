@@ -10,16 +10,12 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'react-refresh/only-export-components': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
->>>>>>> 11e6f07 (api is added crypto)
-=======
     'react-refresh/only-export-components': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
->>>>>>> recovery-branch
+    'react-refresh/only-export-components': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

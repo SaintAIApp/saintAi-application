@@ -20,7 +20,7 @@ const useWalletService = () => {
   } = useWallet();
   const { disconnectAsync } = useDisconnect();
   const { connectors, connectAsync } = useConnect();
-
+  console.log(publicKey?.toString(), address, "addressaddressaddress");
   const cryptoSigin = async ({ chainId, networkName, walletAddress }: any) => {
     await axios({
       url: "https://saintai-backend.onrender.com/api/v1/user/crypto-signin",
