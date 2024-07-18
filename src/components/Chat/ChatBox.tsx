@@ -14,14 +14,17 @@ const ChatBox: React.FC<{
 }> = ({ className = "", isOpen, setIsOpen }) => {
   const [chats, setChats] = useState<any[]>([]);
   const [chat, setChat] = useState("");
-  const [isHistoryLoading, setIsHistoryLoading] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isHistoryLoading, setIsHistoryLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [isResponseLoading, setIsResponseLoading] = useState(false);
 
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { sendMessageTrade, getAllFiles, getChatHistory } = useFileService();
+  const { sendMessageTrade, 
+    // getAllFiles, getChatHistory
+  
+  } = useFileService();
 
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -35,50 +38,50 @@ const ChatBox: React.FC<{
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const uploadId = localStorage.getItem("UPLOAD_ID");
-      if (uploadId) {
-        await fetchChatHistory(uploadId);
-      } else {
-        fetchUploadId();
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const uploadId = localStorage.getItem("UPLOAD_ID");
+  //     if (uploadId) {
+  //       // await fetchChatHistory(uploadId);
+  //     } else {
+  //       fetchUploadId();
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
-  const fetchUploadId = async () => {
-    setIsLoading(true);
-    try {
-      const res = await getAllFiles();
-      if (res.status === 200) {
-        res.data?.data?.map((e: any) => {
-          if (e.name === "SAINT_AI") {
-            localStorage.setItem("UPLOAD_ID", e._id);
-          }
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // const fetchUploadId = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const res = await getAllFiles();
+  //     if (res.status === 200) {
+  //       res.data?.data?.map((e: any) => {
+  //         if (e.name === "SAINT_AI") {
+  //           localStorage.setItem("UPLOAD_ID", e._id);
+  //         }
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  const fetchChatHistory = async (uploadId: string) => {
-    try {
-      setIsHistoryLoading(true);
-      const res = await getChatHistory(uploadId);
-      if (res.status === 200) {
-        setChats(res.data.data);
-      }
-    } catch (error) {
-      setChats([]);
-      console.log(error);
-    } finally {
-      setIsHistoryLoading(false);
-    }
-  };
+  // const fetchChatHistory = async (uploadId: string) => {
+  //   try {
+  //     setIsHistoryLoading(true);
+  //     const res = await getChatHistory(uploadId);
+  //     if (res.status === 200) {
+  //       setChats(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     setChats([]);
+  //     console.log(error);
+  //   } finally {
+  //     setIsHistoryLoading(false);
+  //   }
+  // };
 
   const handleSendMessage = async () => {
     if (chat.trim() === "") return;
@@ -134,9 +137,9 @@ const ChatBox: React.FC<{
     }
   };
 
-  if (isLoading) {
-    return <div className="text-white">Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div className="text-white">Loading...</div>;
+  // }
 
   return (
     <div
@@ -165,18 +168,18 @@ const ChatBox: React.FC<{
       </div>
 
       <div ref={chatBodyRef} className="flex-grow overflow-y-auto px-4 py-2">
-        {isHistoryLoading && (
+        {true && (
           <div className="flex items-center justify-center h-full flex-col">
             <h1>Loading chat history...</h1>
           </div>
         )}
-        {chats.length === 0 && !isHistoryLoading && (
+        {chats.length === 0 && !false && (
           <div className="flex items-center justify-center h-full flex-col">
             <BiConversation className="text-lg md:text-3xl" />
             <h1>Start the conversation with SaintAI</h1>
           </div>
         )}
-        {!isHistoryLoading &&
+        {!false &&
           chats.map((chat, index) => (
             <div key={index}>
               <ChatItem sender={"Me"} message={chat.user} />
