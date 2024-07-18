@@ -12,7 +12,7 @@ const index = () => {
   });
   return (
     <div className="  left-0  w-full  pb-3 z-50 ">
-      <ul className="w-full  text-sm h-full  flex justify-start text-white space-x-5  cursor-pointer  ">
+      <ul className="w-full  text-sm h-full  flex justify-start text-white space-x-2 md:space-x-5  cursor-pointer  ">
         <li
           className={`${
             curCategory === "stocks" ? "font-semibold text-[#17B982]" : ""
