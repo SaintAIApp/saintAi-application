@@ -39,8 +39,8 @@ const Navbar = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  console.log(window.innerWidth)
-  console.log(location.pathname)
+  console.log(window.innerWidth);
+  console.log(location.pathname);
 
   return (
     <div className="bg-[#0008] px-[3vw] max-md:px-5 lg:px-[3vw] w-full fixed top-0 z-[90] py-4 backdrop-blur-3xl">
@@ -87,7 +87,7 @@ const Navbar = () => {
               </ul>
             </div>
           </div>
-            {location.pathname=="/" && <CategorySelector />}
+          {location.pathname == "/" && <CategorySelector />}
         </div>
       ) : (
         <div className="flex flex-col ">
@@ -115,23 +115,26 @@ const Navbar = () => {
                 )}
                 {token && (
                   <>
-
-<li>
-          <Link
-            className={`nav-link px-1 py-2 ${location.pathname === '/' ? 'active' : ''}`}
-            to="/"
-          >
-            Generic
-          </Link>
-        </li>
-        <li>
-          <Link
-            className={`nav-link px-1 py-2 ${location.pathname === '/loaddata' ? 'active' : ''}`}
-            to="/loaddata"
-          >
-            Manual upload
-          </Link>
-        </li>
+                    <li>
+                      <Link
+                        className={`nav-link px-1 py-2 ${
+                          location.pathname === "/" ? "active" : ""
+                        }`}
+                        to="/"
+                      >
+                        Generic
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className={`nav-link px-1 py-2 ${
+                          location.pathname === "/loaddata" ? "active" : ""
+                        }`}
+                        to="/loaddata"
+                      >
+                        Manual upload
+                      </Link>
+                    </li>
                   </>
                 )}
                 <li>
@@ -170,12 +173,11 @@ const Navbar = () => {
                   )}
                 </li>
               </ul>
-              
             </div>
           </div>
           {location.pathname == "/" && (
             <div className="bottom mt-4 flex flex-col space-y-2 ">
-              {window.innerWidth>768 && (
+              {window.innerWidth > 768 && (
                 <div className="flex w-full justify-center space-x-3">
                   <button
                     className={`${
