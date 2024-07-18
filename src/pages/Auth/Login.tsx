@@ -27,6 +27,7 @@ const Login = ({setCurrentModal,setIsLoggedIn}:{setCurrentModal: any,setIsLogged
       // setCurrentModal(null)
       navigate("/");
     } catch (error:any) {
+        alert("Invalid Credentials")
         notify(error.message,false)
     } finally {
       setIsLoading(false);

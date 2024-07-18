@@ -1,3 +1,4 @@
+import axios from "axios";
 import useAxios from "./useAxios";
 const useFileService = () => {
   const api = useAxios();
@@ -52,12 +53,20 @@ const useFileService = () => {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
   };
-  const sendMessageTrade = async (body: string) => {
+  const sendMessageTrade = async (body: string,userId:string) => {
     try {
-      const res = await api.post(
+      const res = await axios.post(
         import.meta.env.VITE_FAST_API_URL + "/chat_with_trade_data",
-        { user_msg: body }
+        { user_msg: body,user_id:userId }
       );
+      return res;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || "Something went wrong");
+    }
+  };
+  const getChatHistoryTrade = async (user_id: string) => {
+    try {
+      const res = await axios.post(import.meta.env.VITE_FAST_API_URL+"/get_chat_history_trade_data/" ,{user_id});
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
@@ -72,6 +81,7 @@ const useFileService = () => {
     sendMessage,
     deleteFile,
     sendMessageTrade,
+    getChatHistoryTrade
   };
 };
 export default useFileService;
