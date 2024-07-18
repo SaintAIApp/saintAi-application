@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom"
-import logoCircle from "../assets/saintlogocircle.png"
 import { Upload } from "../types/data";
 import { useMemo, useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
@@ -11,6 +10,7 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
     setSelectedFileId?:any,
     selectedFileId?:string|null
 }) => {
+ 
     const navigate = useNavigate();
     const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
@@ -133,21 +133,19 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
     );
   };
   return (
-    <div id="sideBar" className="md:w-60  lg:w-72 pt-10 flex flex-col justify-between">
-    <div>
-      <div className="flex items-center space-x-2">
-        <div id="left">
-          <img className="w-8" src={logoCircle} alt="Logo" />
-        </div>
-        <div id="right" className="flex flex-col justify-center">
-          <h1>SaintAI</h1>
-          <h1 className="text-slate-600">Dashboard</h1>
-        </div>
-      </div>
-      <ul className="flex flex-col space-y-2 mt-2">
-      <li onClick={() => { navigate("/") }} className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/" ? "bg-[#333333]" : ""}`}>
-        <img src="/icons/generic.svg" className="mr-2" alt="Generic" /> Generic
-      </li>
+    <div id="sideBar" className="h-full pt-8 pl-[3vw] flex flex-col justify-between">
+    <div className="flex-grow">
+      <ul className="flex flex-col space-y-2">
+        <li
+          onClick={() => {
+            navigate("/");
+          }}
+          className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${
+            window.location.pathname === "/" ? "bg-[#333333]" : ""
+          }`}
+        >
+          <img src="/icons/generic.svg" className="mr-2" alt="Generic" /> Generic
+        </li>
       {files?<li className="cursor-pointer">
         <div
           onClick={() => toggleCategory("Personal")}
@@ -176,18 +174,30 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
       </li>:  <li onClick={() => { navigate("/loaddata") }} className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/loaddata" ? "bg-[#333333]" : ""}`}>
         <img src="/icons/personal.svg" className="mr-2" alt="Personal" /> Personal
       </li>}
-      <li onClick={() => { navigate("/") }} className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/mine" ? "bg-[#333333]" : ""}`}>
-        <img src="/icons/mine.svg" className="mr-2" alt="Mine" /> Mine
-      </li>
-    </ul>
+      <li
+            onClick={() => {
+              navigate("/mine");
+            }}
+            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${
+              window.location.pathname === "/mine" ? "bg-[#333333]" : ""
+            }`}
+          >
+            <img src="/icons/mine.svg" className="mr-2" alt="Mine" /> Mine
+          </li>
+        </ul>
+      </div>
+      <div className="mt-auto pb-4">
+        <button
+          onClick={() => {
+            navigate("/profile");
+          }}
+          className="text-center w-full p-2 rounded-full bg-[#333333]"
+        >
+          Profile
+        </button>
+      </div>
     </div>
-    <div className="">
-      <button onClick={() => { navigate("/profile") }} className="text-center w-full p-2 rounded-full bg-[#333333]">
-        Profile
-      </button>
-    </div>
-  </div>
-  )
-}
+  );
+};
 
-export default SideBar
+export default SideBar;

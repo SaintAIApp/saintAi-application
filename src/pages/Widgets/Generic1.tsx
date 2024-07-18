@@ -21,7 +21,7 @@ import LoginPage from "../Auth/Login";
 import Signup from "../Auth/SignUp";
 import VerifyOtp from "../Auth/OTP";
 import CategorySelector from "../../components/CategorySelector";
-import SideBar from "../../components/SideBar";
+
 
 const Generic1 = () => {
   const { getStocksData, getCryptoData, getNewsData } = useFinanceService();
@@ -113,6 +113,7 @@ const Generic1 = () => {
 
   useEffect(() => {
     const { user, token } = authObject;
+    console.log(authObject)
     if (!token || (user && !user.isActive)) {
       setIsLoggedIn(false);
     } else {
@@ -129,11 +130,8 @@ const Generic1 = () => {
   }, [authObject]);
 
   return (
-    <section className="overflow-x-hidden flex flex-row space-x-3">
-      {window.innerWidth >= 768 &&  <SideBar />
-
-
-      }
+    <section className="overflow-x-hidden min-h-screen  flex flex-row space-x-3">
+    
       <div className="w-full md:w-4/5 h-full">
         {location.pathname === "/" && <CategorySelector />}
         {!isLoggedIn && (

@@ -2,21 +2,19 @@ import { createBrowserRouter } from "react-router-dom";
 import { Suspense, lazy } from "react";
 // import { ProtectedRoute } from "./protectedRoute";
 import App from "../App";
-// import LoadData from "../pages/LoadData2";
 import { ProtectedRoute } from "./ProtectedRoutes";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
+import SidebarLayout from "../layouts/SidebarLayout";
+import DefaultLayout from "../layouts";
+import LoadDataWrapper from "../components/LoadDataWrapper";
 
 // Lazy Loading all the pages
-// const LandingPage = lazy(():any => import("../pages/Landing"));
+
 const NotFound = lazy((): any => import("../pages/NotFound"));
 const Loader = lazy((): any => import("../components/Loader"));
-
-// const Login = lazy((): any => import("../pages/Auth/Login"));
-// const SignUp = lazy((): any => import("../pages/Auth/SignUp"));
-const LoadData = lazy((): any => import("../pages/LoadData2"));
 const VerifyOTP = lazy((): any => import("../pages/Auth/OTP"));
 const WidgetsPage = lazy(()=>import("../pages/Widgets"));
-const News = lazy(()=>import("../pages/News/SingleNews"));
+
 const Pricing = lazy(()=>import("../pages/Pricing"))
 const Mine = lazy(()=>import("../pages/Mine"))
 const PaymentSuccess = lazy(
@@ -28,47 +26,46 @@ const Profile = lazy(() => import("../pages/Profile"));
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <Suspense fallback={<Loader />}>
-        <App />
-      </Suspense>
-    ),
+    element: <App />,
     children: [
       {
         path: "",
         element: (
-          // <ProtectedRoute>
+          <SidebarLayout>
             <Suspense fallback={<Loader />}>
-              < WidgetsPage/>
+              <WidgetsPage />
             </Suspense>
-          // </ProtectedRoute>
+          </SidebarLayout>
         ),
       },
       {
         path: "/profile",
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<Loader />}>
-              <Profile />
-            </Suspense>
+            <DefaultLayout>
+              <Suspense fallback={<Loader />}>
+                <Profile />
+              </Suspense>
+            </DefaultLayout>
           </ProtectedRoute>
         ),
       },
       {
         path: "/pricing",
         element: (
-          <Suspense fallback={<Loader />}>
-            <Pricing />
-          </Suspense>
+          <DefaultLayout>
+            <Suspense fallback={<Loader />}>
+              <Pricing />
+            </Suspense>
+          </DefaultLayout>
         ),
       },
-    
       {
         path: "/loaddata",
         element: (
           <ProtectedRoute>
             <Suspense fallback={<Loader />}>
-              <LoadData />
+              <LoadDataWrapper />
             </Suspense>
           </ProtectedRoute>
         ),
@@ -77,32 +74,15 @@ const router = createBrowserRouter([
         path: "/mine",
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<Loader />}>
-              <Mine/>
-            </Suspense>
+            <SidebarLayout>
+              <Suspense fallback={<Loader />}>
+                <Mine />
+              </Suspense>
+            </SidebarLayout>
           </ProtectedRoute>
         ),
       },
-      {
-        path: "/analysis",
-        element: (
-          // <ProtectedRoute>
-            <Suspense fallback={<Loader />}>
-              <WidgetsPage />
-            </Suspense>
-          // </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/news/:id",
-        element: (
-          <ProtectedRoute>
-            <Suspense fallback={<Loader />}>
-              <News />
-            </Suspense>
-          </ProtectedRoute>
-        ),
-      },
+     
       {
         path: "/verifyOTP",
         element: (

@@ -66,6 +66,7 @@ const OTP = ({setCurrentModal}:{setCurrentModal:any}) => {
             const res = await verifyOTP(Number(otpNumber));
             dispatch(login({user:res.data.data.user,token:res.data.data.token}))
             setIsLoading(false)
+            window.location.reload()
             navigate("/")
         } catch (error:any) {
             console.log(error)
