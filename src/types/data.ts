@@ -34,6 +34,6 @@ export interface IUser {
   otp_expire: Date | undefined;
 }
 export interface Wallet {
-  // walledId: string;
-  walletNetwork: string | undefined;
+  walledId?: string;
+  walletNetwork?: string | undefined;
 }
