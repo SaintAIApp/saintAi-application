@@ -7,6 +7,7 @@ const useAuthService = () => {
   const loginUser = async (email:string,password:string) => {
       try {
         const res = await api.post("/user/login",{email,password});
+        console.log(res)
         return res;
       } catch (error: any) {
         throw new Error(error.response?.data?.message||"Something went wrong")

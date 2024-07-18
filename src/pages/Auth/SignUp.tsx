@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import imgSrc from "../../assets/saintailogo.png";
 import useAuthService from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
@@ -7,8 +7,8 @@ import { validate } from "../../utils/validation";
 import { notify } from "../../utils/notify";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { login } from "../../redux/slices/authSlice";
-const SignUp = ({setCurrentModal}:{setCurrentModal: any}) => {
-  const navigate = useNavigate();
+const SignUp = ({setCurrentModal,setIsLoggedIn}:{setCurrentModal: any,setIsLoggedIn:any}) => {
+
   const dispatch = useAppDispatch();
   const { user, token } = useAppSelector((state) => state.auth);
   const { signup } = useAuthService();
@@ -99,11 +99,11 @@ const SignUp = ({setCurrentModal}:{setCurrentModal: any}) => {
   }, []);
   useEffect(() => {
     if (token) {
-      navigate("/");
+      setIsLoggedIn(true);
       return;
     }
     if (!token && user && !user.isActive) {
-      navigate("/verifyOtp");
+      setCurrentModal("otp");
       return;
     }
   }, []);

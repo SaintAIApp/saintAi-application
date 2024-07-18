@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { login, logout } from "../../redux/slices/authSlice";
 // import NavBar from "../common/NavBar";
 
-const OTP = ({setCurrentModal}:{setCurrentModal:any}) => {
+const OTP = ({setCurrentModal,setIsLoggedIn}:{setCurrentModal:any,setIsLoggedIn:any}) => {
     const {user} = useAppSelector((state)=>{return state.auth});
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -66,7 +66,7 @@ const OTP = ({setCurrentModal}:{setCurrentModal:any}) => {
             const res = await verifyOTP(Number(otpNumber));
             dispatch(login({user:res.data.data.user,token:res.data.data.token}))
             setIsLoading(false)
-            window.location.reload()
+            setIsLoggedIn(true);
             navigate("/")
         } catch (error:any) {
             console.log(error)
