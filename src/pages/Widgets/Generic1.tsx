@@ -37,7 +37,7 @@ const Generic1 = () => {
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(true);
   const [graphSelected, setGraphSelected] = useState<any>(null);
   const [list, setList] = useState<any[]>([]);
-  const [currentModal, setCurrentModal] = useState("login");
+  const [currentModal, setCurrentModal] = useState<string>("login");
   const [isDataLoading, setIsDataLoading] = useState(false);
 
   const fetchCategoryData = async (category: string) => {
@@ -113,8 +113,8 @@ const Generic1 = () => {
 
   useEffect(() => {
     const { user, token } = authObject;
-    console.log(authObject)
     if (!token || (user && !user.isActive)) {
+      console.log("first");
       setIsLoggedIn(false);
     } else {
       try {
@@ -122,6 +122,8 @@ const Generic1 = () => {
         if (decodedToken.expiresIn * 1000 < Date.now()) {
           alert("Session Expired, please login again");
           setIsLoggedIn(false);
+        } else {
+          setIsLoggedIn(true);
         }
       } catch (error) {
         console.error(error);
@@ -138,11 +140,11 @@ const Generic1 = () => {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
             <div className="text-center text-white flex flex-col items-center">
               {currentModal === "login" ? (
-                <LoginPage setCurrentModal={setCurrentModal} />
+                <LoginPage  setIsLoggedIn={setIsLoggedIn} setCurrentModal={setCurrentModal} />
               ) : currentModal === "signup" ? (
-                <Signup setCurrentModal={setCurrentModal} />
+                <Signup setIsLoggedIn={setIsLoggedIn} setCurrentModal={setCurrentModal} />
               ) : (
-                <VerifyOtp setCurrentModal={setCurrentModal} />
+                <VerifyOtp setIsLoggedIn={setIsLoggedIn} setCurrentModal={setCurrentModal} />
               )}
             </div>
           </div>
