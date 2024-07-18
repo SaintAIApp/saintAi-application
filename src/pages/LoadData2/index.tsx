@@ -6,10 +6,16 @@ import useFileService from "../../hooks/useFileService";
 import { Upload } from "../../types/data";
 import { notify } from "../../utils/notify";
 import ChatComponent from "../ViewDocument";
-import SideBar from "../../components/SideBar";
-import SidebarContent from "../../components/LoadDataMobileSideBar";
 
-const FileUploadAndChat: React.FC = () => {
+import SidebarContent from "../../components/LoadDataMobileSideBar";
+interface LoadDataProps {
+  files: Upload[] | null;
+  setFiles: React.Dispatch<React.SetStateAction<Upload[] | null>>;
+  selectedFileId: string | null;
+  setSelectedFileId: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const LoadData: React.FC<LoadDataProps> = ({ files, setFiles, selectedFileId, setSelectedFileId }) => {
   const { uploadFile, getAllFiles, deleteFile } = useFileService();
 
   const [isMobile, setIsMobile] = useState(false);
@@ -18,9 +24,9 @@ const FileUploadAndChat: React.FC = () => {
   const [fileName, setFileName] = useState("");
   const [fileUploadStage, setFileUploadStage] = useState("");
   const [showSideBar, setShowSideBar] = useState(false);
-  const [files, setFiles] = useState<Upload[] | null>(null);
+  // const [files, setFiles] = useState<Upload[] | null>(null);
   const [isFilesLoading, setIsFilesLoading] = useState(false);
-  const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
+  // const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [fileSelectedDelete, setFileSeletedDelete] = useState<string | null>(
@@ -123,7 +129,7 @@ const FileUploadAndChat: React.FC = () => {
   }, [selectedFileId]);
 
   return (
-    <section className=" h-full self-start min-w-[95vw] max-w-[95vw]  ">
+    <section className=" h-full self-start overflow-hidden">
       <div className="flex items-start  relative w-full h-full rounded-xl overflow-hidden md:bg-transparent">
         {isMobile && (
           <div
@@ -166,13 +172,7 @@ const FileUploadAndChat: React.FC = () => {
             />
           </motion.div>
         ) : (
-          <SideBar
-            files={files}
-            handleCancelSubscription={handleCancelSubscription}
-            setFileSeletedDelete={setFileSeletedDelete}
-            setSelectedFileId={setSelectedFileId}
-            selectedFileId={selectedFileId}
-          />
+         <></>
         )}
 
         <div className="w-full md:w-3/4 h-full relative">
@@ -231,4 +231,4 @@ const FileUploadAndChat: React.FC = () => {
   );
 };
 
-export default FileUploadAndChat;
+export default LoadData;

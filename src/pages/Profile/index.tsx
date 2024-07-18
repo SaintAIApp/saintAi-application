@@ -91,7 +91,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <section id="profile" className=" pb-10 font-roboto">
+    <section id="profile" className=" pb-10 font-roboto mt-10">
       {(subscription.plan !== "proPlus" || moment(subscription.validUntil).isBefore(Date.now())) && (
         <div className="w-full  md:py-2 md:px-0 px-2 py-2 border-[0.3px] border-slate-800 rounded-md flex justify-center items-center relative overflow-hidden">
           <div className="z-0 absolute h-64 w-64 bg-shape1 bottom-[-150px] right-20"></div>

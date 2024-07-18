@@ -2,8 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { UserPlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {  FaUser } from "react-icons/fa6";
-
+import { FaUser } from "react-icons/fa6";
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/slices/authSlice";
@@ -30,117 +29,106 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
 
           <>
             <ul className="flex flex-col space-y-3 ">
-              {/* <li
-                className={`flex w-full items-center space-x-3  bg-[#28282f]  p-2 rounded-lg`}
-              >
-                <Dialog.Close>
-                  <a href="/#" className="flex items-center space-x-3">
-                    <GoHome /> <span>Home</span>
-                  </a>
-                </Dialog.Close>
-              </li>
-              <li
-                className={`flex w-full items-center space-x-3  bg-[#28282f]  p-2 rounded-lg`}
-              >
-                <Dialog.Close asChild>
-                  <a href="/#network" className="flex items-center space-x-3">
-                    <IoGlobeOutline /> <span>Network</span>
-                  </a>
-                </Dialog.Close>
-              </li>
-              <li
-                className={`flex w-full items-center space-x-3  bg-[#28282f]  p-2 rounded-lg`}
-              >
-                <Dialog.Close asChild>
-                  <a
-                    className="flex items-center space-x-3"
-                    href={"/#roadmaps"}
-                  >
-                    <GoProjectRoadmap /> <span>Roadmap</span>
-                  </a>
-                </Dialog.Close>
-              </li>
-              <li
-                className={`flex w-full items-center space-x-3
-               bg-[#28282f]  p-2 rounded-lg`}
-              >
-                <Dialog.Close asChild>
-                  <a
-                    className="flex items-center space-x-3"
-                    href={"/#contactus"}
-                  >
-                    <FaMessage /> <span>Contact Us</span>
-                  </a>
-                </Dialog.Close>
-              </li> */}
               {!token && (
-                <li className="bg-[#28282f] flex p-2 rounded-lg">
-                  <Dialog.Close
-                    onClick={() => {
-                      window.scrollTo({ top: 0 });
-                      navigate("/");
-                    }}
-                    className={`flex w-full items-center space-x-3 ${
-                      location.pathname.includes("login")
-                        ? "text-primary font-bold"
-                        : ""
-                    }`}
-                  >
-                    <FaUser />
-                    <span>Login</span>
-                  </Dialog.Close>
-                </li>
-              )}
-              {!token && (
-                <li className="bg-[#28282f] flex p-2 rounded-lg">
-                  <Dialog.Close
-                    onClick={() => {
-                      window.scrollTo({ top: 0 });
-                      navigate("/signup");
-                    }}
-                    className={`flex w-full items-center space-x-3 ${
-                      location.pathname.includes("signup")
-                        ? "text-primary font-bold"
-                        : ""
-                    }`}
-                  >
-                    <UserPlusIcon height={20} width={20} />
-                    <span>Create an account</span>
-                  </Dialog.Close>
-                </li>
-              )}
-              {token && (<>
-                <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
-                  <Dialog.Close
-                    onClick={()=>{navigate("/profile")}}
-                    className={`flex w-full items-center space-x-3 text-white`}
+                <>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg">
+                    <Dialog.Close
+                      onClick={() => {
+                        window.scrollTo({ top: 0 });
+                        navigate("/");
+                      }}
+                      className={`flex w-full items-center space-x-3 ${
+                        location.pathname.includes("login")
+                          ? "text-primary font-bold"
+                          : ""
+                      }`}
                     >
-                    
-                    <span className="w-full">Profile</span>
-                  </Dialog.Close>
-                </li>
-                <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
-                  <Dialog.Close
-                    onClick={()=>{navigate("/loaddata")}}
-                    className={`flex w-full items-center space-x-3 text-white`}
+                      <FaUser />
+                      <span>Login</span>
+                    </Dialog.Close>
+                  </li>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg">
+                    <Dialog.Close
+                      onClick={() => {
+                        window.scrollTo({ top: 0 });
+                        navigate("/signup");
+                      }}
+                      className={`flex w-full items-center space-x-3 ${
+                        location.pathname.includes("signup")
+                          ? "text-primary font-bold"
+                          : ""
+                      }`}
                     >
-                    
-                    <span className="w-full">Custom Upload</span>
-                  </Dialog.Close>
-                </li>
-                    </>
+                      <UserPlusIcon height={20} width={20} />
+                      <span>Create an account</span>
+                    </Dialog.Close>
+                  </li>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                    <Dialog.Close
+                      onClick={() => {
+                        navigate("/pricing");
+                      }}
+                      className={`flex w-full items-center space-x-3 `}
+                    >
+                      <span className="w-full">Pricing</span>
+                    </Dialog.Close>
+                  </li>
+                </>
+              )}
 
+              {token && (
+                <>
+                <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                    <Dialog.Close
+                      onClick={() => {
+                        navigate("/");
+                      }}
+                      className={`flex w-full items-center space-x-3 `}
+                    >
+                      <span className="w-full">Generic</span>
+                    </Dialog.Close>
+                  </li>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                    <Dialog.Close
+                      onClick={() => {
+                        navigate("/profile");
+                      }}
+                      className={`flex w-full items-center space-x-3 text-white`}
+                    >
+                      <span className="w-full">Profile</span>
+                    </Dialog.Close>
+                  </li>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                    <Dialog.Close
+                      onClick={() => {
+                        navigate("/loaddata");
+                      }}
+                      className={`flex w-full items-center space-x-3 text-white`}
+                    >
+                      <span className="w-full">Custom Upload</span>
+                    </Dialog.Close>
+                  </li>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                    <Dialog.Close
+                      onClick={() => {
+                        navigate("/pricing");
+                      }}
+                      className={`flex w-full items-center space-x-3 `}
+                    >
+                      <span className="w-full">Pricing</span>
+                    </Dialog.Close>
+                  </li>
+                </>
               )}
-               {token && (
+              {token && (
                 <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
                   <Dialog.Close
                     onClick={() => {
                       dispatch(logout());
-                      notify("Logged out successfully",true);
+                      notify("Logged out successfully", true);
                     }}
                     className={`flex w-full items-center space-x-3 text-red-400`}
                   >
-                    {/* < IoLogOut height={20} width={20} /> */}
                     <span className="w-full">Logout</span>
                   </Dialog.Close>
                 </li>
