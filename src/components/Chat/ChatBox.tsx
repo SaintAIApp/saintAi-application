@@ -168,7 +168,7 @@ const ChatBox: React.FC<{
       </div>
 
       <div ref={chatBodyRef} className="flex-grow overflow-y-auto px-4 py-2">
-        {true && (
+        {false && (
           <div className="flex items-center justify-center h-full flex-col">
             <h1>Loading chat history...</h1>
           </div>

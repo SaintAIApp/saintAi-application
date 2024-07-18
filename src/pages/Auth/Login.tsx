@@ -8,7 +8,7 @@ import {login} from "../../redux/slices/authSlice"
 import { notify } from "../../utils/notify";
 import loader from '../../assets/loader.webp'
 import { GoEye, GoEyeClosed } from "react-icons/go";
-const Login = ({setCurrentModal}:{setCurrentModal: any}) => {
+const Login = ({setCurrentModal,setIsLoggedIn}:{setCurrentModal: any,setIsLoggedIn:any}) => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -23,7 +23,8 @@ const Login = ({setCurrentModal}:{setCurrentModal: any}) => {
       setIsLoading(true);
       const res = await loginUser(email, password);
       dispatch(login({user:res.data.user,token:res.data.token}));
-      window.location.reload();
+      setIsLoggedIn(true);
+      // setCurrentModal(null)
       navigate("/");
     } catch (error:any) {
         notify(error.message,false)
