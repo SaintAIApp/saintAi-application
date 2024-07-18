@@ -31,14 +31,20 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileSelect }) => {
       <div
         {...getRootProps({
           className:
-            'py-[5vh] sm:py-[10vh] md:py-[15vh] lg:py-[20vh] p-6 w-full border-2 border-dashed border-slate-500 rounded-md text-center'
+          'py-[5vh] justify-center sm:py-[10vh] md:py-[15vh] lg:py-[20vh] p-6 w-full border-2 border-[#333333] rounded-md text-center'
         })}
       >
+       
         <input {...getInputProps()} />
         {isDragActive ? (
           <p className="text-gray-600">Drop the files here...</p>
         ) : (
-          <p className="text-gray-600">Drag and drop a PDF, image (jpg, jpeg, png), or DOCX file here, or click to select a file</p>
+         <div className='flex items-center justify-center flex-col'>
+           <img
+          src='/icons/upload.svg'
+        />
+           <p className="text-gray-600">Drag and drop a PDF, image (jpg, jpeg, png), or DOCX file here, or click to select a file</p>
+           </div>
         )}
       </div>
     </div>

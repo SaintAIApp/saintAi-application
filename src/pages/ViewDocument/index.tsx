@@ -101,7 +101,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId,setSelectedFileI
   }
 
   return (
-    <div className={`flex flex-col h-full bg-dark ${selectedFileId && "mt-20"}  md:mt-0`}>
+    <div className={`flex max-h-[90vh] min-h-[90vh] rounded-lg flex-col h-full bg-dark ${selectedFileId && "mt-20"}  md:mt-0`}>
 
       <header className="bg-dark shadow-sm items-center p-4 flex justify-between">
         <h1 className="text-xl font-semibold text-white flex items-center">  {window.innerWidth<=700 && <button onClick={()=>{setSelectedFileId(null);setShowSideBar(true)}}> <ChevronLeftIcon height={20} width={20}/> </button>  } File: {uploadData?.name}</h1>
@@ -110,7 +110,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId,setSelectedFileI
       
       <main className="flex-1 overflow-y-auto p-4 pb-24">
         {
-          isHistoryLoading && <div className='flex items-center justify-center h-full flex-col'><h1>Loading chat history...</h1>   </div>
+          isHistoryLoading && <div className='flex items-center justify-center h-full flex-col '><h1>Loading chat history...</h1>   </div>
         }
         {
           chats.length==0 && !isHistoryLoading && <div className='flex items-center justify-center h-full flex-col'><BiConversation className='text-lg md:text-3xl'/> <h1>Start the conversation with SaintAI</h1>   </div>

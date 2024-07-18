@@ -1,50 +1,75 @@
-import { PriceCardWithAnimation } from "../../components/PriceCard"
+import React from "react";
+import { PriceCardWithAnimation } from "../../components/PriceCard";
 
-const index = () => {
+const Index: React.FC = () => {
   return (
-    <section id="pricing" className="pt-8 mb-12">
-    <div >
-        <h1 className="text-center text-lg my-5 font-thin  z-10">
-          Pricing
+    <section id="pricing" className="pt-8 mb-12 bg-[#1a1a2e] text-white">
+      <div className="container mx-auto px-4">
+        <h1 className="text-3xl md:text-5xl font-light text-center my-8">
+          Upgrade to premium
         </h1>
-        <h1 className="text-3xl md:text-6xl font-thin text-center my-4  z-10">
-          Explore plans
-        </h1>
-        {/* <h1 className="text-center font-thin my-5  z-10">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, laborum!
-        </h1> */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6 place-items-center my-4 z-10 ">
+        
+        <div className="flex justify-center mb-8">
+          <div className="bg-[#2a2a3e] rounded-full p-1">
+            <button className="px-4 py-2 rounded-full bg-[#8e44ad] text-white">Monthly</button>
+            <button className="px-4 py-2 rounded-full text-gray-400">Yearly</button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           <PriceCardWithAnimation
+            type="light"
             delay={0.2}
-            heading=""
             plan="Genesis"
             planCode="free"
             price={0}
             sol={0}
-            benefits={["AI Mining", "Limited Mine Access", "Maximum 2 Mine hrs. / Day", "No Access to SaintAI Agents MIA & PIPA", "Power Pass AI Mining Upgrades Available at 0.017 SOL / hr.", "Access to Power Streak Mining Bonus of 100 $STT for all Power Pass AI Mining Upgrade Purchases"]}
+            benefits={[
+              "SaintAI Genesis - AI Mining Pass",
+              "Limited AI Mine access",
+              "Maximum 2 Mine hrs. / day",
+              "No access to SaintAI agents MIA & PIPA",
+              "Power Pass AI Mining upgrades available @ 0.017 SOL / hr.",
+              "Access to power streak mining bonus of 100 $STT for all Power Pass AI Mining upgrade purchases"
+            ]}
           />
           <PriceCardWithAnimation
-          sol={0.1233}
+            type="dark"
             delay={0.4}
-            heading=""
-            plan="Odysseus"
-            planCode="proPlus"
-            price={139.99}
-            benefits={["Automated AI Mining", "Unlimited Mine Access", "Set and Forget, 24 hr. Automated AI Mining", "Unlimited Access to SaintAI Agents MIA & PIPA", "Unlimited Crypto Market & Stock Market Data Access", "Unlimited News Access", "Access to Power Streak Mining Bonus of 100 $STT"]}
-          />
-          <PriceCardWithAnimation
-          sol={1}
-            delay={0.6}
-            heading=""
             plan="Medius"
             planCode="pro"
             price={16.99}
-            benefits={["AI Mining", "Limited Mine Access", "Maximum 4 Mine hrs. / Day", "Access SaintAI Agents MIA & PIPA", "Unlimited Crypto Market & Stock Data Access", "Unlimited News Access", "Power Pass AI Mining Upgrades Available at 0.0177 SOL / hr.", "Access to Power Streak Mining Bonus of 100 $STT"]}
+            sol={1}
+            benefits={[
+              "SaintAI Medius - AI Mining Pass",
+              "Limited AI Mine access",
+              "Maximum 4 Mine hrs. / day",
+              "Access to SaintAI agents MIA",
+              "Unlimited Crypto Market, Forex & Stock data access",
+              "Unlimited News Access",
+              "Power Pass AI Mining upgrades available @ 0.0177 SOL / hr.",
+              "Access to power streak mining bonus of 100 $STT"
+            ]}
+          />
+          <PriceCardWithAnimation
+            type="light"
+            delay={0.6}
+            plan="Odysseus"
+            planCode="proPlus"
+            price={139}
+            sol={0.1233}
+            benefits={[
+              "100 Social Profiles",
+              "100 Scheduled Posts Per Profile",
+              "400+ Templates",
+              "Calendar View",
+              "24/7 VIP Support"
+            ]}
           />
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default index
+export default Index;
