@@ -3,8 +3,10 @@ import ChatItem from "./ChatItem";
 import { IoIosSend } from "react-icons/io";
 import { BiConversation } from "react-icons/bi";
 import logo from "../../assets/saintailogo.png";
+import TypewriterEffect from "../TypeWriting";
 
 import useFileService from "../../hooks/useFileService";
+import { useAppSelector } from "../../redux/hooks";
 
 const ChatBox: React.FC<{
   isOpen: boolean;
@@ -12,25 +14,32 @@ const ChatBox: React.FC<{
   closable?: boolean;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ className = "", isOpen, setIsOpen }) => {
+  const user = useAppSelector((state) => state.auth.user);
   const [chats, setChats] = useState<any[]>([]);
   const [chat, setChat] = useState("");
-  // const [isHistoryLoading, setIsHistoryLoading] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isHistoryLoading, setIsHistoryLoading] = useState(false);
   const [isResponseLoading, setIsResponseLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const chatBodyRef = useRef<HTMLDivElement>(null);
+
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { sendMessageTrade, 
-    // getAllFiles, getChatHistory
-  
-  } = useFileService();
+  const { sendMessageTrade, getChatHistoryTrade } = useFileService();
 
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
+  }, [chats, errorMessage]);
+  useEffect(() => {
+    scrollToBottom();
   }, [chats]);
+  const scrollToBottom = () => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  };
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -38,83 +47,39 @@ const ChatBox: React.FC<{
     }
   }, [isOpen]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const uploadId = localStorage.getItem("UPLOAD_ID");
-  //     if (uploadId) {
-  //       // await fetchChatHistory(uploadId);
-  //     } else {
-  //       fetchUploadId();
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchChatHistory();
+    };
+    fetchData();
+  }, []);
 
-  // const fetchUploadId = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const res = await getAllFiles();
-  //     if (res.status === 200) {
-  //       res.data?.data?.map((e: any) => {
-  //         if (e.name === "SAINT_AI") {
-  //           localStorage.setItem("UPLOAD_ID", e._id);
-  //         }
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const fetchChatHistory = async (uploadId: string) => {
-  //   try {
-  //     setIsHistoryLoading(true);
-  //     const res = await getChatHistory(uploadId);
-  //     if (res.status === 200) {
-  //       setChats(res.data.data);
-  //     }
-  //   } catch (error) {
-  //     setChats([]);
-  //     console.log(error);
-  //   } finally {
-  //     setIsHistoryLoading(false);
-  //   }
-  // };
+  const fetchChatHistory = async () => {
+    try {
+      setIsHistoryLoading(true);
+      const res = await getChatHistoryTrade(user?._id!);
+      if (res.status === 200) {
+        setChats(res.data.history);
+      }
+    } catch (error) {
+      setChats([]);
+      console.log(error);
+    } finally {
+      setIsHistoryLoading(false);
+    }
+  };
 
   const handleSendMessage = async () => {
     if (chat.trim() === "") return;
-
+    setErrorMessage("");
     try {
-      // if (!uploadId) {
-      //   const fileResponse = await fetch(SaintSampleFile);
-      //   const fileBlob = await fileResponse.blob();
-      //   const formData = new FormData();
-      //   formData.append("file", fileBlob);
-      //   formData.append("name", "SAINT_AI");
-      //   formData.append("featureId", import.meta.env.VITE_UPLOAD_DOC_FEATURE_ID);
-      //   try {
-      //     const res = await uploadFile(formData);
-      //     uploadId = res.data?.data?._id;
-      //     localStorage.setItem("UPLOAD_ID", uploadId!);
-      //     localStorage.setItem("AGENT_ID", res.data?.data?._agentId);
-      //   } catch (error:any) {
-      //     notify(error.message,false);
-      //     return;
-      //   }
-      //   // await fetchFile(uploadId!);
-      // }
-
       setIsResponseLoading(true);
       setChats((prev) => [...prev, { user: chat, agent: "Processing..." }]);
-
-      const res = await sendMessageTrade(chat);
-
+      const res = await sendMessageTrade(chat, user?._id!);
       if (res.status === 200) {
         setChats((prev) => {
           const newChats = [...prev];
-          newChats[newChats.length - 1] = {
+          newChats[newChats?.length - 1] = {
             user: chat,
             agent: res.data.assistant_response,
           };
@@ -124,22 +89,12 @@ const ChatBox: React.FC<{
       }
     } catch (error) {
       console.log(error);
-      setChats((prev) => {
-        const newChats = [...prev];
-        newChats[newChats.length - 1] = {
-          user: chat,
-          agent: "Error occurred while processing",
-        };
-        return newChats;
-      });
+      setErrorMessage("Error occurred while processing");
+      setChats((prev) => prev.slice(0, -1)); // Remove the "Processing..." message
     } finally {
       setIsResponseLoading(false);
     }
   };
-
-  // if (isLoading) {
-  //   return <div className="text-white">Loading...</div>;
-  // }
 
   return (
     <div
@@ -154,7 +109,6 @@ const ChatBox: React.FC<{
     >
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-700 flex justify-between items-center">
         <img className="h-8 object-contain" src={logo} alt="S.AI.N.T Logo" />
-        {/* {uploadData?.createdAt && <span className='text-sm text-slate-300'>Uploaded: {format(uploadData.createdAt)}</span>} */}
         {window.innerWidth <= 768 && (
           <button
             onClick={() => {
@@ -168,24 +122,29 @@ const ChatBox: React.FC<{
       </div>
 
       <div ref={chatBodyRef} className="flex-grow overflow-y-auto px-4 py-2">
-        {false && (
+        {isHistoryLoading && (
           <div className="flex items-center justify-center h-full flex-col">
             <h1>Loading chat history...</h1>
           </div>
         )}
-        {chats.length === 0 && !false && (
+        {chats?.length === 0 && !isHistoryLoading && (
           <div className="flex items-center justify-center h-full flex-col">
             <BiConversation className="text-lg md:text-3xl" />
             <h1>Start the conversation with SaintAI</h1>
           </div>
         )}
-        {!false &&
-          chats.map((chat, index) => (
+        {!isHistoryLoading &&
+          chats?.map((chat, index) => (
             <div key={index}>
-              <ChatItem sender={"Me"} message={chat.user} />
-              <ChatItem sender={"SAINTAI"} message={chat.agent} />
+              <ChatItem isHistory={true} sender={"Me"} message={chat.user} />
+              <ChatItem isHistory={true} sender={"SAINTAI"} message={chat.agent} />
             </div>
           ))}
+        {errorMessage && (
+          <div className="text-red-500">
+            <TypewriterEffect text={errorMessage} />
+          </div>
+        )}
       </div>
 
       <div className="flex-shrink-0 p-4 border-t border-gray-700">
