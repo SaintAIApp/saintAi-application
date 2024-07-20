@@ -3,6 +3,7 @@ import { Upload } from "../types/data";
 import { useMemo, useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import DeleteModal from "./DeleteChatModal";
+import { useAppSelector } from "../redux/hooks";
 const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFileId,setSelectedFileId}:{
     files?:Upload[] | null;
     setFileSeletedDelete?:any,
@@ -10,6 +11,7 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
     setSelectedFileId?:any,
     selectedFileId?:string|null
 }) => {
+  const token = useAppSelector((state)=>{return state.auth.token})
  
     const navigate = useNavigate();
     const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
@@ -92,7 +94,7 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
       <li key={title} className="mb-4">
         <button
           onClick={() => toggleCategory(title)}
-          className="flex justify-between items-center w-full p-2 bg-gray-800 rounded-md"
+          className="flex justify-between items-center w-full px-3 py-2 bg-[#333] rounded-full"
         >
           <span>{title} ({categoryFiles.length})</span>
           <ChevronRightIcon
@@ -110,7 +112,7 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
                   className={`flex justify-between items-center w-full p-2 rounded-md transition-colors duration-200 ${
                     selectedFileId === file._id
                       ? "bg-primary text-white bg-opacity-80"
-                      : "hover:bg-gray-700 bg-gray-600"
+                      : "hover:bg-gray-700 bg-[#333]"
                   }`}
                 >
                   <span>{file.name}</span>
@@ -186,7 +188,7 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
           </li>
         </ul>
       </div>
-      <div className="mt-auto pb-4">
+     {token && <div className="mt-auto pb-4">
         <button
           onClick={() => {
             navigate("/profile");
@@ -195,7 +197,7 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
         >
           Profile
         </button>
-      </div>
+      </div>}
     </div>
   );
 };

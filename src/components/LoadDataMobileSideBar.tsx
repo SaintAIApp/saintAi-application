@@ -97,7 +97,7 @@ const SidebarContent: React.FC<{
           onClick={() =>
             setExpandedCategory(expandedCategory === title ? null : title)
           }
-          className="flex justify-between items-center w-full p-2 bg-gray-800 rounded-md"
+          className="flex justify-between items-center w-full p-2 bg-[#333] rounded-full"
         >
           <span>
             {title} ({categoryFiles.length})
@@ -117,7 +117,7 @@ const SidebarContent: React.FC<{
                   className={`flex justify-between items-center w-full p-2 rounded-md transition-colors duration-200 ${
                     selectedFileId === file._id
                       ? "bg-primary  text-white bg-opacity-80"
-                      : "hover:bg-gray-700 bg-gray-600"
+                      : "hover:bg-gray-700 bg-[#333]"
                   }`}
                 >
                   <span>{file.name}</span>

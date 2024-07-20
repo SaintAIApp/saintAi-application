@@ -1,12 +1,16 @@
 import React from "react";
 import { PriceCardWithAnimation } from "../../components/PriceCard";
+import { XCircleIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 const Index: React.FC = () => {
+  const navigate = useNavigate();
   return (
-    <section id="pricing" className="pt-8 mb-12 bg-[#1a1a2e] text-white">
+    <section id="pricing" className="pt-8  bg-[#1a1a2e] text-white h-auto min-h-screen pb-8">
+      <button onClick={()=>{navigate("/")}} className=" absolute top-10 right-10 flex items-center"> Close <XCircleIcon className=" h-7 w-7"/>  </button>
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl md:text-5xl font-light text-center my-8">
-          Upgrade to premium
+        <h1 className="text-2xl mt-12 md:mt-0 md:text-5xl font-light text-center my-8">
+        Choose Between SaintAI’s Genesis,Medius or the Odysseus Mine Pass Access Key Plan
         </h1>
         
         <div className="flex justify-center mb-8">
@@ -39,7 +43,7 @@ const Index: React.FC = () => {
             plan="Medius"
             planCode="pro"
             price={16.99}
-            sol={1}
+            sol={0.1233}
             benefits={[
               "SaintAI Medius - AI Mining Pass",
               "Limited AI Mine access",
@@ -56,14 +60,16 @@ const Index: React.FC = () => {
             delay={0.6}
             plan="Odysseus"
             planCode="proPlus"
-            price={139}
-            sol={0.1233}
+            price={139.99}
+            sol={1}
             benefits={[
-              "100 Social Profiles",
-              "100 Scheduled Posts Per Profile",
-              "400+ Templates",
-              "Calendar View",
-              "24/7 VIP Support"
+              "Automated AI Mining",
+              "Unlimited mine access",
+              "Set and Forget, 24 hr. Automated AI Mining",
+              "Unlimited Access to SaintAI Agents MIA & PIPA",
+              "Unlimited Crypto Market & Stock Market Data Access",
+              "Access to Power Streak Mining Bonus of 100 $STT",
+
             ]}
           />
         </div>

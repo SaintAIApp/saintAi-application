@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
+import usePaymentServices from "../hooks/usePayment";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../redux/hooks";
+import { notify } from "../utils/notify";
 
 type PriceCardProps = {
   price: number;
@@ -18,11 +22,38 @@ const cardVariant = {
 export const PriceCard: React.FC<PriceCardProps> = ({
   price,
   benefits,
-
+  planCode,
   plan,
   sol,
   type,
 }) => {
+  const [isRedirecting,setIsRedirecting] = useState(false);
+  const {createCheckout} = usePaymentServices();
+  const navigate = useNavigate();
+  const token = useAppSelector((state)=>state.auth.token)
+  const handleSubmit = async()=>{
+    setIsRedirecting(true);
+    try {
+      if(!token)
+      {
+          navigate("/login");
+          return;
+      }
+      const res = await createCheckout(planCode);
+      if(res.status===200){
+        notify("Redirecting",true);
+        window.location.href = res.data.data;
+        // navigate("/"+res.data.data)
+      }
+      console.log(res);
+    } catch (error:any) {
+      notify(error.message,false);
+      console.log(error)
+    }
+    finally{
+      setIsRedirecting(false);
+    }
+  }
   return (
     <div
       className={`flex flex-col justify-between px-6 py-8 rounded-3xl ${
@@ -32,12 +63,12 @@ export const PriceCard: React.FC<PriceCardProps> = ({
       <div>
         <h2 className="text-2xl font-semibold mb-2 text-center">{plan}</h2>
         <h3 className="text-3xl font-bold mb-1 text-center">
-          {price === 0 ? "Free" : `${price}`}
+          {price === 0 ? "Free" : `$${price} `}
         </h3>
         <p className="text-sm text-gray-500 mb-4 text-center">per user, per month</p>
         <p className="text-sm font-semibold mb-1 text-center">OR</p>
         <p className="text-xl font-bold text-[#8e44ad] mb-6 text-center">{sol} SOL/month</p>
-        <button className={`w-full py-2 px-4 rounded-full ${
+        <button onClick={()=>{handleSubmit()}}  disabled={isRedirecting} className={`w-full py-2 px-4 rounded-full ${
           type === "light" ? "bg-[#fff] text-[#1465FA] border-[#1465FA] border-2" : "bg-[#1465FA] border-[#1465FA] border-2 text-white"
         } hover:opacity-90 transition-opacity duration-300 font-bold`}>
           Choose Plan

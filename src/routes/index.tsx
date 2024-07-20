@@ -5,7 +5,7 @@ import App from "../App";
 import { ProtectedRoute } from "./ProtectedRoutes";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 import SidebarLayout from "../layouts/SidebarLayout";
-import DefaultLayout from "../layouts";
+
 import LoadDataWrapper from "../components/LoadDataWrapper";
 
 // Lazy Loading all the pages
@@ -42,44 +42,42 @@ const router = createBrowserRouter([
         path: "/profile",
         element: (
           <ProtectedRoute>
-            <DefaultLayout>
+            <SidebarLayout>
               <Suspense fallback={<Loader />}>
                 <Profile />
               </Suspense>
-            </DefaultLayout>
+            </SidebarLayout>
           </ProtectedRoute>
         ),
       },
       {
         path: "/pricing",
         element: (
-          <DefaultLayout>
             <Suspense fallback={<Loader />}>
               <Pricing />
-            </Suspense>
-          </DefaultLayout>
+           </Suspense>
         ),
       },
       {
         path: "/loaddata",
         element: (
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <Suspense fallback={<Loader />}>
               <LoadDataWrapper />
             </Suspense>
-          </ProtectedRoute>
+          // </ProtectedRoute>
         ),
       },
       {
         path: "/mine",
         element: (
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <SidebarLayout>
               <Suspense fallback={<Loader />}>
                 <Mine />
               </Suspense>
             </SidebarLayout>
-          </ProtectedRoute>
+          // </ProtectedRoute>
         ),
       },
      

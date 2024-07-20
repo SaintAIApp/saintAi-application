@@ -1,18 +1,15 @@
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { updateCurCategory } from "../redux/slices/widgetSlice";
 import { GoGraph } from "react-icons/go";
-// import { FaBitcoin } from "react-icons/fa";
-
 import { FaBitcoin, FaNewspaper } from "react-icons/fa6";
 
-const index = () => {
+const CategorySelector = () => {
   const dispatch = useAppDispatch();
-  const { curCategory, genericType } = useAppSelector((state) => {
-    return state.widget;
-  });
+  const { curCategory, genericType } = useAppSelector((state) => state.widget);
+
   return (
-    <div className="  left-0  w-full  pb-3 z-50 ">
-      <ul className="w-full  text-sm h-full  flex justify-start text-white space-x-2 md:space-x-5  cursor-pointer  ">
+    <div className="top-0 left-0 w-full pb-3">
+      <ul className="w-full text-sm h-full flex justify-start text-white space-x-2 md:space-x-5 cursor-pointer">
         <li
           className={`${
             curCategory === "stocks" ? "font-semibold text-[#17B982]" : ""
@@ -28,7 +25,7 @@ const index = () => {
         </li>
         <li
           className={`${
-            curCategory === "crypto" ? "font-semibold text-[#CC9900]" : ""
+            curCategory === "crypto" ? "font-semibold text-[#FCB307]" : ""
           } px-2 py-1 flex items-center rounded-full`}
           style={{
             background: curCategory === "crypto" ? "#292929" : "",
@@ -40,7 +37,7 @@ const index = () => {
           <FaBitcoin
             className="mr-2"
             style={{
-              color: curCategory === "crypto" ? "#CC9900" : "",
+              color: curCategory === "crypto" ? "#FCB307" : "",
             }}
           />{" "}
           Crypto
@@ -57,12 +54,11 @@ const index = () => {
             dispatch(updateCurCategory({ curCategory: "news", genericType }))
           }
         >
-          <FaNewspaper className=" mr-2" /> News Articles
+          <FaNewspaper className="mr-2" /> News Articles
         </li>
       </ul>
-      <div></div>
     </div>
   );
 };
 
-export default index;
+export default CategorySelector;
