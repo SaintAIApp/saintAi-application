@@ -1,35 +1,38 @@
-import React, { useEffect, useState, useRef } from 'react';
-import useFileService from '../../hooks/useFileService';
-import { Upload } from '../../types/data';
-import { IoIosSend } from 'react-icons/io';
-import {format} from 'timeago.js'
-import { BiConversation } from 'react-icons/bi';
-import { ChevronLeftIcon } from '@heroicons/react/24/outline';
+import React, { useEffect, useState, useRef } from "react";
+import useFileService from "../../hooks/useFileService";
+
+import { IoIosSend } from "react-icons/io";
+import { BiConversation } from "react-icons/bi";
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import logo from "../../assets/saintailogo.png";
 
 interface ChatComponentProps {
-  uploadId: string;
-  setSelectedFileId?:any;
-  setShowSideBar?:any;
-  selectedFileId?:any
+  setSelectedFileId?: any;
+  setShowSideBar?: any;
+  selectedFileId?: string | null;
 }
 
-const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId,setSelectedFileId,setShowSideBar,selectedFileId }) => {
+const ChatComponent: React.FC<ChatComponentProps> = ({
+  setSelectedFileId,
+  setShowSideBar,
+  selectedFileId,
+}) => {
   const [chats, setChats] = useState<any[]>([]);
   const [curChat, setCurChat] = useState("");
-  const [isHistoryLoading,setIsHistoryLoading] = useState(false);
+  const [isHistoryLoading, setIsHistoryLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isResponseLoading, setIsResponseLoading] = useState(false);
-  const [uploadData, setUploadData] = useState<Upload | null>(null);
   const { getFile, getChatHistory, sendMessage } = useFileService();
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchFile = async () => {
+      if (!selectedFileId) return;
       setIsLoading(true);
       try {
-        const res = await getFile(uploadId);
+        const res = await getFile(selectedFileId);
         if (res.status === 200) {
-          setUploadData(res.data.data);
+          // Handle file data if needed
         }
       } catch (error) {
         console.log(error);
@@ -39,60 +42,72 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId,setSelectedFileI
     };
 
     const fetchChatHistory = async () => {
+      if (!selectedFileId) return;
       try {
-        setIsHistoryLoading(true)
-        const res = await getChatHistory(uploadId);
+        setIsHistoryLoading(true);
+        const res = await getChatHistory(selectedFileId);
         if (res.status === 200) {
           setChats(res.data.data);
         }
       } catch (error) {
         setChats([]);
         console.log(error);
-      }
-      finally{
+      } finally {
         setIsHistoryLoading(false);
-
       }
     };
 
     fetchFile();
     fetchChatHistory();
-  }, [uploadId]);
+  }, [selectedFileId]);
 
   useEffect(() => {
     scrollToBottom();
-  }, [chats]);
+  }, []); // Scroll to bottom when component mounts
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100); // Small delay to ensure content is rendered
   };
 
   const handleSendMessage = async () => {
-    if (curChat !== "") {
-      try {
-        setIsResponseLoading(true);
-        setChats((prev) => [...prev, { user: curChat, agent: "Processing..." }]);
-        
-        const res = await sendMessage(uploadId, curChat);
-        
-        if (res.status === 200) {
-          setChats((prev) => {
-            const newChats = [...prev];
-            newChats[newChats.length - 1] = { user: curChat, agent: res.data.data };
-            return newChats;
-          });
-          setCurChat("");
-        }
-      } catch (error) {
-        console.log(error);
+    if (!selectedFileId || curChat.trim() === "") return;
+    try {
+      setIsResponseLoading(true);
+      setChats((prev) => [
+        ...prev,
+        { user: curChat, agent: "Processing..." },
+      ]);
+      scrollToBottom(); // Scroll after adding user message
+
+      const res = await sendMessage(selectedFileId, curChat);
+
+      if (res.status === 200) {
         setChats((prev) => {
           const newChats = [...prev];
-          newChats[newChats.length - 1] = { user: curChat, agent: "Error occurred while processing" };
+          newChats[newChats.length - 1] = {
+            user: curChat,
+            agent: res.data.data,
+          };
           return newChats;
         });
-      } finally {
-        setIsResponseLoading(false);
+        setCurChat("");
+        scrollToBottom(); // Scroll after adding AI response
       }
+    } catch (error) {
+      console.log(error);
+      setChats((prev) => {
+        const newChats = [...prev];
+        newChats[newChats.length - 1] = {
+          user: curChat,
+          agent: "Error occurred while processing",
+        };
+        return newChats;
+      });
+      scrollToBottom(); // Scroll after adding error message
+    } finally {
+      setIsResponseLoading(false);
     }
   };
 
@@ -101,75 +116,102 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ uploadId,setSelectedFileI
   }
 
   return (
-    <div className={`flex max-h-[90vh] min-h-[90vh] rounded-lg flex-col h-full bg-dark ${selectedFileId && "mt-20"}  md:mt-0`}>
+    <div
+      className={`inset-0 md:inset-auto md:right-10 md:bottom-10 w-full md:h-[90vh] 
+                    flex flex-col bg-dark shadow-2xl rounded-xl ${
+                      selectedFileId ? "mt-20" : ""
+                    } md:mt-0`}
+      style={{
+        border: "1.2px solid #333",
+      }}
+    >
+      {/* Header */}
+      <div className="flex-shrink-0 px-4 py-3 border-b border-gray-700 flex justify-between items-center">
+        <div className="flex items-center">
+          {window.innerWidth <= 700 && (
+            <button
+              onClick={() => {
+                setSelectedFileId(null);
+                setShowSideBar(true);
+              }}
+              className="mr-2"
+            >
+              <ChevronLeftIcon height={20} width={20} />
+            </button>
+          )}
+          <img className="h-8 object-contain" src={logo} alt="S.AI.N.T Logo" />
+        </div>
+      </div>
 
-      <header className="bg-dark shadow-sm items-center p-4 flex justify-between">
-        <h1 className="text-xl font-semibold text-white flex items-center">  {window.innerWidth<=700 && <button onClick={()=>{setSelectedFileId(null);setShowSideBar(true)}}> <ChevronLeftIcon height={20} width={20}/> </button>  } File: {uploadData?.name}</h1>
-        {uploadData?.createdAt && <h1 className='text-sm text-slate-300'>Uploaded:{format(uploadData?.createdAt)}</h1>}
-      </header>
-      
-      <main className="flex-1 overflow-y-auto p-4 pb-24">
-        {
-          isHistoryLoading && <div className='flex items-center justify-center h-full flex-col '><h1>Loading chat history...</h1>   </div>
-        }
-        {
-          chats.length==0 && !isHistoryLoading && <div className='flex items-center justify-center h-full flex-col'><BiConversation className='text-lg md:text-3xl'/> <h1>Start the conversation with SaintAI</h1>   </div>
-        }
-        {!isHistoryLoading && chats.map((chat, index) => (
-          <div key={index} className="mb-4">
-            <div className="flex flex-col space-y-4">
-              <div className="flex items-start justify-end">
-                <div className="rounded-lg p-3 bg-black max-w-3/4">
-                  <p className="text-sm font-semibold mb-1 text-white">You</p>
-                  <div className="text-gray-200">{chat.user}</div>
-                </div>
-                <div className="flex-shrink-0 ml-3">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-black">
-                    U
+      {/* Chat messages */}
+      <div className="flex-grow overflow-y-auto px-4 py-2 md:pb-0 pb-20">
+        {isHistoryLoading && (
+          <div className="flex items-center justify-center h-full flex-col">
+            <h1>Loading chat history...</h1>
+          </div>
+        )}
+        {chats.length == 0 && !isHistoryLoading && (
+          <div className="flex items-center justify-center h-full flex-col">
+            <BiConversation className="text-lg md:text-3xl" />
+            <h1>
+              {selectedFileId
+                ? "Start the conversation with SaintAI"
+                : "Please upload a new file or select a file to start the conversation"}
+            </h1>
+          </div>
+        )}
+        {!isHistoryLoading &&
+          chats.map((chat, index) => (
+            <div key={index} className="mb-4">
+              <div className="flex flex-col space-y-4">
+                <div className="flex items-start justify-end">
+                  <div className="rounded-lg p-3 bg-black max-w-3/4">
+                    <p className="text-sm font-semibold mb-1 text-white">You</p>
+                    <div className="text-gray-200">{chat.user}</div>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-start">
-                <div className="flex-shrink-0 mr-3">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-primary bg-opacity-50">
-                    S
+                <div className="flex items-start">
+                  <div className="rounded-lg p-3 bg-primary max-w-3/4 bg-opacity-50">
+                    <p className="text-sm font-semibold mb-1 text-white">
+                      SAINTAI
+                    </p>
+                    <div
+                      className="text-gray-200"
+                      dangerouslySetInnerHTML={{ __html: chat.agent }}
+                    ></div>
                   </div>
-                </div>
-                <div className="rounded-lg p-3 bg-primary max-w-3/4 bg-opacity-50">
-                  <p className="text-sm font-semibold mb-1 text-white">SAINTAI</p>
-                  <div className="text-gray-200" dangerouslySetInnerHTML={{ __html: chat.agent }}></div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
         <div ref={messagesEndRef} />
-      </main>
-      
-      <footer className="bg-dark p-4 w-full">
-        <div className="flex items-center max-w-screen-xl mx-auto">
+      </div>
+
+      {/* Input area */}
+      <div className="flex-shrink-0 p-4 border-t border-gray-700 fixed bottom-0 bg-black w-full md:relative md:bg-transparent">
+        <div className="flex items-center space-x-2">
           <input
-            disabled={isResponseLoading}
+            disabled={isResponseLoading || !selectedFileId}
             type="text"
             value={curChat}
             onChange={(e) => setCurChat(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && !isResponseLoading) {
+              if (e.key === "Enter" && !isResponseLoading && selectedFileId) {
                 handleSendMessage();
               }
             }}
             placeholder="Type your message..."
-            className="flex-1 bg-black disabled:bg-gray-300 text-white border border-gray-600 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-grow bg-black disabled:bg-gray-300 text-white border border-gray-600 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
-            disabled={isResponseLoading}
+            disabled={isResponseLoading || !selectedFileId}
             onClick={handleSendMessage}
-            className="bg-primary disabled:bg-gray-300 text-white px-4 py-3 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-shrink-0 rounded-full flex items-center justify-center p-2 bg-primary disabled:bg-gray-300 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <IoIosSend fill='green' />
+            <IoIosSend fill="green" />
           </button>
         </div>
-      </footer>
+      </div>
     </div>
   );
 };

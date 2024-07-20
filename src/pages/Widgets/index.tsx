@@ -1,13 +1,16 @@
 
+import CategorySelector from '../../components/CategorySelector';
 import Generic1 from './Generic1';
-// import  Generic2 from './Generic2';
-// import { useAppSelector } from '../../redux/hooks';
 const index = () => {
-  // const data = useAppSelector((state)=>{return state.widget.genericType})
   return (
-    <div className=''>
-        <Generic1/>
+    <div className='md:ml-10 overflow-y-hidden md:mt-8 flex flex-col h-screen'>
+    <div className='sticky top-0 bg-black z-10 w-fit'>
+      <CategorySelector />
     </div>
+    <div className='flex-1 overflow-y-auto mt-4'>
+      <Generic1 />
+    </div>
+  </div>
   )
 }
 

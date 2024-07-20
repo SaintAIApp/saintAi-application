@@ -51,7 +51,7 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                     <Dialog.Close
                       onClick={() => {
                         window.scrollTo({ top: 0 });
-                        navigate("/signup");
+                        navigate("/");
                       }}
                       className={`flex w-full items-center space-x-3 ${
                         location.pathname.includes("signup")
@@ -116,6 +116,16 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                       className={`flex w-full items-center space-x-3 `}
                     >
                       <span className="w-full">Pricing</span>
+                    </Dialog.Close>
+                  </li>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                    <Dialog.Close
+                      onClick={() => {
+                        navigate("/mine");
+                      }}
+                      className={`flex w-full items-center space-x-3 `}
+                    >
+                      <span className="w-full">Mining</span>
                     </Dialog.Close>
                   </li>
                 </>
