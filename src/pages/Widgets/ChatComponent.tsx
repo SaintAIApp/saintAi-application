@@ -59,7 +59,7 @@ const ChatComponent: React.FC<{
       setIsHistoryLoading(true);
       const res = await getChatHistoryTrade(user?._id!);
       if (res.status === 200) {
-        setChats(res.data.history);
+        setChats(res.data.data);
       }
     } catch (error) {
       setChats([]);
@@ -81,7 +81,7 @@ const ChatComponent: React.FC<{
           const newChats = [...prev];
           newChats[newChats?.length - 1] = {
             user: chat,
-            agent: res.data.assistant_response,
+            agent: res.data?.data,
           };
           return newChats;
         });
