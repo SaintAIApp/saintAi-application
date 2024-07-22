@@ -58,8 +58,9 @@ const ChatBox: React.FC<{
     try {
       setIsHistoryLoading(true);
       const res = await getChatHistoryTrade(user?._id!);
-      if (res.status === 200) {
-        setChats(res.data.history);
+      if (res.status==200) {
+        console.log(res.data)
+        setChats(res.data?.data);
       }
     } catch (error) {
       setChats([]);
@@ -81,7 +82,7 @@ const ChatBox: React.FC<{
           const newChats = [...prev];
           newChats[newChats?.length - 1] = {
             user: chat,
-            agent: res.data.assistant_response,
+            agent: res.data?.data,
           };
           return newChats;
         });
