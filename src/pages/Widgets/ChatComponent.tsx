@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import ChatItem from "../../components/Chat/ChatItem";
 import { IoIosSend } from "react-icons/io";
 import { BiConversation } from "react-icons/bi";
@@ -47,17 +47,12 @@ const ChatComponent: React.FC<{
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchChatHistory();
-    };
-    fetchData();
-  }, []);
-
-  const fetchChatHistory = async () => {
+  const fetchChatHistory = useCallback(async () => {
     try {
       setIsHistoryLoading(true);
-      const res = await getChatHistoryTrade(user?._id!);
+      const userId = user?._id;
+      if (!userId) return;
+      const res = await getChatHistoryTrade(userId);
       if (res.status === 200) {
         setChats(res.data.data);
       }
@@ -67,7 +62,14 @@ const ChatComponent: React.FC<{
     } finally {
       setIsHistoryLoading(false);
     }
-  };
+  }, [getChatHistoryTrade, user]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchChatHistory();
+    };
+    fetchData();
+  }, [fetchChatHistory]);
 
   const handleSendMessage = async () => {
     if (chat.trim() === "") return;
@@ -75,7 +77,9 @@ const ChatComponent: React.FC<{
     try {
       setIsResponseLoading(true);
       setChats((prev) => [...prev, { user: chat, agent: "Processing..." }]);
-      const res = await sendMessageTrade(chat, user?._id!);
+      const userId = user?._id;
+      if (!userId) return;
+      const res = await sendMessageTrade(chat, userId);
       if (res.status === 200) {
         setChats((prev) => {
           const newChats = [...prev];
@@ -98,7 +102,7 @@ const ChatComponent: React.FC<{
 
   return (
     <div
-      className={` w-full inset-0  md:inset-auto md:right-10 md:bottom-10  md:h-[90vh] 
+      className={` w-full inset-0  md:inset-auto md:right-10 md:bottom-10  md:h-[90vh]
                   flex flex-col bg-dark shadow-2xl rounded-xl  ${className}`}
       style={{
         border: "1.2px solid #333",

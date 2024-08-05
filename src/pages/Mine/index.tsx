@@ -1,79 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ChatBox from "../../components/Chat/ChatBox";
 
 import logoCircle from "../../assets/saintlogocircle.png";
-import { useAppSelector } from "../../redux/hooks";
-import { jwtDecode } from "jwt-decode";
-import { LockClosedIcon } from "@heroicons/react/24/outline";
-import LoginPage from "../Auth/Login";
-import Signup from "../Auth/SignUp";
-import VerifyOtp from "../Auth/OTP";
 import ChatComponent from "../Widgets/ChatComponent";
 
 const Mine = () => {
-  const [currentModal, setCurrentModal] = useState<string>("lock");
-
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(true);
-  const store = useAppSelector((state) => state);
-  const { auth: authObject } = store;
-
-  useEffect(() => {
-    const { user, token } = authObject;
-    if (!token || (user && !user.isActive)) {
-      setIsLoggedIn(false);
-    } else {
-      try {
-        const decodedToken: any = jwtDecode(token);
-        if (decodedToken.expiresIn * 1000 < Date.now()) {
-          alert("Session Expired, please login again");
-          setIsLoggedIn(false);
-        } else {
-          setIsLoggedIn(true);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }, [authObject]);
 
   return (
     <section className="overflow-x-hidden  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10">
-      {!isLoggedIn && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-          <div className="text-center text-white flex flex-col items-center">
-            {currentModal === "lock" ? (
-              <div className="flex flex-col items-center space-y-3">
-                <LockClosedIcon className=" h-12 w-12 " />
-                <h1 className="my-3">Please login to access this page</h1>
-                <button
-                  className="bg-primary text-white px-3 py-1 rounded-md "
-                  onClick={() => {
-                    setCurrentModal("login");
-                  }}
-                >
-                  Login
-                </button>
-              </div>
-            ) : currentModal === "login" ? (
-              <LoginPage
-                setIsLoggedIn={setIsLoggedIn}
-                setCurrentModal={setCurrentModal}
-              />
-            ) : currentModal === "signup" ? (
-              <Signup
-                setIsLoggedIn={setIsLoggedIn}
-                setCurrentModal={setCurrentModal}
-              />
-            ) : (
-              <VerifyOtp
-                setIsLoggedIn={setIsLoggedIn}
-                setCurrentModal={setCurrentModal}
-              />
-            )}
-          </div>
-        </div>
-      )}
       <div className="w-full flex space-x-2 lg:w-full">
         <div className="flex w-full md:w-3/5 flex-col lg:flex-row items-start justify-between space-y-4 lg:space-y-0 lg:space-x-4 ">
           <div className=" h-[85vh] overflow-y-auto flex flex-col space-y-4 w-full ">
@@ -133,11 +68,11 @@ const Mine = () => {
             </div>
           )}
         </div>
-        {window.innerWidth>768 &&
+        {window.innerWidth > 768 &&
           <div className="w-2/5 ">
             <ChatComponent isOpen />
           </div>}
-        
+
       </div>
       {window.innerWidth < 768 && (
         <button

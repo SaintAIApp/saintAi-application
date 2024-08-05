@@ -50,7 +50,7 @@ const useWalletService = () => {
       });
       return;
     }
-  }, [connected, isConnected]);
+  }, [address, chain?.id, connected, isConnected, publicKey]);
 
   const connect = async () => {
     connectAsync({ connector: connectors[0] })
@@ -59,7 +59,7 @@ const useWalletService = () => {
           connectWallet({
             wallet: {
               walletNetwork: "metamask",
-              walledId:""
+              walledId: ""
             },
           })
         );
@@ -82,7 +82,6 @@ const useWalletService = () => {
           connectWallet({
             wallet: {
               walletNetwork: "solana",
-             
             },
           })
         );
@@ -96,15 +95,13 @@ const useWalletService = () => {
   };
 
   const getCurrentWalletConnected = async () => {
-    //@ts-ignore
     if (typeof window != "undefined" && typeof window.ethereum != "undefined") {
       try {
-        //@ts-ignore
         const accounts = await window.ethereum.request({
           method: "eth_accounts",
         });
         if (accounts.length > 0) {
-          dispatch(connectWallet({ wallet: { walledId: accounts[0],walletNetwork:"" } }));
+          dispatch(connectWallet({ wallet: { walledId: accounts[0], walletNetwork: "" } }));
         } else {
           console.log("Connect to wallet");
         }
@@ -117,11 +114,9 @@ const useWalletService = () => {
   };
 
   const handleAccountChanged = async () => {
-    //@ts-ignore
     if (typeof window != "undefined" && typeof window.ethereum != "undefined") {
-      //@ts-ignore
-      window.ethereum.on("accountsChanged", (account) => {
-        dispatch(connectWallet({ wallet: { walledId: account[0],walletNetwork:"" } }));
+      window.ethereum.on("accountsChanged", (account: any) => {
+        dispatch(connectWallet({ wallet: { walledId: account[0], walletNetwork: "" } }));
       });
     } else {
       notify("Please install metamask wallet", false);

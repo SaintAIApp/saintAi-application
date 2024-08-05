@@ -1,11 +1,11 @@
-import  { useState, useEffect } from 'react';
+import  { useState, useEffect } from "react";
 
-const TypewriterEffect = ({ text, speed = 10, className = '' }:{
+const TypewriterEffect = ({ text, speed = 10, className = "" }:{
     text:string,
     speed?:number,
     className?:string
 }) => {
-  const [displayedText, setDisplayedText] = useState('');
+  const [displayedText, setDisplayedText] = useState("");
   const [index, setIndex] = useState(0);
 
   useEffect(() => {

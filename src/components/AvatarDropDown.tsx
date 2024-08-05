@@ -34,7 +34,7 @@ const AvatarDropDown = ({ triggerButton }: { triggerButton: React.ReactNode }) =
 
           <DropdownMenu.Separator className="border-t border-gray-200 my-1" />
 
-          <DropdownMenu.Item className="px-2 py-1 cursor-pointer text-red-500 hover:bg-red-100">
+          <DropdownMenu.Item className="px-2 py-1 cursor-pointer text-purple hover:bg-red-100">
             <button onClick={handleLogout}>Logout</button>
           </DropdownMenu.Item>
 

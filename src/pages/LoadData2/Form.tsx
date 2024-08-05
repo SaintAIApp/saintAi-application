@@ -1,5 +1,5 @@
 
-import FileDropzone from '../../components/FileUpload'
+import FileDropzone from "../../components/FileUpload";
 const Form = ({handleLoadData,handleFileSelect,file,setFileName,fileName}:{
     handleLoadData:(e: React.FormEvent) => Promise<void>,
     handleFileSelect:(selectedFile: File) => void
@@ -43,7 +43,7 @@ const Form = ({handleLoadData,handleFileSelect,file,setFileName,fileName}:{
                 </div>
               </form>
     </div>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;

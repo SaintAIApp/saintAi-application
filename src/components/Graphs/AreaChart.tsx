@@ -40,7 +40,7 @@ export const Graph = ({
   useEffect(() => {
     setPrices([...prices]);
     setDates([...dates]);
-  }, [curCategory]);
+  }, [curCategory, dates, prices]);
 
   const [chartState] = useState({
     series: [
@@ -79,17 +79,17 @@ export const Graph = ({
       labels: datesList,
       xaxis: {
         type: "datetime",
-        
+
       },
       yaxis: {
         opposite: true,
       },
       legend: {
         horizontalAlign: "left",
-    
+
       },
       grid: {
-        borderColor: '#292929',
+        borderColor: "#292929",
         strokeDashArray: 0,
         xaxis: {
           lines: {
@@ -103,11 +103,11 @@ export const Graph = ({
         },
       },
       tooltip: {
-        theme: 'dark', // or 'light'
+        theme: "dark", // or 'light'
         style: {
-          fontSize: '12px',
-          backgroundColor: '#333', // Set your desired background color
-          color: '#fff', // Set your desired text color
+          fontSize: "12px",
+          backgroundColor: "#333", // Set your desired background color
+          color: "#fff", // Set your desired text color
         },
         marker: {
           show: true,
@@ -116,7 +116,7 @@ export const Graph = ({
           show: true,
         },
         y: {
-          formatter: function (val:any) {
+          formatter: function (val: any) {
             return val;
           }
         }
@@ -133,14 +133,14 @@ export const Graph = ({
     transform: CSS.Transform.toString(transform),
   };
 
-  useEffect(() => {}, [curCategory]);
+  useEffect(() => { }, [curCategory]);
 
   const handleClick = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-    setIsChatBoxOpen&& setIsChatBoxOpen(false);
+    setIsChatBoxOpen && setIsChatBoxOpen(false);
     setGraphSelected({
       color,
       id,
@@ -186,7 +186,7 @@ export const Graph = ({
             <h1>Loading...</h1>
           ) : (
             <ReactApexChart
-              //@ts-ignore
+              // @ts-expect-error Unmatched type options
               options={chartState.options}
               series={chartState.series}
               type="area"
@@ -211,9 +211,8 @@ export const Graph = ({
                 {prices[prices.length - 1]}
               </span>
               <span
-                className={`${
-                  diff.charAt(0) === "+" ? "text-green-600" : "text-red-500"
-                } flex text-xl md:text-lg items-center`}
+                className={`${diff.charAt(0) === "+" ? "text-green-600" : "text-red-500"
+                  } flex text-xl md:text-lg items-center`}
               >
                 {diff}{" "}
                 {diff.charAt(0) === "+" ? <FiArrowUp /> : <FiArrowDown />}

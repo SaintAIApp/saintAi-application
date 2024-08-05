@@ -104,7 +104,7 @@
 const SingleNews = () => {
   return (
     <div>SingleNews</div>
-  )
-}
+  );
+};
 
-export default SingleNews
+export default SingleNews;

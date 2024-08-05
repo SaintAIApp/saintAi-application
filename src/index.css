@@ -78,7 +78,7 @@ body{
 }
 #pricing{
   background-size: cover;
-  background-image: url("/public/saintaiBackground.jpeg");
+  background-image: url("/saintaiBackground.jpeg");
   background-position: 52% -10%
 }
 

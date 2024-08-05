@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import SidebarLayout from '../layouts/SidebarLayout';
-import LoadData from '../pages/LoadData2';
-import SideBar from '../components/SideBar';
-import useFileService from '../hooks/useFileService';
-import { Upload } from '../types/data';
+import React, { useState, useEffect, useCallback } from "react";
+import SidebarLayout from "../layouts/SidebarLayout";
+import LoadData from "../pages/LoadData2";
+import SideBar from "../components/SideBar";
+import useFileService from "../hooks/useFileService";
+import { Upload } from "../types/data";
 
 const LoadDataWrapper: React.FC = () => {
   const { getAllFiles, deleteFile } = useFileService();
@@ -11,11 +11,7 @@ const LoadDataWrapper: React.FC = () => {
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
   const [fileSelectedDelete, setFileSeletedDelete] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchFiles();
-  }, []);
-
-  const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
     try {
       const res = await getAllFiles();
       const filteredFiles = res.data.data.filter(
@@ -25,7 +21,11 @@ const LoadDataWrapper: React.FC = () => {
     } catch (error) {
       console.error("Error fetching files:", error);
     }
-  };
+  }, [getAllFiles]);
+
+  useEffect(() => {
+    fetchFiles();
+  }, [fetchFiles]);
 
   const handleCancelSubscription = async () => {
     if (!fileSelectedDelete || !files) return;

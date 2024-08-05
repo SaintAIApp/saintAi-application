@@ -1,16 +1,16 @@
+import { useEffect, useState } from "react";
+import { GoEye, GoEyeClosed } from "react-icons/go";
 import { Link } from "react-router-dom";
 import imgSrc from "../../assets/saintailogo.png";
 import useAuthService from "../../hooks/useAuth";
-import { useEffect, useState } from "react";
-import { GoEye, GoEyeClosed } from "react-icons/go";
-import { validate } from "../../utils/validation";
-import { notify } from "../../utils/notify";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { login } from "../../redux/slices/authSlice";
-const SignUp = ({setCurrentModal,setIsLoggedIn}:{setCurrentModal: any,setIsLoggedIn:any}) => {
+import { setCurrentModal } from "../../redux/slices/modalSlice";
+import { notify } from "../../utils/notify";
+import { validate } from "../../utils/validation";
 
+const SignUp = () => {
   const dispatch = useAppDispatch();
-  const { user, token } = useAppSelector((state) => state.auth);
   const { signup } = useAuthService();
 
   //STATES
@@ -70,8 +70,8 @@ const SignUp = ({setCurrentModal,setIsLoggedIn}:{setCurrentModal: any,setIsLogge
       setTimeout(() => {
         notify("OTP sent successfully!", true);
       }, 1000);
-      
-      setCurrentModal("otp");
+
+      dispatch(setCurrentModal("verifyOtp"));
       setCredentials({
         username: "",
         confirmpassword: "",
@@ -97,241 +97,217 @@ const SignUp = ({setCurrentModal,setIsLoggedIn}:{setCurrentModal: any,setIsLogge
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  useEffect(() => {
-    if (token) {
-      setIsLoggedIn(true);
-      return;
-    }
-    if (!token && user && !user.isActive) {
-      setCurrentModal("otp");
-      return;
-    }
-  }, []);
 
   return (
     <>
-     
-            <div className="relative w-[90vw] px-3 py-6  rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-[#473086] bg-opacity-100">
-              <img
-                src="/cube3.png"
-                className="h-56 absolute w-56 rotate-45 top-[-15%] right-[-10%]"
-                alt=""
-              />
-              <div className="absolute h-full w-full inset-0 flex z-0">
-                <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 opacity-90 bg-blur"></div>
-                <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
-                <div className="absolute h-44 w-44 bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
-              </div>
+      <div className="relative w-[90vw] px-3 py-6  rounded-3xl shadow-lg md:mt-0 sm:max-w-md xl:p-0 form border-purple_dark border-[0.7px] overflow-hidden bg-[#473086] bg-opacity-100">
+        <div className="absolute h-full w-full inset-0 flex z-0">
+          <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 opacity-90 bg-blur"></div>
+          <div className="absolute h-44 w-44 bg-shape1 top-0 left-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
+          <div className="absolute h-44 w-44 bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
+        </div>
 
-              <div className="relative z-10 md:p-10 space-y-4 md:space-y-6 ">
-                  <img className="h-12 mb-4" src={imgSrc} alt="logo" />
-                <h1 className="lg:text-lg text-md text-center">
-                  Create an account
-                </h1>
-                <form
-                  onSubmit={handleSubmit}
-                  className="flex flex-col"
+        <div className="relative z-10 md:p-10 space-y-4 md:space-y-6 ">
+          <img className="h-12 mb-4" src={imgSrc} alt="logo" />
+          <h1 className="lg:text-lg text-md text-center">
+            Create an account
+          </h1>
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col"
+          >
+            <div className="flex sm:mb-0 md:mb-4 items-start space-x-0 md:space-x-1 justify-between w-full md:flex-row flex-col space-y-2 md:space-y-0">
+              <div className="w-full md:w-1/2">
+                <label
+                  htmlFor="username"
+                  className="block  mb-2 text-sm font-bold spaceGrotesk"
                 >
-                  <div className="flex sm:mb-0 md:mb-4 items-start space-x-0 md:space-x-1 justify-between w-full md:flex-row flex-col space-y-2 md:space-y-0">
-                    <div className="w-full md:w-1/2">
-                      <label
-                        htmlFor="username"
-                        className="block  mb-2 text-sm font-bold spaceGrotesk"
-                      >
-                        User Name
-                      </label>
-                      <input
-                        value={credentials.username}
-                        type="text"
-                        name="username"
-                        id="username"
-                        onChange={handleInputChange}
-                        className={`bg-purple border font-semibold sm:text-sm rounded-lg outline-none block w-full p-2.5 text-white ${
-                          errors.username && touched.username
-                            ? "border-red-500"
-                            : "border-purple_dark"
-                        }`}
-                        placeholder="john doe"
-                      />
-                      <p
-                        className={`text-red-500 transition-opacity duration-300 ${
-                          errors.username
-                            ? "opacity-100 visible"
-                            : "opacity-0 invisible"
-                        }`}
-                      >
-                        {errors.username as string}
-                      </p>
-                    </div>
-                    <div className=" w-full md:w-1/2">
-                      <label
-                        htmlFor="email"
-                        className="block mb-2 text-sm font-bold spaceGrotesk"
-                      >
-                        Email address
-                      </label>
-                      <input
-                        value={credentials.email}
-                        onChange={handleInputChange}
-                        type="email"
-                        name="email"
-                        id="email"
-                        className={`bg-purple border font-semibold sm:text-sm rounded-lg outline-none block w-full p-2.5 text-white ${
-                          errors.email && touched.email
-                            ? "border-red-500"
-                            : "border-purple_dark"
-                        }`}
-                        placeholder="name@company.com"
-                      />
-                      <p
-                        className={`text-red-500 transition-opacity duration-300 ${
-                          errors.email
-                            ? "opacity-100 visible"
-                            : "opacity-0 invisible"
-                        }`}
-                      >
-                        {errors.email as string}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex sm:mb-0 md:mb-4 items-start space-x-0 md:space-x-2 justify-between w-full md:flex-row flex-col space-y-2 md:space-y-0">
-                  <div className="w-full md:w-1/2">
-                    <label
-                      htmlFor="password"
-                      className="block mb-2 text-sm font-bold spaceGrotesk"
-                    >
-                      Password
-                    </label>
-                    <div
-                      className={`bg-purple border font-semibold sm:text-sm rounded-lg outline-none w-full p-2.5 text-white flex items-center ${
-                        errors.password && touched.password
-                          ? "border-red-500"
-                          : "border-purple_dark"
-                      }`}
-                    >
-                      <input
-                        value={credentials.password}
-                        onChange={handleInputChange}
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        id="password"
-                        placeholder="••••••••"
-                        className="bg-transparent font-semibold sm:text-sm rounded-lg outline-none block w-full text-white"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <GoEyeClosed /> : <GoEye />}
-                      </button>
-                    </div>
-                    <p
-                      className={`text-red-500 transition-opacity duration-300 ${
-                        errors.password
-                          ? "opacity-100 visible"
-                          : "opacity-0 invisible"
-                      }`}
-                    >
-                      {errors.password as string}
-                    </p>
-                  </div>
-                  <div className="w-full md:w-1/2">
-                    <label
-                      htmlFor="confirmpassword"
-                      className="block mb-2 text-sm font-bold spaceGrotesk"
-                    >
-                      Confirm Password
-                    </label>
-                    <div
-                      className={`bg-purple border sm:text-sm rounded-lg outline-none w-full p-2.5 text-white flex items-center ${
-                        errors.confirmpassword && touched.confirmpassword
-                          ? "border-red-500"
-                          : "border-purple_dark"
-                      }`}
-                    >
-                      <input
-                        value={credentials.confirmpassword}
-                        onChange={handleInputChange}
-                        type={showConfirmPassword ? "text" : "password"}
-                        name="confirmpassword"
-                        id="confirmpassword"
-                        placeholder="••••••••"
-                        className="bg-transparent font-semibold sm:text-sm rounded-lg outline-none block w-full text-white"
-                      />
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfirmPassword)
-                        }
-                      >
-                        {showConfirmPassword ? <GoEyeClosed /> : <GoEye />}
-                      </button>
-                    </div>
-                    <p
-                      className={`text-red-500 transition-opacity duration-300 ${
-                        errors.confirmpassword
-                          ? "opacity-100 visible"
-                          : "opacity-0 invisible"
-                      }`}
-                    >
-                      {errors.confirmpassword as string}
-                    </p>
-                  </div>
-                  </div>
-                  <div className="sm:my-0 md:mb-4 flex items-center justify-between ">
-                    <div className="md:my-0 my-3  flex items-start">
-                      <div className=" mr-1 md:mr-0 flex items-center h-5">
-                        <input
-                          defaultChecked={termsAccepted}
-                          onChange={(e) => setTermsAccepted(e.target.checked)}
-                          id="remember"
-                          aria-describedby="remember"
-                          type="checkbox"
-                          className="w-4 h-4 bg-purple border border-purple_dark rounded focus:ring-3 focus:ring-primary-300"
-                        />
-                      </div>
-                      <div className=" md:ml-3 text-sm">
-                        <label htmlFor="remember" className="text-white">
-                          Yes, I agree to the{" "}
-                          <Link
-                            className="font-semibold"
-                            to="https://www.google.com"
-                          >
-                            {" "}
-                            Terms of Services
-                          </Link>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    disabled={
-                      isLoading ||
-                      !termsAccepted ||
-                      Object.values(errors).filter((e) => e !== null).length > 0
-                    }
-                    type="submit"
-                    className="col-span-2 w-full disabled:bg-slate-400 text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center sm:mb-0 md:mb-4"
-                  >
-                    {isLoading ? "Submitting..." : "Submit"}
-                  </button>
-                  <p className="col-span-2 text-md font-medium text-center mt-2 md:mt-0">
-                    Already have an account?
-                    <button
-                    type="button"
-                      onClick={()=>{setCurrentModal("login")}}
-                      // to="/login"
-                      className="font-bold ml-1 text-[#618ef0] hover:underline"
-                    >
-                      Login here
-                    </button>
-                  </p>
-                </form>
+                  Username
+                </label>
+                <input
+                  value={credentials.username}
+                  type="text"
+                  name="username"
+                  id="username"
+                  onChange={handleInputChange}
+                  className={`bg-purple border font-semibold sm:text-sm rounded-lg outline-none block w-full p-2.5 text-white ${errors.username && touched.username
+                    ? "border-red-500"
+                    : "border-purple_dark"
+                    }`}
+                  placeholder="john doe"
+                />
+                <p
+                  className={`text-red-500 transition-opacity duration-300 ${errors.username
+                    ? "opacity-100 visible"
+                    : "opacity-0 invisible"
+                    }`}
+                >
+                  {errors.username as string}
+                </p>
+              </div>
+              <div className=" w-full md:w-1/2">
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-bold spaceGrotesk"
+                >
+                  Email address
+                </label>
+                <input
+                  value={credentials.email}
+                  onChange={handleInputChange}
+                  type="email"
+                  name="email"
+                  id="email"
+                  className={`bg-purple border font-semibold sm:text-sm rounded-lg outline-none block w-full p-2.5 text-white ${errors.email && touched.email
+                    ? "border-red-500"
+                    : "border-purple_dark"
+                    }`}
+                  placeholder="name@company.com"
+                />
+                <p
+                  className={`text-red-500 transition-opacity duration-300 ${errors.email
+                    ? "opacity-100 visible"
+                    : "opacity-0 invisible"
+                    }`}
+                >
+                  {errors.email as string}
+                </p>
               </div>
             </div>
-          {/* </div>
+
+            <div className="flex sm:mb-0 md:mb-4 items-start space-x-0 md:space-x-2 justify-between w-full md:flex-row flex-col space-y-2 md:space-y-0">
+              <div className="w-full md:w-1/2">
+                <label
+                  htmlFor="password"
+                  className="block mb-2 text-sm font-bold spaceGrotesk"
+                >
+                  Password
+                </label>
+                <div
+                  className={`bg-purple border font-semibold sm:text-sm rounded-lg outline-none w-full p-2.5 text-white flex items-center ${errors.password && touched.password
+                    ? "border-red-500"
+                    : "border-purple_dark"
+                    }`}
+                >
+                  <input
+                    value={credentials.password}
+                    onChange={handleInputChange}
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    placeholder="••••••••"
+                    className="bg-transparent font-semibold sm:text-sm rounded-lg outline-none block w-full text-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <GoEyeClosed /> : <GoEye />}
+                  </button>
+                </div>
+                <p
+                  className={`text-red-500 transition-opacity duration-300 ${errors.password
+                    ? "opacity-100 visible"
+                    : "opacity-0 invisible"
+                    }`}
+                >
+                  {errors.password as string}
+                </p>
+              </div>
+              <div className="w-full md:w-1/2">
+                <label
+                  htmlFor="confirmpassword"
+                  className="block mb-2 text-sm font-bold spaceGrotesk"
+                >
+                  Confirm Password
+                </label>
+                <div
+                  className={`bg-purple border sm:text-sm rounded-lg outline-none w-full p-2.5 text-white flex items-center ${errors.confirmpassword && touched.confirmpassword
+                    ? "border-red-500"
+                    : "border-purple_dark"
+                    }`}
+                >
+                  <input
+                    value={credentials.confirmpassword}
+                    onChange={handleInputChange}
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmpassword"
+                    id="confirmpassword"
+                    placeholder="••••••••"
+                    className="bg-transparent font-semibold sm:text-sm rounded-lg outline-none block w-full text-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setShowConfirmPassword(!showConfirmPassword)
+                    }
+                  >
+                    {showConfirmPassword ? <GoEyeClosed /> : <GoEye />}
+                  </button>
+                </div>
+                <p
+                  className={`text-red-500 transition-opacity duration-300 ${errors.confirmpassword
+                    ? "opacity-100 visible"
+                    : "opacity-0 invisible"
+                    }`}
+                >
+                  {errors.confirmpassword as string}
+                </p>
+              </div>
+            </div>
+            <div className="sm:my-0 md:mb-4 flex items-center justify-between ">
+              <div className="md:my-0 my-3  flex items-start">
+                <div className=" mr-1 md:mr-0 flex items-center h-5">
+                  <input
+                    defaultChecked={termsAccepted}
+                    onChange={(e) => setTermsAccepted(e.target.checked)}
+                    id="remember"
+                    aria-describedby="remember"
+                    type="checkbox"
+                    className="w-4 h-4 bg-purple border border-purple_dark rounded focus:ring-3 focus:ring-primary-300"
+                  />
+                </div>
+                <div className=" md:ml-3 text-sm">
+                  <label htmlFor="remember" className="text-white">
+                    Yes, I agree to the{" "}
+                    <Link
+                      className="font-semibold"
+                      to="https://www.google.com"
+                    >
+                      {" "}
+                      Terms of Services
+                    </Link>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <button
+              disabled={
+                isLoading ||
+                !termsAccepted ||
+                Object.values(errors).filter((e) => e !== null).length > 0
+              }
+              type="submit"
+              className="col-span-2 w-full disabled:bg-slate-400 text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center sm:mb-0 md:mb-4"
+            >
+              {isLoading ? "Submitting..." : "Submit"}
+            </button>
+            <p className="col-span-2 text-md font-medium text-center mt-2 md:mt-0">
+              Already have an account?
+              <button
+                type="button"
+                onClick={() => { dispatch(setCurrentModal("login")); }}
+                // to="/login"
+                className="font-bold ml-1 text-[#618ef0] hover:underline"
+              >
+                Login here
+              </button>
+            </p>
+          </form>
+        </div>
+      </div>
+      {/* </div>
         </div>
       </section> */}
     </>

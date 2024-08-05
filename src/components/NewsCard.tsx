@@ -19,12 +19,12 @@ const index = ({
   const getBg = ()=>{
     switch(type){
       case "crypto":
-        return {bg:"#fff4a6",text:"#ad5b03"}
+        return {bg:"#fff4a6",text:"#ad5b03"};
       case "stocks":
-        return {bg:"#a4c7fc",text:"#0347ad"}
+        return {bg:"#a4c7fc",text:"#0347ad"};
     }
-    return {bg:"#a4c7fc",text:"#0347ad"}
-  }
+    return {bg:"#a4c7fc",text:"#0347ad"};
+  };
 
   return (
     <a
