@@ -1,14 +1,13 @@
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import * as Dialog from "@radix-ui/react-dialog";
-import { UserPlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUser } from "react-icons/fa6";
 
+import { BiDollar, BiLogIn, BiUserPlus } from "react-icons/bi";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/slices/authSlice";
-import { notify } from "../utils/notify";
 import { setCurrentModal } from "../redux/slices/modalSlice";
-import { BiDollar, BiLogIn, BiUserPlus } from "react-icons/bi";
+import { notify } from "../utils/notify";
 
 const NavMenu = ({ triggerButton }: { triggerButton: React.ReactNode }) => {
   const navigate = useNavigate();
