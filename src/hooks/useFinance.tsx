@@ -1,31 +1,37 @@
 import useAxios from "./useAxios";
+import { useCallback } from "react";
+
 const useFinanceService = () => {
   const api = useAxios();
-  const getStocksData = async () => {
+
+  const getStocksData = useCallback(async () => {
     try {
       const res = await api.get("/finance/stocks");
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
-  const getCryptoData = async () => {
+  }, [api]);
+
+  const getCryptoData = useCallback(async () => {
     try {
       const res = await api.get("/finance/crypto");
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
-  const getNewsData = async () => {
+  }, [api]);
+
+  const getNewsData = useCallback(async () => {
     try {
       const res = await api.get("/finance/news");
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
+  }, [api]);
 
-  return { getStocksData,getCryptoData,getNewsData};
+  return { getStocksData, getCryptoData, getNewsData };
 };
+
 export default useFinanceService;

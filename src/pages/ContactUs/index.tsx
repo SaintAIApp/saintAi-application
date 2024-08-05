@@ -3,17 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { revealVariant } from "../../constants/animations";
 import Button from "../../components/Button";
 import { ContactUsForm } from "../../components/ContactUsForm";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
-const index = () => {
+const ContactUs = () => {
   const navigate = useNavigate();
-  const [time,setTime] = useState({days:"00",sec:"00",mins:"00",hrs:"00"});
+  const [time, setTime] = useState({ days: "00", sec: "00", mins: "00", hrs: "00" });
   useEffect(() => {
     const interval = setInterval(() => {
       const curDate = new Date();
       const releaseDate = new Date("27 July 2024");
 
-      const timeDifference = releaseDate.getTime()  - curDate.getTime();
+      const timeDifference = releaseDate.getTime() - curDate.getTime();
 
       if (timeDifference > 0) {
         const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
@@ -22,10 +22,10 @@ const index = () => {
         const seconds = Math.floor((timeDifference / 1000) % 60);
 
         setTime({
-          days: String(days).padStart(2, '0'),
-          hrs: String(hours).padStart(2, '0'),
-          mins: String(minutes).padStart(2, '0'),
-          sec: String(seconds).padStart(2, '0')
+          days: String(days).padStart(2, "0"),
+          hrs: String(hours).padStart(2, "0"),
+          mins: String(minutes).padStart(2, "0"),
+          sec: String(seconds).padStart(2, "0")
         });
       } else {
         // If the release date is in the past, clear the interval and set time to zero
@@ -44,45 +44,45 @@ const index = () => {
           <div className="absolute h-64 w-64 bg-shape2 top-96 left-10"></div>
         </div>
 
-          <div id="left">
-            <motion.h1
-              variants={revealVariant}
-              transition={{
-                ease: "easeInOut",
-                duration: 0.5,
-                delay: 0,
-              }}
-              initial="hidden"
-              animate="visible"
-              className="text-4xl md:text-6xl mb-10 font-normal"
-            >
-              Have a <span className="text-purple_dark">question</span> or need <span className="text-purple_dark">help</span>?
-            </motion.h1>
+        <div id="left">
+          <motion.h1
+            variants={revealVariant}
+            transition={{
+              ease: "easeInOut",
+              duration: 0.5,
+              delay: 0,
+            }}
+            initial="hidden"
+            animate="visible"
+            className="text-4xl md:text-6xl mb-10 font-normal"
+          >
+            Have a <span className="text-purple_dark">question</span> or need <span className="text-purple_dark">help</span>?
+          </motion.h1>
 
-            <motion.h1
-              variants={revealVariant}
-              transition={{
-                ease: "easeInOut",
-                duration: 0.5,
-                delay: 0.6,
-              }}
-              initial="hidden"
-              animate="visible"
-              className="text-xl relative mb-10 font-thin"
-            >
-              Reach out to explore how <span className="text-primary">SaintAI</span> can propel your AI journey forward
-            </motion.h1>
+          <motion.h1
+            variants={revealVariant}
+            transition={{
+              ease: "easeInOut",
+              duration: 0.5,
+              delay: 0.6,
+            }}
+            initial="hidden"
+            animate="visible"
+            className="text-xl relative mb-10 font-thin"
+          >
+            Reach out to explore how <span className="text-primary">SaintAI</span> can propel your AI journey forward
+          </motion.h1>
 
-            <Button
-              className="relative"
-              variant="rounded"
-              onClick={() => {
-                navigate("/");
-              }}
-              text="Saint APP"
-            />
-          </div>
-          {/* <motion.div
+          <Button
+            className="relative"
+            variant="rounded"
+            onClick={() => {
+              navigate("/");
+            }}
+            text="Saint APP"
+          />
+        </div>
+        {/* <motion.div
             id="right"
             className="absolute cube right-0"
             //@ts-ignore
@@ -90,8 +90,8 @@ const index = () => {
             initial="initial"
             animate="animate"
           > */}
-            <img className="h-0 w-0 md:h-72 md:w-72" src="/cube.png" alt="" />
-          {/* </motion.div> */}
+        <img className="h-0 w-0 md:h-72 md:w-72" src="/cube.png" alt="" />
+        {/* </motion.div> */}
 
       </div>
       <div className="my-3">
@@ -101,18 +101,18 @@ const index = () => {
         <h1 className="text-3xl">Mine Pass Available now!</h1>
         <h1 className="py-4 text-slate-400 text-xl">{`Mine opens in: ${time.days} : ${time.hrs} : ${time.mins} : ${time.sec}`}</h1>
         <Button
-        className="w-fit"
-              variant="rounded"
-              onClick={() => {
-                navigate("/");
-              }}
-              text="Saint APP"
-            />
+          className="w-fit"
+          variant="rounded"
+          onClick={() => {
+            navigate("/");
+          }}
+          text="Saint APP"
+        />
       </div>
     </section>
   );
 };
 
-export default index;
+export default ContactUs;
 
 

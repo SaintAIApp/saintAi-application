@@ -20,7 +20,7 @@ export const signupService = async (username: string, email: string, password: s
             message: err.response?.data?.message || "Something went wrong!",
         };
     }
-}
+};
 
 export const verifyUserService = async (otp: number) => {
     try {
@@ -31,7 +31,7 @@ export const verifyUserService = async (otp: number) => {
             message: err.response?.data?.message || "Something went wrong!",
         };
     }
-}
+};
 
 export const changePasswordService = async (oldPassword: string, newPassword: string) => {
     try {
@@ -42,7 +42,7 @@ export const changePasswordService = async (oldPassword: string, newPassword: st
             message: err.response?.data?.message || "Something went wrong!",
         };
     }
-}
+};
 
 export const forgotPasswordService = async (email: string) => {
     try {
@@ -53,7 +53,7 @@ export const forgotPasswordService = async (email: string) => {
             message: err.response?.data?.message || "Something went wrong!",
         };
     }
-}
+};
 
 export const resetPasswordService = async (otp: number, password: string) => {
     try {
@@ -64,4 +64,4 @@ export const resetPasswordService = async (otp: number, password: string) => {
             message: err.response?.data?.message || "Something went wrong!",
         };
     }
-}
+};

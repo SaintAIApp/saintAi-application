@@ -20,7 +20,7 @@ function SolanaProvider({ children }: any) {
       // new UnsafeBurnerWalletAdapter(),
     ],
 
-    [network]
+    []
   );
   return (
     <>

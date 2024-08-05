@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import ChatItem from "./ChatItem";
 import { IoIosSend } from "react-icons/io";
 import { BiConversation } from "react-icons/bi";
@@ -47,19 +47,14 @@ const ChatBox: React.FC<{
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchChatHistory();
-    };
-    fetchData();
-  }, []);
-
-  const fetchChatHistory = async () => {
+  const fetchChatHistory = useCallback(async () => {
     try {
       setIsHistoryLoading(true);
-      const res = await getChatHistoryTrade(user?._id!);
-      if (res.status==200) {
-        console.log(res.data)
+      const userId = user?._id;
+      if (!userId) return;
+      const res = await getChatHistoryTrade(userId);
+      if (res.status == 200) {
+        console.log(res.data);
         setChats(res.data?.data);
       }
     } catch (error) {
@@ -68,7 +63,14 @@ const ChatBox: React.FC<{
     } finally {
       setIsHistoryLoading(false);
     }
-  };
+  }, [getChatHistoryTrade, user]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchChatHistory();
+    };
+    fetchData();
+  }, [fetchChatHistory]);
 
   const handleSendMessage = async () => {
     if (chat.trim() === "") return;
@@ -76,7 +78,9 @@ const ChatBox: React.FC<{
     try {
       setIsResponseLoading(true);
       setChats((prev) => [...prev, { user: chat, agent: "Processing..." }]);
-      const res = await sendMessageTrade(chat, user?._id!);
+      const userId = user?._id;
+      if (!userId) return;
+      const res = await sendMessageTrade(chat, userId);
       if (res.status === 200) {
         setChats((prev) => {
           const newChats = [...prev];
@@ -99,7 +103,7 @@ const ChatBox: React.FC<{
 
   return (
     <div
-      className={`fixed inset-0  md:inset-auto md:right-10 md:bottom-10 md:w-[400px] md:h-[80vh] 
+      className={`fixed inset-0  md:inset-auto md:right-10 md:bottom-10 md:w-[400px] md:h-[80vh]
                   flex flex-col bg-dark shadow-2xl rounded-xl z-[10005] ${className}`}
       style={{
         border: "1.2px solid #333",

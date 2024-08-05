@@ -1,26 +1,24 @@
 import {
+  closestCorners,
   DndContext,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  closestCorners,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { Column } from "../../components/Column";
-import React, { useEffect, useState, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
-import logoCircle from "../../assets/saintailogo.png";
-import { LockClosedIcon } from "@heroicons/react/24/solid";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { jwtDecode } from "jwt-decode";
-import ChatItem from "../../components/Chat/ChatItem";
-import useFinanceService from "../../hooks/useFinance";
-import Loader from "../../components/Loader";
-import { updateCurCategory } from "../../redux/slices/widgetSlice";
-import useFileService from "../../hooks/useFileService";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { IoIosSend } from "react-icons/io";
+import { useLocation } from "react-router-dom";
 import SaintSampleFile from "../../assets/saintai.pdf";
+import logoCircle from "../../assets/saintailogo.png";
+import ChatItem from "../../components/Chat/ChatItem";
+import { Column } from "../../components/Column";
+import Loader from "../../components/Loader";
+import useFileService from "../../hooks/useFileService";
+import useFinanceService from "../../hooks/useFinance";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { updateCurCategory } from "../../redux/slices/widgetSlice";
 import { notify } from "../../utils/notify";
 
 interface ChatMessage {
@@ -30,8 +28,7 @@ interface ChatMessage {
 
 const Generic2: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
-  const { auth: authObject, widget } = useAppSelector((state) => state);
+  const { widget } = useAppSelector((state) => state);
   const curCategory = widget.curCategory;
   const location = useLocation();
   const [list, setList] = useState<any[]>([]);
@@ -67,7 +64,7 @@ const Generic2: React.FC = () => {
     });
   };
 
-  const fetchCategoryData = async (category: string) => {
+  const fetchCategoryData = useCallback(async (category: string) => {
     try {
       setIsDataLoading(true);
       let res;
@@ -98,9 +95,9 @@ const Generic2: React.FC = () => {
     } finally {
       setIsDataLoading(false);
     }
-  };
+  }, [dispatch, getCryptoData, getNewsData, getStocksData]);
 
-  const fetchUploadId = async () => {
+  const fetchUploadId = useCallback(async () => {
     try {
       const res = await getAllFiles();
       if (res.status === 200) {
@@ -113,9 +110,9 @@ const Generic2: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [getAllFiles]);
 
-  const fetchChatHistory = async (uploadId: string) => {
+  const fetchChatHistory = useCallback(async (uploadId: string) => {
     try {
       setIsHistoryLoading(true);
       const res = await getChatHistory(uploadId);
@@ -128,7 +125,7 @@ const Generic2: React.FC = () => {
     } finally {
       setIsHistoryLoading(false);
     }
-  };
+  }, [getChatHistory]);
 
   const handleSendMessage = async () => {
     if (chat.trim() === "") return;
@@ -162,9 +159,9 @@ const Generic2: React.FC = () => {
 
       setIsResponseLoading(true);
       setChats((prev) => [...prev, { user: chat, agent: "Processing..." }]);
-      
+
       const res = await sendMessage(uploadId, chat);
-      
+
       if (res.status === 200) {
         setChats((prev) => {
           const newChats = [...prev];
@@ -204,7 +201,7 @@ const Generic2: React.FC = () => {
       }
     };
     fetchData();
-  }, [curCategory]);
+  }, [curCategory, fetchCategoryData, fetchChatHistory, fetchUploadId, location.search]);
 
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -212,36 +209,8 @@ const Generic2: React.FC = () => {
     }
   }, [chats]);
 
-  useEffect(() => {
-    const { user, token } = authObject;
-    if (!token || (user && !user.isActive)) {
-      setIsLoggedIn(false);
-    } else {
-      try {
-        const decodedToken: any = jwtDecode(token);
-        if (decodedToken.expiresIn * 1000 < Date.now()) {
-          alert("Session Expired, please login again");
-          setIsLoggedIn(false);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }, [authObject]);
-
   return (
     <section className="overflow-x-hidden">
-      {!isLoggedIn && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-[2px]">
-          <div className="text-center text-white flex justify-center flex-col items-center">
-            <LockClosedIcon height={40} width={40} />
-            <h1>Please log in to access this content.</h1>
-            <Link to="/login" className="bg-primary rounded-md px-5 py-1 mt-2">
-              Login
-            </Link>
-          </div>
-        </div>
-      )}
       {isDataLoading ? (
         <Loader />
       ) : (
@@ -292,31 +261,31 @@ const Generic2: React.FC = () => {
               </div>
             </div>
           </div>
-              <div className="bg-[#292929] py-2 px-4 fixed bottom-0 w-full">
-                <div className="flex items-center justify-center">
-                  <input
-                    ref={inputRef}
-                    disabled={isResponseLoading}
-                    value={chat}
-                    onChange={(e) => setChat(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey && !isResponseLoading) {
-                        e.preventDefault();
-                        handleSendMessage();
-                      }
-                    }}
-                    className="bg-black py-1 outline-none rounded-full px-3 flex-grow mr-1 z-30"
-                    placeholder="Type your message here..."
-                  />
-                  <button
-                    onClick={handleSendMessage}
-                    disabled={isResponseLoading}
-                    className="bg-primary rounded-full text-white px-4 py-1 flex items-center justify-center"
-                  >
-                    <IoIosSend fill='green' />
-                  </button>
-                </div>
-              </div>
+          <div className="bg-[#292929] py-2 px-4 fixed bottom-0 w-full">
+            <div className="flex items-center justify-center">
+              <input
+                ref={inputRef}
+                disabled={isResponseLoading}
+                value={chat}
+                onChange={(e) => setChat(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey && !isResponseLoading) {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }
+                }}
+                className="bg-black py-1 outline-none rounded-full px-3 flex-grow mr-1 z-30"
+                placeholder="Type your message here..."
+              />
+              <button
+                onClick={handleSendMessage}
+                disabled={isResponseLoading}
+                className="bg-primary rounded-full text-white px-4 py-1 flex items-center justify-center"
+              >
+                <IoIosSend fill='green' />
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </section>

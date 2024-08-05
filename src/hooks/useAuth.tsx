@@ -7,10 +7,10 @@ const useAuthService = () => {
   const loginUser = async (email:string,password:string) => {
       try {
         const res = await api.post("/user/login",{email,password});
-        console.log(res)
+        console.log(res);
         return res;
       } catch (error: any) {
-        throw new Error(error.response?.data?.message||"Something went wrong")
+        throw new Error(error.response?.data?.message||"Something went wrong");
       }
    
   };
@@ -19,7 +19,7 @@ const useAuthService = () => {
       const res = await api.post("/user/signup",{username,email,password});
       return res;
     } catch (error: any) {
-      throw new Error(error.response?.data?.message||"Something went wrong")
+      throw new Error(error.response?.data?.message||"Something went wrong");
     }
  
 };
@@ -28,7 +28,7 @@ const verifyOTP = async (otp:number) => {
       const res = await api.post("/user/verify-user",{otp});
       return res;
     } catch (error: any) {
-        throw new Error(error.response?.data?.message||"Something went wrong")
+        throw new Error(error.response?.data?.message||"Something went wrong");
     }
  
 };
@@ -38,7 +38,7 @@ const deleteAccount = async (userId:string) => {
     const res = await api.post(`/user/delete-account/${userId}`);
     return res;
   } catch (error: any) {
-      throw new Error(error.response?.data?.message||"Something went wrong")
+      throw new Error(error.response?.data?.message||"Something went wrong");
   }
 };
 
@@ -47,7 +47,7 @@ const forgotOTP = async (email:string) => {
     const res = await api.post(`/user/forgot-password/`,{email});
     return res;
   } catch (error: any) {
-      throw new Error(error.response?.data?.message||"Something went wrong")
+      throw new Error(error.response?.data?.message||"Something went wrong");
   }
 };
 
@@ -56,7 +56,7 @@ const resetPassword  = async (otp:number,password:string) => {
     const res = await api.post(`/user/reset-password/`,{otp,password});
     return res;
   } catch (error: any) {
-      throw new Error(error.response?.data?.message||"Something went wrong")
+      throw new Error(error.response?.data?.message||"Something went wrong");
   }
 };
   

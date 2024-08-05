@@ -7,8 +7,10 @@ import { FaUser } from "react-icons/fa6";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/slices/authSlice";
 import { notify } from "../utils/notify";
+import { setCurrentModal } from "../redux/slices/modalSlice";
+import { BiDollar, BiLogIn, BiUserPlus } from "react-icons/bi";
 
-export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
+const NavMenu = ({ triggerButton }: { triggerButton: React.ReactNode }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => {
@@ -35,15 +37,14 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                     <Dialog.Close
                       onClick={() => {
                         window.scrollTo({ top: 0 });
-                        navigate("/");
+                        dispatch(setCurrentModal("login"));
                       }}
-                      className={`flex w-full items-center space-x-3 ${
-                        location.pathname.includes("login")
-                          ? "text-primary font-bold"
-                          : ""
-                      }`}
+                      className={`flex w-full items-center space-x-3 ${location.pathname.includes("login")
+                        ? "text-primary font-bold"
+                        : ""
+                        }`}
                     >
-                      <FaUser />
+                      <BiLogIn className="text-2xl" />
                       <span>Login</span>
                     </Dialog.Close>
                   </li>
@@ -51,15 +52,14 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                     <Dialog.Close
                       onClick={() => {
                         window.scrollTo({ top: 0 });
-                        navigate("/");
+                        dispatch(setCurrentModal("signup"));
                       }}
-                      className={`flex w-full items-center space-x-3 ${
-                        location.pathname.includes("signup")
-                          ? "text-primary font-bold"
-                          : ""
-                      }`}
+                      className={`flex w-full items-center space-x-3 ${location.pathname.includes("signup")
+                        ? "text-primary font-bold"
+                        : ""
+                        }`}
                     >
-                      <UserPlusIcon height={20} width={20} />
+                      <BiUserPlus className="text-2xl" />
                       <span>Create an account</span>
                     </Dialog.Close>
                   </li>
@@ -70,7 +70,8 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                       }}
                       className={`flex w-full items-center space-x-3 `}
                     >
-                      <span className="w-full">Pricing</span>
+                      <BiDollar className="h-8" />
+                      <span>Pricing</span>
                     </Dialog.Close>
                   </li>
                 </>
@@ -78,7 +79,7 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
 
               {token && (
                 <>
-                <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                  <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
                     <Dialog.Close
                       onClick={() => {
                         navigate("/");
@@ -137,7 +138,7 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                       dispatch(logout());
                       notify("Logged out successfully", true);
                     }}
-                    className={`flex w-full items-center space-x-3 text-red-400`}
+                    className={`flex w-full items-center space-x-3 text-purple`}
                   >
                     <span className="w-full">Logout</span>
                   </Dialog.Close>
@@ -150,3 +151,5 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
     </Dialog.Root>
   );
 };
+
+export default NavMenu;

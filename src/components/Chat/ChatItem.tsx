@@ -1,5 +1,5 @@
 
-import TypewriterEffect from '../TypeWriting';
+import TypewriterEffect from "../TypeWriting";
 
 const ChatItem = ({ sender, message,isHistory }: { sender: string; message: string,isHistory?:boolean }) => {
   const isMe = sender === "Me";

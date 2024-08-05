@@ -59,7 +59,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
     fetchFile();
     fetchChatHistory();
-  }, [selectedFileId]);
+  }, [getChatHistory, getFile, selectedFileId]);
 
   useEffect(() => {
     scrollToBottom();
@@ -117,10 +117,9 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
   return (
     <div
-      className={`inset-0 md:inset-auto md:right-10 md:bottom-10 w-full md:h-[90vh] 
-                    flex flex-col bg-dark shadow-2xl rounded-xl ${
-                      selectedFileId ? "mt-20" : ""
-                    } md:mt-0`}
+      className={`inset-0 md:inset-auto md:right-10 md:bottom-10 w-full md:h-[90vh]
+                    flex flex-col bg-dark shadow-2xl rounded-xl ${selectedFileId ? "mt-20" : ""
+        } md:mt-0`}
       style={{
         border: "1.2px solid #333",
       }}

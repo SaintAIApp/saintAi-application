@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import useUserService from "../../hooks/useUser";
 import { clearPlan, updatePlan } from "../../redux/slices/subscriptionSlice";
@@ -11,14 +11,14 @@ import DialogComponent from "../../components/Dialog";
 import { logout } from "../../redux/slices/authSlice";
 
 const Profile = () => {
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     dispatch(logout());
     dispatch(clearPlan());
 
-  }
+  };
   const states = useAppSelector((state) => state);
-  const {auth,subscription} = states;
-  const {user} = auth;
+  const { auth, subscription } = states;
+  const { user } = auth;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { getUserDetails } = useUserService();
@@ -26,27 +26,27 @@ const Profile = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
-      const {data} = await getUserDetails(user?._id || "");
+      const { data } = await getUserDetails(user?._id || "");
       const subscriptionData = data.data.subscriptionData;
       const userGroup = data.data.userGroup;
       //If user has already made any payments in Past
-      if (subscriptionData.length > 0)
-        {
-          const {customerId,userId,validUntil} = subscriptionData[subscriptionData.length-1];
-          dispatch(updatePlan({plan:userGroup.name,customerId:customerId,userId:userId,validUntil:validUntil}));
-        }
-      else 
-        dispatch(clearPlan())
+      if (subscriptionData.length > 0) {
+        const { customerId, userId, validUntil } = subscriptionData[subscriptionData.length - 1];
+        dispatch(updatePlan({ plan: userGroup.name, customerId: customerId, userId: userId, validUntil: validUntil }));
+      }
+      else {
+        dispatch(clearPlan());
+      }
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [dispatch, getUserDetails, user]);
 
   const getPlan = () => {
     const plan = subscription.plan;
-    if (plan === "" || plan.toLowerCase()==="free") return <span className="text-slate-400">Genesis</span>;
+    if (plan === "" || plan.toLowerCase() === "free") return <span className="text-slate-400">Genesis</span>;
     else if (plan.toLowerCase() === "pro")
       return (
         <span className="  proText rounded-full text-sm">
@@ -67,7 +67,7 @@ const Profile = () => {
     try {
       const res = await cancelSubscription();
       if (res.status === 200) {
-        dispatch(updatePlan({validUntil:new Date(Date.now()),plan:"",userId:user?._id||"",customerId:subscription.customerId}))
+        dispatch(updatePlan({ validUntil: new Date(Date.now()), plan: "", userId: user?._id || "", customerId: subscription.customerId }));
         notify("Subscription cancelled", true);
         setIsDialogOpen(false); // Close the dialog on successful cancellation
       }
@@ -80,15 +80,15 @@ const Profile = () => {
     const currentDate = moment();
     const expiryDate = moment(subscription.validUntil);
     const differenceInDays = expiryDate.diff(currentDate, "days");
-    if(differenceInDays<0)
-      return `Your plan expired ${-1*differenceInDays} days ago`
+    if (differenceInDays < 0)
+      return `Your plan expired ${-1 * differenceInDays} days ago`;
     return `${differenceInDays} days`;
   };
 
   useEffect(() => {
     if (!user) navigate("/");
     fetchUserData();
-  }, []);
+  }, [fetchUserData, navigate, user]);
 
   return (
     <section id="profile" className=" pb-10 font-roboto mt-10">
@@ -100,8 +100,8 @@ const Profile = () => {
             {subscription.plan === "" || moment(subscription.validUntil).isBefore(Date.now())
               ? "Unlock More Features with Our Odysseus Plans!"
               : subscription.plan === "pro"
-              ? "Unlock More Features with Our Odysseus Plan!"
-              : ""}
+                ? "Unlock More Features with Our Odysseus Plan!"
+                : ""}
             <Badge text="View Plans" />
           </span>
         </div>
@@ -115,15 +115,15 @@ const Profile = () => {
                 <span>Email: </span> {user?.email}
               </h1>
               <h1 className="text-md md:text-lg">
-                <span>User Name: </span> {user?.username}
+                <span>Username: </span> {user?.username}
               </h1>
               <h1> {auth.token && user && (
-                
-                <button className="text-red-400" onClick={handleLogout}>Logout</button>
+
+                <button className="text-purple" onClick={handleLogout}>Logout</button>
               )}</h1>
             </div>
 
-               
+
 
           </div>
 
@@ -136,14 +136,14 @@ const Profile = () => {
                   <span>Plan:</span> {getPlan()}
                 </span>
               </h1>
-              {subscription && subscription.plan && subscription.plan.toLowerCase() !== "free" && subscription.plan.toLowerCase() !== ""  && (
+              {subscription && subscription.plan && subscription.plan.toLowerCase() !== "free" && subscription.plan.toLowerCase() !== "" && (
                 <div>
                   <h1 className="text-lg">
                     <span className="flex space-x-2 mr-1 items-center">
                       <span>Expires In:</span> &nbsp; {getExpiry()}
                     </span>
                   </h1>
-                  { !moment(subscription.validUntil).isBefore(Date.now()) && <DialogComponent
+                  {!moment(subscription.validUntil).isBefore(Date.now()) && <DialogComponent
                     open={isDialogOpen}
                     onOpenChange={setIsDialogOpen}
                     onConfirm={handleCancelSubscription}
