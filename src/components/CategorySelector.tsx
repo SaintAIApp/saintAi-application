@@ -11,22 +11,20 @@ const CategorySelector = () => {
     <div className="top-0 left-0 w-full pb-3">
       <ul className="w-full text-sm h-full flex justify-start text-white space-x-2 md:space-x-5 cursor-pointer">
         <li
-          className={`${
-            curCategory === "stocks" ? "font-semibold text-[#17B982]" : ""
-          } px-3 py-2 flex items-center rounded-full`}
+          className={`${curCategory === "news" ? "font-semibold text-blue" : ""
+            } px-3 py-1 flex items-center rounded-full`}
           style={{
-            background: curCategory === "stocks" ? "#292929" : "",
+            background: curCategory === "news" ? "#292929" : "",
           }}
           onClick={() =>
-            dispatch(updateCurCategory({ curCategory: "stocks", genericType }))
+            dispatch(updateCurCategory({ curCategory: "news", genericType }))
           }
         >
-          <GoGraph className="mr-2" /> Stocks
+          <FaNewspaper className="mr-2" /> News Articles
         </li>
         <li
-          className={`${
-            curCategory === "crypto" ? "font-semibold text-[#FCB307]" : ""
-          } px-2 py-1 flex items-center rounded-full`}
+          className={`${curCategory === "crypto" ? "font-semibold text-[#FCB307]" : ""
+            } px-3 py-1 flex items-center rounded-full`}
           style={{
             background: curCategory === "crypto" ? "#292929" : "",
           }}
@@ -42,19 +40,17 @@ const CategorySelector = () => {
           />{" "}
           Crypto
         </li>
-
         <li
-          className={`${
-            curCategory === "news" ? "font-semibold text-blue" : ""
-          } px-2 py-1 flex items-center rounded-full`}
+          className={`${curCategory === "stocks" ? "font-semibold text-[#17B982]" : ""
+            } px-3 py-2 flex items-center rounded-full`}
           style={{
-            background: curCategory === "news" ? "#292929" : "",
+            background: curCategory === "stocks" ? "#292929" : "",
           }}
           onClick={() =>
-            dispatch(updateCurCategory({ curCategory: "news", genericType }))
+            dispatch(updateCurCategory({ curCategory: "stocks", genericType }))
           }
         >
-          <FaNewspaper className="mr-2" /> News Articles
+          <GoGraph className="mr-2" /> Stocks
         </li>
       </ul>
     </div>

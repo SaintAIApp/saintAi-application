@@ -1,14 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import useUserService from "../../hooks/useUser";
-import { clearPlan, updatePlan } from "../../redux/slices/subscriptionSlice";
+import moment from "moment";
+import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "../../components/Badge";
-import moment from "moment";
+import Button from "../../components/Button";
+import DialogComponent from "../../components/CancelSubscriptionDialog";
 import usePaymentServices from "../../hooks/usePayment";
-import { notify } from "../../utils/notify";
-import DialogComponent from "../../components/Dialog";
+import useUserService from "../../hooks/useUser";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logout } from "../../redux/slices/authSlice";
+import { clearPlan, updatePlan } from "../../redux/slices/subscriptionSlice";
+import { notify } from "../../utils/notify";
+import DeleteAccountDialog from "../../components/DeleteAccountDialog";
+import { BiChevronRight } from "react-icons/bi";
+import useAuthService from "../../hooks/useAuth";
 
 const Profile = () => {
   const handleLogout = () => {
@@ -19,11 +23,13 @@ const Profile = () => {
   const states = useAppSelector((state) => state);
   const { auth, subscription } = states;
   const { user } = auth;
+  const { deleteAccount } = useAuthService();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { getUserDetails } = useUserService();
   const { cancelSubscription } = usePaymentServices();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [subDialogOpen, setSubDialogOpen] = useState(false);
+  const [deleteAccountDialogOpen, setDeleteAccountDialogOpen] = useState(false);
 
 
   const fetchUserData = useCallback(async () => {
@@ -69,8 +75,18 @@ const Profile = () => {
       if (res.status === 200) {
         dispatch(updatePlan({ validUntil: new Date(Date.now()), plan: "", userId: user?._id || "", customerId: subscription.customerId }));
         notify("Subscription cancelled", true);
-        setIsDialogOpen(false); // Close the dialog on successful cancellation
+        setSubDialogOpen(false); // Close the dialog on successful cancellation
       }
+    } catch (error: any) {
+      notify(error.message, false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      if (!user) return;
+      await deleteAccount(user?._id);
+      dispatch(logout());
     } catch (error: any) {
       notify(error.message, false);
     }
@@ -81,7 +97,7 @@ const Profile = () => {
     const expiryDate = moment(subscription.validUntil);
     const differenceInDays = expiryDate.diff(currentDate, "days");
     if (differenceInDays < 0)
-      return `Your plan expired ${-1 * differenceInDays} days ago`;
+      return `Your plan expired ${-differenceInDays} days ago`;
     return `${differenceInDays} days`;
   };
 
@@ -91,71 +107,72 @@ const Profile = () => {
   }, [fetchUserData, navigate, user]);
 
   return (
-    <section id="profile" className=" pb-10 font-roboto mt-10">
+    <section id="profile" className="px-2 pb-10 mt-6 container mx-auto">
       {(subscription.plan !== "proPlus" || moment(subscription.validUntil).isBefore(Date.now())) && (
-        <div className="w-full  md:py-2 md:px-0 px-2 py-2 border-[0.3px] border-slate-800 rounded-md flex justify-center items-center relative overflow-hidden">
+        <div className="w-full  mb-6 md:py-2 md:px-0 px-2 py-2 border-[0.3px] border-slate-800 rounded-md flex justify-center items-center relative overflow-hidden">
           <div className="z-0 absolute h-64 w-64 bg-shape1 bottom-[-150px] right-20"></div>
           <div className="z-0 absolute h-64 w-64 bg-shape2 bottom-0 left-0 text-sm"></div>
-          <span className="text-sm">
+          <span className="text-sm mr-3">
             {subscription.plan === "" || moment(subscription.validUntil).isBefore(Date.now())
-              ? "Unlock More Features with Our Odysseus Plans!"
+              ? "Unlock more features with our Odysseus plans!"
               : subscription.plan === "pro"
-                ? "Unlock More Features with Our Odysseus Plan!"
+                ? "Unlock more features with our Odysseus plan!"
                 : ""}
-            <Badge text="View Plans" />
           </span>
+          <Badge text="View Plans" />
         </div>
       )}
-      <div className="relative w-full flex flex-col space-y-4 rounded-md bg-opacity-70 overflow-hidden p-0 md:p-10">
-        <div className="relative w-full">
-          <div className="bg-dark flex flex-col space-y-2 p-3 rounded-md mt-3 md:mt-6">
-            <h1 className="text-md md:text-2xl">Personal Details</h1>
-            <div className="mb-7">
-              <h1 className="text-md md:text-lg">
-                <span>Email: </span> {user?.email}
-              </h1>
-              <h1 className="text-md md:text-lg">
-                <span>Username: </span> {user?.username}
-              </h1>
-              <h1> {auth.token && user && (
-
-                <button className="text-purple" onClick={handleLogout}>Logout</button>
-              )}</h1>
-            </div>
-
-
-
-          </div>
-
-          {/* SUBSCRIPTION DETAILS */}
-          <div className="bg-dark p-3 rounded-md mt-3 md:mt-6 flex flex-col space-y-2">
-            <h1 className="text-md md:text-2xl">Subscription Details</h1>
+      <h1 className="text-3xl ml-2 mb-4 font-semibold font-[SpaceGrotesk]">Profile</h1>
+      <div className="grid mt-8 gap-4 grid-cols-1 lg:grid-cols-2">
+        <ProfileSection title="Personal">
+          <p className="text-md md:text-lg">
+            <span className="font-bold select-none">Email <BiChevronRight className="inline-block" /> </span> {user?.email}
+          </p>
+          <p className="text-md md:text-lg">
+            <span className="font-bold select-none">Username <BiChevronRight className="inline-block" /> </span> {user?.username}
+          </p>
+          <div className="flex flex-row gap-2"> {auth.token && user && (
+            <>
+              <Button variant="primary" onClick={handleLogout} className="bg-purple text-white py-2 px-3 rounded-xl mt-4" text={"Log out"} />
+              <DeleteAccountDialog onConfirm={handleDeleteAccount} open={deleteAccountDialogOpen} onOpenChange={setDeleteAccountDialogOpen} />
+            </>
+          )}</div>
+        </ProfileSection>
+        <ProfileSection title="Subscription">
+          <p className="text-md lg:text-lg">
+            <span className="flex space-x-2 items-center">
+              <span className="font-bold select-none">Plan <BiChevronRight className="inline-block" /></span> {getPlan()}
+            </span>
+          </p>
+          {true && (
             <div>
-              <h1 className="text-lg">
-                <span className="flex space-x-2 items-center">
-                  <span>Plan:</span> {getPlan()}
+              <p className="text-md lg:text-lg">
+                <span className="flex space-x-2 mr-1 items-center">
+                  <span className="font-bold select-none">Expires in <BiChevronRight className="inline-block" /></span> &nbsp; {getExpiry()}
                 </span>
-              </h1>
-              {subscription && subscription.plan && subscription.plan.toLowerCase() !== "free" && subscription.plan.toLowerCase() !== "" && (
-                <div>
-                  <h1 className="text-lg">
-                    <span className="flex space-x-2 mr-1 items-center">
-                      <span>Expires In:</span> &nbsp; {getExpiry()}
-                    </span>
-                  </h1>
-                  {!moment(subscription.validUntil).isBefore(Date.now()) && <DialogComponent
-                    open={isDialogOpen}
-                    onOpenChange={setIsDialogOpen}
-                    onConfirm={handleCancelSubscription}
-                  />}
-                </div>
-              )}
+              </p>
+              {true && <DialogComponent
+                open={subDialogOpen}
+                onOpenChange={setSubDialogOpen}
+                onConfirm={handleCancelSubscription}
+              />}
             </div>
-          </div>
-        </div>
+          )}
+        </ProfileSection>
       </div>
-    </section>
+    </section >
   );
 };
+
+function ProfileSection({ title, children }: PropsWithChildren<{ title: string }>) {
+  return (
+    <div>
+      <h1 className="text-xl md:text-2xl ml-2 mb-2 lg:ml-4 font-[SpaceGrotesk]">{title}</h1>
+      <div className="bg-dark pl-2 py-4 lg:pl-4 rounded-md border border-gray-100/20">
+        {children}
+      </div>
+    </div>
+  );
+}
 
 export default Profile;

@@ -77,9 +77,11 @@ const StockChart = ({ data }: any) => {
   };
 
   return (
-    <div className=' w-full mr-4'>
-      {/* @ts-expect-error Unmatched type options */}
-      <Chart options={options} series={series} type="candlestick" height={350} />
+    <div className="flex w-full">
+      <div className='w-full mr-4'>
+        {/* @ts-expect-error Unmatched type options */}
+        <Chart options={options} series={series} type="candlestick" height={350} width={"100%"} />
+      </div>
     </div>
   );
 };

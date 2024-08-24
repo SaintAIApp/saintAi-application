@@ -14,9 +14,9 @@ export const Column = ({
   setGraphSelected?: React.Dispatch<React.SetStateAction<any>>;
 }) => {
   return (
-    <div className=" w-full flex justify-center flex-col items-center md:items-start mb-2   ">
+    <div className="w-full flex justify-center flex-col items-center md:items-start mb-2">
       {curCategory === "news" && (
-        <div className="container w-full gap-2 grid grid-cols-1 md:grid-cols-1 ">
+        <div className="container w-full gap-2 grid grid-cols-1">
           {list?.map((e: any, i: number) => (
             <News
               key={i}

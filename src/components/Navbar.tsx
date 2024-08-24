@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useWalletService from "../hooks/useWallet";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -48,7 +48,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-[#0008] px-[3vw] max-md:px-5 w-full fixed left-0 top-0 z-[90] flex items-center justify-between h-16 backdrop-blur-3xl">
+      <div className="bg-[#0008] px-[3vw] max-md:px-5 w-full sticky py-4 left-0 top-0 z-[90] flex items-center justify-between h-16 backdrop-blur-3xl">
         {isMobile ? (
           <div className="flex flex-col w-full space-y-3">
             <div className="flex w-full justify-between">
@@ -180,4 +180,4 @@ const WalletIcon = () => {
   return <img src={networkIcon} className="h-4 lg:h-5 inline-block" alt="Wallet Icon" />;
 };
 
-export default Navbar;
+export default memo(Navbar);

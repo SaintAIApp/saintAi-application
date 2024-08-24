@@ -1,37 +1,70 @@
-import React, { ReactNode } from "react";
+import React, { memo, ReactNode, useState } from "react";
+import { Toaster } from "react-hot-toast";
+import logoCircle from "../assets/saintlogocircle.png";
+import AuthModal from "../components/AuthModal";
 import Navbar from "../components/Navbar";
 import DefaultSideBar from "../components/SideBar";
-import { Toaster } from "react-hot-toast";
-import AuthModal from "../components/AuthModal";
 import { useAuthStateCheck } from "../hooks/useAuthState";
+import ChatComponent from "../pages/Widgets/ChatComponent";
+import clsx from "clsx";
 
 type Props = {
   children: ReactNode;
   customSidebar?: ReactNode;
   protectedRoute?: boolean;
   locked?: boolean;
+  withChat?: boolean;
+  chatOptions?: {
+    chatOpenDefault?: boolean;
+    chatClassName?: string;
+  }
 };
 
-const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRoute = false, locked }) => {
+const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRoute = false, locked, withChat = false, chatOptions = {
+  chatOpenDefault: false,
+  chatClassName: "",
+} }) => {
   const ready = useAuthStateCheck(protectedRoute);
+  const [isChatOpen, setIsChatOpen] = useState(chatOptions.chatOpenDefault ?? false);
 
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white">
+    <div className="flex flex-col min-h-screen h-screen bg-black text-white">
       <Toaster />
       <Navbar />
-      <div className="flex flex-1">
-        {window.innerWidth > 768 && (
-          <aside className="w-44 lg:w-60 fixed left-0 top-16 bottom-0 overflow-y-auto bg-black z-[90]">
-            {customSidebar || <DefaultSideBar />}
-          </aside>
-        )}
-        <main className="relative flex-1 md:ml-44 mt-16 lg:ml-56 overflow-y-auto">
+      <div className="flex overflow-hidden h-full">
+        <aside className="hidden md:block w-44 bg-black flex-shrink-0">
+          {customSidebar || <DefaultSideBar />}
+        </aside>
+        <main className="flex flex-row flex-grow gap-12">
           <AuthModal defaultModal={locked ? "lock" : null} />
-          {ready ? children : null}
+          <div className="flex-grow">
+            {ready ? children : null}
+          </div>
+          {
+            withChat === true && (
+              <>
+                <div className={clsx("h-full flex flex-col pr-3 pb-3", chatOptions.chatClassName)}>
+                  <ChatComponent isOpen={isChatOpen} setIsOpen={setIsChatOpen} className="ml-auto" />
+                </div>
+                <button
+                  onClick={() => {
+                    setIsChatOpen((prev) => !prev);
+                  }}
+                  className="fixed md:hidden bottom-6 z-30 right-6 shadow-xl p-1 rounded-full bg-dark"
+                >
+                  <img
+                    src={logoCircle}
+                    className="h-10 w-10 object-contain md:h-12 md:w-12 bg-black rounded-full"
+                    alt="Chat Button"
+                  />
+                </button>
+              </>
+            )
+          }
         </main>
       </div>
-    </div>
+    </div >
   );
 };
 
-export default SidebarLayout;
+export default memo(SidebarLayout);

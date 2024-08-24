@@ -2,7 +2,7 @@
 import svgToDataUri from "mini-svg-data-uri";
 
 import { default as flattenColorPalette } from "tailwindcss/lib/util/flattenColorPalette";
- 
+
 export default {
   content: [
     "./index.html",
@@ -10,21 +10,21 @@ export default {
   ],
   theme: {
     extend: {
-      colors:{
-        primary:"#17B982",
-        secondary:"",
-        dark:"#1e1e1e",
-        darkSecondary:"#1c1c1c",
-        purple:"#3e0094",
-        purple_dark:"#893bff",
-        blue:"#016FC8",
-        blue_dark:"#1a0166",
-        grey:"#2C3140"
+      colors: {
+        primary: "#17B982",
+        secondary: "",
+        dark: "#1e1e1e",
+        darkSecondary: "#1c1c1c",
+        purple: "#3e0094",
+        purple_dark: "#893bff",
+        blue: "#016FC8",
+        blue_dark: "#1a0166",
+        grey: "#2C3140"
       },
-      fontFamily:{
-        body:["Inter"],
-        heading:["RON"],
-        roboto:["roboto"]
+      fontFamily: {
+        body: ["SpaceGrotesk"],
+        heading: ["SpaceGrotesk"],
+        roboto: ["roboto"]
       },
       animation: {
         overlayShow: "overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",

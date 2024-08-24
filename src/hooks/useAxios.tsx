@@ -6,7 +6,7 @@ const useAxios = () => {
 
   return useMemo(() => {
     const instance = axios.create({
-      baseURL: import.meta.env.VITE_BASE_URL,
+      baseURL: import.meta.env.VITE_API_URL,
       headers: {
         "Content-Type": "multipart/form-data",
         "Authorization": `Bearer ${token}` || "",

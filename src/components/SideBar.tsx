@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Upload } from "../types/data";
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import DeleteModal from "./DeleteChatModal";
 import { useAppSelector } from "../redux/hooks";
+import { IoPerson } from "react-icons/io5";
 const SideBar = ({
   files,
   setFileSeletedDelete,
@@ -109,9 +110,8 @@ const SideBar = ({
             {title} ({categoryFiles.length})
           </span>
           <ChevronRightIcon
-            className={`h-5 w-5 transform transition-transform ${
-              expandedCategories.has(title) ? "rotate-90" : ""
-            }`}
+            className={`h-5 w-5 transform transition-transform ${expandedCategories.has(title) ? "rotate-90" : ""
+              }`}
           />
         </button>
         {expandedCategories.has(title) && (
@@ -120,11 +120,10 @@ const SideBar = ({
               <li className="" key={file._id}>
                 <button
                   onClick={() => setSelectedFileId(file._id)}
-                  className={`flex justify-between items-center w-full p-2 rounded-md transition-colors duration-200 ${
-                    selectedFileId === file._id
-                      ? "bg-primary text-white bg-opacity-80"
-                      : "hover:bg-gray-700 bg-[#333]"
-                  }`}
+                  className={`flex justify-between items-center w-full p-2 rounded-md transition-colors duration-200 ${selectedFileId === file._id
+                    ? "bg-primary text-white bg-opacity-80"
+                    : "hover:bg-gray-700 bg-[#333]"
+                    }`}
                 >
                   <span>{file.name}</span>
                   <div className="flex items-center">
@@ -148,7 +147,7 @@ const SideBar = ({
   return (
     <div
       id="sideBar"
-      className="h-full pt-8 pl-[3vw] flex flex-col justify-between"
+      className="fixed h-screen top-0 pt-24 pl-[3vw] flex flex-col justify-between"
     >
       <div className="flex-grow">
         <ul className="flex flex-col space-y-2">
@@ -156,9 +155,8 @@ const SideBar = ({
             onClick={() => {
               navigate("/");
             }}
-            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${
-              window.location.pathname === "/" ? "bg-[#333333]" : ""
-            }`}
+            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/" ? "bg-[#333333]" : ""
+              }`}
           >
             <img
               src="/icons/generic.svg"
@@ -171,9 +169,8 @@ const SideBar = ({
             <li className="cursor-pointer">
               <div
                 onClick={() => toggleCategory("Personal")}
-                className={`py-2 rounded-full flex justify-between px-2 space-x-2 ${
-                  window.location.pathname === "/loaddata" ? "bg-[#333333]" : ""
-                }`}
+                className={`py-2 rounded-full flex justify-between px-2 space-x-2 ${window.location.pathname === "/loaddata" ? "bg-[#333333]" : ""
+                  }`}
               >
                 <div className="flex items-center">
                   <img
@@ -184,9 +181,8 @@ const SideBar = ({
                   Personal
                 </div>
                 <ChevronRightIcon
-                  className={`h-5 w-5 transform transition-transform ${
-                    expandedCategories.has("Personal") ? "rotate-90" : ""
-                  }`}
+                  className={`h-5 w-5 transform transition-transform ${expandedCategories.has("Personal") ? "rotate-90" : ""
+                    }`}
                 />
               </div>
               {expandedCategories.has("Personal") && categorizedFiles && (
@@ -206,9 +202,8 @@ const SideBar = ({
               onClick={() => {
                 navigate("/loaddata");
               }}
-              className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${
-                window.location.pathname === "/loaddata" ? "bg-[#333333]" : ""
-              }`}
+              className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/loaddata" ? "bg-[#333333]" : ""
+                }`}
             >
               <img
                 src="/icons/personal.svg"
@@ -222,9 +217,8 @@ const SideBar = ({
             onClick={() => {
               navigate("/mine");
             }}
-            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${
-              window.location.pathname === "/mine" ? "bg-[#333333]" : ""
-            }`}
+            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/mine" ? "bg-[#333333]" : ""
+              }`}
           >
             <img src="/icons/purplesaint.svg" className="mr-2 w-6" alt="Mine" />{" "}
             Mine
@@ -237,8 +231,9 @@ const SideBar = ({
             onClick={() => {
               navigate("/profile");
             }}
-            className="text-center w-full p-2 rounded-full bg-[#333333]"
+            className="text-center w-full p-2 rounded-full bg-[#333333] flex items-center justify-center"
           >
+            <IoPerson className="h-4 inline-block mr-2" />
             Profile
           </button>
         </div>
@@ -247,4 +242,4 @@ const SideBar = ({
   );
 };
 
-export default SideBar;
+export default memo(SideBar);

@@ -17,7 +17,8 @@ html{
   src: url("../src/assets/fonts/SpaceGrotesk.ttf");
 }
 body{
-  font-family: "SpaceGrotesk"
+  font-family: "SpaceGrotesk";
+  background-color: #000000;
 }
 .bg-shape1 {
     border-radius: 100%;

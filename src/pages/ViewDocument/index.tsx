@@ -127,17 +127,15 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       {/* Header */}
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-700 flex justify-between items-center">
         <div className="flex items-center">
-          {window.innerWidth <= 700 && (
-            <button
-              onClick={() => {
-                setSelectedFileId(null);
-                setShowSideBar(true);
-              }}
-              className="mr-2"
-            >
-              <ChevronLeftIcon height={20} width={20} />
-            </button>
-          )}
+          <button
+            onClick={() => {
+              setSelectedFileId(null);
+              setShowSideBar(true);
+            }}
+            className="mr-2 block md:hidden"
+          >
+            <ChevronLeftIcon height={20} width={20} />
+          </button>
           <img className="h-8 object-contain" src={logo} alt="S.AI.N.T Logo" />
         </div>
       </div>

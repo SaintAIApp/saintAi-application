@@ -1,13 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import logoCircle from "../../assets/saintlogocircle.png";
-import ChatBox from "../../components/Chat/ChatBox";
 import { Column } from "../../components/Column";
 import Loader from "../../components/Loader";
 import useFinanceService from "../../hooks/useFinance";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { updateCurCategory } from "../../redux/slices/widgetSlice";
-import ChatComponent from "./ChatComponent";
 
 const Generic1 = () => {
   const { getStocksData, getCryptoData, getNewsData } = useFinanceService();
@@ -19,8 +16,6 @@ const Generic1 = () => {
   const curCategory = widget.curCategory;
   const location = useLocation();
 
-  const [isChatBoxOpen, setIsChatBoxOpen] = useState(true);
-  const [graphSelected, setGraphSelected] = useState<any>(null);
   const [list, setList] = useState<any[]>([]);
   const [isDataLoading, setIsDataLoading] = useState(false);
 
@@ -69,55 +64,22 @@ const Generic1 = () => {
     }
   }, [curCategory, fetchCategoryData, location.search]);
 
-  useEffect(() => {
-    window.innerWidth <= 768 && setIsChatBoxOpen(false);
-  }, [graphSelected]);
-
   return (
-    <section className="overflow-x-hidden min-h-screen flex flex-row space-x-3">
-      <div className="w-full md:w-4/5 h-full relative">
+    <section className="overflow-x-hidden flex flex-row space-x-3">
+      <div className="h-full w-full">
         <div>
           {isDataLoading ? (
             <Loader />
           ) : (
-            <div className="flex min-h-screen overflow-hidden">
+            <div className="flex min-h-screen ">
               {/* Left section */}
-              <div className=" w-full md:w-3/5 overflow-y-hidden">
+              <div className="w-full overflow-y-scroll">
                 <Column
-                  setGraphSelected={setGraphSelected}
-                  setIsChatBoxOpen={setIsChatBoxOpen}
                   curCategory={curCategory}
                   list={list}
                 />
               </div>
-
-              {/* Right section */}
-              {window.innerWidth > 768 && <div className="w-2/5 fixed right-0 top-20 bottom-0 overflow-hidden">
-                <div className="h-full ">
-                  <ChatComponent isOpen={true} />
-                </div>
-              </div>}
             </div>
-          )}
-          {
-            window.innerWidth < 768 && <ChatBox
-              setIsOpen={setIsChatBoxOpen}
-              isOpen={isChatBoxOpen}
-            />
-          }
-          {window.innerWidth < 768 && (
-            <button
-              onClick={() => {
-                setIsChatBoxOpen((prev) => !prev);
-              }}
-              className="fixed bottom-2 z-30 right-8 shadow-xl p-1 rounded-full bg-dark"
-            >
-              <img
-                src={logoCircle}
-                className="h-10 w-10 object-contain md:h-12 md:w-12 bg-black rounded-full"
-                alt="Chat Button"
-              />
-            </button>
           )}
         </div>
       </div>
@@ -125,4 +87,4 @@ const Generic1 = () => {
   );
 };
 
-export default Generic1;
+export default memo(Generic1);

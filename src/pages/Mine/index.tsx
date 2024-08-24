@@ -1,16 +1,9 @@
-import { useState } from "react";
-import ChatBox from "../../components/Chat/ChatBox";
-
-import logoCircle from "../../assets/saintlogocircle.png";
-import ChatComponent from "../Widgets/ChatComponent";
-
 const Mine = () => {
-  const [isChatBoxOpen, setIsChatBoxOpen] = useState(true);
 
   return (
-    <section className="overflow-x-hidden  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10">
-      <div className="w-full flex space-x-2 lg:w-full">
-        <div className="flex w-full md:w-3/5 flex-col lg:flex-row items-start justify-between space-y-4 lg:space-y-0 lg:space-x-4 ">
+    <section className="overflow-x-hidden flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10">
+      <div className="w-full flex space-x-21">
+        <div className="flex w-full flex-col lg:flex-row items-start justify-between space-y-4 lg:space-y-0 lg:space-x-4 ">
           <div className=" h-[85vh] overflow-y-auto flex flex-col space-y-4 w-full ">
             <div className="border rounded-lg border-[#333333] p-4 flex flex-col justify-center">
               <div className="w-full h-16 bg-[#333333] rounded-full flex items-center px-5 space-x-3">
@@ -38,7 +31,7 @@ const Mine = () => {
               </div>
             </div>
             <div className="border rounded-lg border-[#333333] p-4">
-              <ul className="flex flex-col space-y-3">
+              <ul className="flex flex-col space-y-6 *:border-b *:border-white/20 *:pb-2">
                 <li className="flex items-center justify-between text-sm lg:text-xl">
                   <p>Current Supply</p>
                   <p>Next Halving supply</p>
@@ -62,30 +55,8 @@ const Mine = () => {
               </ul>
             </div>
           </div>
-          {window.innerWidth < 768 && (
-            <div className="w-full lg:w-2/5">
-              <ChatBox setIsOpen={setIsChatBoxOpen} isOpen={isChatBoxOpen} />
-            </div>
-          )}
         </div>
-        {window.innerWidth > 768 &&
-          <div className="w-2/5 ">
-            <ChatComponent isOpen />
-          </div>}
-
       </div>
-      {window.innerWidth < 768 && (
-        <button
-          onClick={() => setIsChatBoxOpen((prev) => !prev)}
-          className="fixed bottom-4 right-4 z-30 shadow-xl p-1 rounded-full bg-dark lg:hidden"
-        >
-          <img
-            src={logoCircle}
-            className="h-10 w-10 object-contain bg-black rounded-full"
-            alt="Chat Button"
-          />
-        </button>
-      )}
     </section>
   );
 };

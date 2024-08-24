@@ -134,7 +134,7 @@ const LoadData: React.FC<LoadDataProps> = ({
 
 
   return (
-    <section className=" ml-0 md:ml-10 h-full self-start overflow-hidden">
+    <section className="ml-0 md:ml-10 h-full self-start overflow-hidden">
       <div className="flex items-start  relative w-full h-full rounded-xl overflow-hidden md:bg-transparent">
         {isMobile && (
           <div
@@ -180,9 +180,9 @@ const LoadData: React.FC<LoadDataProps> = ({
           <></>
         )}
 
-        <div className="w-full  space-x-2 h-full relative flex">
+        <div className="w-full space-x-2 h-full relative flex">
           {/* LEFT */}
-          {((window.innerWidth <= 768 && !selectedFileId) || window.innerWidth > 768) && <div className="w-full md:w-1/2">
+          {((window.innerWidth <= 768 && !selectedFileId) || window.innerWidth > 768) && <div className="w-full md:w-1/2 flex-gorw">
             {isLoading ? (
               <div className="h-full w-full  bg-[#000] bg-opacity-70 flex items-center justify-center flex-col">
                 <img src="/loading.gif" alt="Loading" />
@@ -199,7 +199,7 @@ const LoadData: React.FC<LoadDataProps> = ({
             )}
           </div>}
           {/* RIGHT */}
-          {((window.innerWidth <= 768 && selectedFileId) || window.innerWidth > 768) && <div className="w-full md:w-1/2 overflow-hidden">
+          {((window.innerWidth <= 768 && selectedFileId) || window.innerWidth > 768) && <div className=" flex-grow-0">
             <ChatComponent
               selectedFileId={selectedFileId}
               setShowSideBar={setShowSideBar}
