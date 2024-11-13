@@ -102,7 +102,7 @@ const ChatComponent: React.FC<{
 
   return (
     <div
-      className={`flex flex-col flex-shrink-0 bg-[#000000]  rounded-xl xs:w-[400px] w-[380px] z-10 md:z-0 md:w-[300px] lg:w-[400px] xl:w-[600px] ${className} h-[45rem] md:h-full  md:mt-0`}
+      className={`flex flex-col flex-shrink-0 bg-[#000000]  rounded-xl  w-full  ${className} h-[40rem] md:h-full  md:mt-0`}
       style={{
         border: "1.2px solid #333",
         visibility: isOpen ? "visible" : "hidden",

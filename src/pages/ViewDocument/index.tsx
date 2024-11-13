@@ -118,7 +118,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   return (
     <div
       className=
-      {`flex flex-col flex-shrink-0 bg-[#000000]  rounded-xl w-[400px] md:w-[300px] lg:w-[400px] xl:w-[600px]  h-[45rem] md:h-full mt-20 md:mt-0 ${selectedFileId ? "mt-20" : ""}`}
+      {`flex flex-col flex-shrink-0 bg-[#000000]  rounded-xl w-full  h-full mt-20 md:mt-0 ${selectedFileId ? "mt-20" : ""}`}
       style={{
         border: "1.2px solid #333",
         transition: "opacity 0.3s ease-in-out",

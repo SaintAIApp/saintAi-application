@@ -9,7 +9,9 @@
   scrollbar-width: thin; /* Membuat scrollbar lebih tipis */
   scrollbar-color: #037067 transparent; /* Warna thumb dan track */
 }
-
+.apexcharts-toolbar{
+  z-index: 0 !important;
+}
 /* Untuk browser berbasis WebKit (Chrome, Safari) */
 *::-webkit-scrollbar {
   width: 8px; /* Mengatur lebar scrollbar */
