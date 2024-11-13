@@ -1,4 +1,4 @@
-import React, { memo, ReactNode, useEffect, useState } from "react";
+import React, { memo, ReactNode, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import logoCircle from "../assets/saintlogocircle.png";
 import AuthModal from "../components/AuthModal";
