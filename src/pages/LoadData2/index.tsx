@@ -134,7 +134,7 @@ const LoadData: React.FC<LoadDataProps> = ({
 
 
   return (
-    <section className="md:ml-10 mt-8 flex flex-col  overflow-hidden h-full pb-[30px] pt-[70px]">
+    <section className="md:ml-10 mt-8 flex flex-col  overflow-hidden h-full pb-[30px] pt-[10px]">
       <div className="flex items-start relative w-full h-full rounded-xl  md:bg-transparent">
         {isMobile && (
           <div

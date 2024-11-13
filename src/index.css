@@ -7,14 +7,14 @@
 @tailwind utilities;
 * {
   scrollbar-width: thin; /* Membuat scrollbar lebih tipis */
-  scrollbar-color: #037067 transparent; /* Warna thumb dan track */
+  scrollbar-color: #707070 transparent; /* Warna thumb dan track */
 }
 .apexcharts-toolbar{
   z-index: 0 !important;
 }
-/* Untuk browser berbasis WebKit (Chrome, Safari) */
+
 *::-webkit-scrollbar {
-  width: 8px; /* Mengatur lebar scrollbar */
+  width: 6px; /* Mengatur lebar scrollbar */
 }
 
 *::-webkit-scrollbar-track {
@@ -24,7 +24,7 @@
 
 *::-webkit-scrollbar-thumb {
   background-color: #037067; /* Warna thumb scrollbar */
-  border-radius: 10px; /* Membuat thumb rounded */
+  border-radius: 50px; /* Membuat thumb sepenuhnya rounded */
   border: 2px solid #b0d6d3; /* Memberikan sedikit padding agar thumb tidak terlalu besar */
 }
 html{

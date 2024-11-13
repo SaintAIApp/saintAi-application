@@ -36,7 +36,7 @@ const Form = ({handleLoadData,handleFileSelect,file,setFileName,fileName}:{
                 <div className="w-full self-start my-2">
                   <button
                     type="submit"
-                    className="w-full py-2 bg-white text-black rounded-md font-semibold relative"
+            className="w-full py-2 bg-[#333] text-white rounded-md font-semibold relative"
                   >
                     Load Data
                   </button>
