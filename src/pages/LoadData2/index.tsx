@@ -134,8 +134,8 @@ const LoadData: React.FC<LoadDataProps> = ({
 
 
   return (
-    <section className="ml-0 md:ml-10 h-full overflow-hidden">
-      <div className="flex items-start relative w-full h-full rounded-xl overflow-hidden md:bg-transparent">
+    <section className="md:ml-10 mt-8 flex flex-col  overflow-y-scroll">
+      <div className="flex items-start relative w-full rounded-xl  md:bg-transparent">
         {isMobile && (
           <div
             onClick={handleToggleSideBar}
@@ -175,7 +175,7 @@ const LoadData: React.FC<LoadDataProps> = ({
           <></>
         )}
 
-        <div className="w-[100rem] h-full grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="w-full space-x-2 h-[45rem] relative flex">
           {/* LEFT */}
           {((window.innerWidth <= 768 && !selectedFileId) || window.innerWidth > 768) && (
             <div className="w-full flex-grow h-full">

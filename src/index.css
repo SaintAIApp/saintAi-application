@@ -6,8 +6,24 @@
 @tailwind components;
 @tailwind utilities;
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #037067 #b0d6d3;
+  scrollbar-width: thin; /* Membuat scrollbar lebih tipis */
+  scrollbar-color: #037067 transparent; /* Warna thumb dan track */
+}
+
+/* Untuk browser berbasis WebKit (Chrome, Safari) */
+*::-webkit-scrollbar {
+  width: 8px; /* Mengatur lebar scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: #b0d6d3; /* Warna track scrollbar */
+  border-radius: 10px; /* Membuat track rounded */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #037067; /* Warna thumb scrollbar */
+  border-radius: 10px; /* Membuat thumb rounded */
+  border: 2px solid #b0d6d3; /* Memberikan sedikit padding agar thumb tidak terlalu besar */
 }
 html{
   scroll-behavior: smooth;

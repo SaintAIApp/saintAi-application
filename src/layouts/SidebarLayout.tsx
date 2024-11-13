@@ -51,8 +51,8 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
           {
             withChat === true && (
               <>
-                <div className={clsx("flex flex-col pr-3 pb-3 fixed md:relative ml-4 md:ml-auto", chatOptions.chatClassName)}>
-                  <ChatComponent isOpen={isChatOpen} setIsOpen={setIsChatOpen} className={`${isChatOpen ? '' : 'hidden'} ml-auto`} />
+                <div className={clsx("flex flex-col pr-3 pb-3 pt-[95px] fixed md:relative ml-4 md:ml-auto", chatOptions.chatClassName)}>
+                  <ChatComponent isOpen={isChatOpen} setIsOpen={setIsChatOpen} className={`${isChatOpen ? "" : "hidden"} ml-auto`} />
                 </div>
                 <button
                   onClick={() => {
