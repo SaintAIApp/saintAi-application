@@ -1,8 +1,11 @@
 
 import useAxios from "./useAxios";
+import { useCallback } from "react";
+
 const useFileService = () => {
   const api = useAxios();
-  const uploadFile = async (formData: FormData) => {
+
+  const uploadFile = useCallback(async (formData: FormData) => {
     try {
       console.log(formData);
       const res = await api.post("/upload", formData);
@@ -10,40 +13,45 @@ const useFileService = () => {
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
-  const getFile = async (uploadId: string) => {
+  }, [api]);
+
+  const getFile = useCallback(async (uploadId: string) => {
     try {
       const res = await api.get("/upload/" + uploadId);
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
-  const deleteFile = async (uploadId: string) => {
+  }, [api]);
+
+  const deleteFile = useCallback(async (uploadId: string) => {
     try {
       const res = await api.delete("/upload/" + uploadId);
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
-  const getAllFiles = async () => {
+  }, [api]);
+
+  const getAllFiles = useCallback(async () => {
     try {
       const res = await api.get("/upload/");
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
-  const getChatHistory = async (uploadId: string) => {
+  }, [api]);
+
+  const getChatHistory = useCallback(async (uploadId: string) => {
     try {
       const res = await api.get("/upload/get-chat-history/" + uploadId);
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
-  const sendMessage = async (uploadId: string, body: string) => {
+  }, [api]);
+
+  const sendMessage = useCallback(async (uploadId: string, body: string) => {
     try {
       const res = await api.post("/upload/send-message/" + uploadId, {
         message: body,
@@ -52,27 +60,30 @@ const useFileService = () => {
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
+  }, [api]);
 
-  const sendMessageTrade = async (body: string,userId:string) => {
+  const sendMessageTrade = useCallback(async (body: string, userId: string) => {
     try {
-      const res = await api.post("/upload/chat_with_trade_data",
-        { user_msg: body,user_id:userId }
-      );
+      const res = await api.post("/upload/chat_with_trade_data", {
+        user_msg: body,
+        user_id: userId,
+      });
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
+  }, [api]);
 
-  const getChatHistoryTrade = async (user_id: string) => {
+  const getChatHistoryTrade = useCallback(async (user_id: string) => {
     try {
-      const res = await api.post("/upload/get_chat_history_trade_data" ,{user_id});
+      const res = await api.post("/upload/get_chat_history_trade_data", {
+        user_id,
+      });
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  };
+  }, [api]);
 
   return {
     uploadFile,
@@ -82,7 +93,8 @@ const useFileService = () => {
     sendMessage,
     deleteFile,
     sendMessageTrade,
-    getChatHistoryTrade
+    getChatHistoryTrade,
   };
 };
+
 export default useFileService;

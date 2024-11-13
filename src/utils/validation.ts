@@ -21,7 +21,7 @@ export const validate = (
         setErrors({ ...errors, [name]: "No space is allowed" });
       else setErrors({ ...errors, [name]: null });
       break;
-    case "email":
+    case "email": {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value))
         setErrors({
@@ -30,6 +30,7 @@ export const validate = (
         });
       else setErrors({ ...errors, [name]: null });
       break;
+    }
     case "password":
       if (value.length < 3)
         setErrors({

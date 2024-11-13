@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import pdfjsLib from '../lib/worker'
+import React, { useEffect, useRef } from "react";
+import pdfjsLib from "../lib/worker";
 
 interface FileRendererProps {
   fileUrl: string;
@@ -17,7 +17,7 @@ const FileRenderer: React.FC<FileRendererProps> = ({ fileUrl, fileType }) => {
         const page = await pdf.getPage(1);
         const viewport = page.getViewport({ scale: 1.5 });
         const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
+        const context = canvas.getContext("2d");
         if (context) {
           canvas.height = viewport.height;
           canvas.width = viewport.width;
@@ -30,16 +30,16 @@ const FileRenderer: React.FC<FileRendererProps> = ({ fileUrl, fileType }) => {
       }
     };
 
-    if (fileType === 'application/pdf') {
+    if (fileType === "application/pdf") {
       loadPdf();
     }
   }, [fileUrl, fileType]);
 
-  if (fileType.startsWith('image/')) {
+  if (fileType.startsWith("image/")) {
     return <img src={fileUrl} alt="file" className="w-full h-auto" />;
   }
 
-  if (fileType === 'application/pdf') {
+  if (fileType === "application/pdf") {
     return <canvas ref={canvasRef} />;
   }
 
@@ -48,7 +48,7 @@ const FileRenderer: React.FC<FileRendererProps> = ({ fileUrl, fileType }) => {
       src={fileUrl}
       title="file"
       className="w-full h-full"
-      style={{ border: 'none' }}
+      style={{ border: "none" }}
     ></iframe>
   );
 };

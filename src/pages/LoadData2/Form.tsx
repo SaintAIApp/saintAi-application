@@ -1,5 +1,5 @@
 
-import FileDropzone from '../../components/FileUpload'
+import FileDropzone from "../../components/FileUpload";
 const Form = ({handleLoadData,handleFileSelect,file,setFileName,fileName}:{
     handleLoadData:(e: React.FormEvent) => Promise<void>,
     handleFileSelect:(selectedFile: File) => void
@@ -9,7 +9,7 @@ const Form = ({handleLoadData,handleFileSelect,file,setFileName,fileName}:{
 
 }) => {
   return (
-    <div className='border mt-2 px-6 py-2 rounded-md border-[#333] mr-1 h-[90vh]'>
+    <div className='border mt-0.5 px-6 py-2 rounded-xl border-[#333] h-full pb-[20px]'>
          <h1 className="text-3xl font-bold text-white my-5">Load Data</h1>
               <form onSubmit={handleLoadData} encType="multipart/form-data">
                 <div className="w-full">
@@ -43,7 +43,7 @@ const Form = ({handleLoadData,handleFileSelect,file,setFileName,fileName}:{
                 </div>
               </form>
     </div>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;

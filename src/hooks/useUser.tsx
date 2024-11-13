@@ -8,7 +8,7 @@ const useUserService = () => {
         const res = await api.get("/user/details/"+userId);
         return res;
       } catch (error: any) {
-        throw new Error(error.response?.data?.message||"Something went wrong")
+        throw new Error(error.response?.data?.message||"Something went wrong");
       }
    
   };

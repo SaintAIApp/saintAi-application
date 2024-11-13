@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+import React, { useCallback } from "react";
+import { useDropzone } from "react-dropzone";
 
 interface FileDropzoneProps {
   onFileSelect: (file: File) => void;
@@ -18,10 +18,10 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileSelect }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'application/pdf': ['.pdf'],
-      'image/jpeg': ['.jpg', '.jpeg'],
-      'image/png': ['.png'],
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+      "application/pdf": [".pdf"],
+      "image/jpeg": [".jpg", ".jpeg"],
+      "image/png": [".png"],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
     },
     multiple: false,
   });
@@ -31,7 +31,7 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileSelect }) => {
       <div
         {...getRootProps({
           className:
-          'py-[5vh] justify-center sm:py-[7vh] md:py-[7vh] lg:py-[10vh] p-6 w-full rounded-md text-center'
+          "py-[5vh] justify-center sm:py-[7vh] md:py-[7vh] lg:py-[10vh] p-6 w-full rounded-md text-center"
         })}
       >
        

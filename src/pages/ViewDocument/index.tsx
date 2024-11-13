@@ -59,7 +59,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
     fetchFile();
     fetchChatHistory();
-  }, [selectedFileId]);
+  }, [getChatHistory, getFile, selectedFileId]);
 
   useEffect(() => {
     scrollToBottom();
@@ -117,28 +117,25 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
   return (
     <div
-      className={`inset-0 md:inset-auto md:right-10 md:bottom-10 w-full md:h-[90vh] 
-                    flex flex-col bg-dark shadow-2xl rounded-xl ${
-                      selectedFileId ? "mt-20" : ""
-                    } md:mt-0`}
+      className=
+      {`flex flex-col flex-shrink-0 bg-[#000000]  rounded-xl w-full  h-full mt-20 md:mt-0 ${selectedFileId ? "mt-20" : ""}`}
       style={{
         border: "1.2px solid #333",
+        transition: "opacity 0.3s ease-in-out",
       }}
     >
       {/* Header */}
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-700 flex justify-between items-center">
         <div className="flex items-center">
-          {window.innerWidth <= 700 && (
-            <button
-              onClick={() => {
-                setSelectedFileId(null);
-                setShowSideBar(true);
-              }}
-              className="mr-2"
-            >
-              <ChevronLeftIcon height={20} width={20} />
-            </button>
-          )}
+          <button
+            onClick={() => {
+              setSelectedFileId(null);
+              setShowSideBar(true);
+            }}
+            className="mr-2 block md:hidden"
+          >
+            <ChevronLeftIcon height={20} width={20} />
+          </button>
           <img className="h-8 object-contain" src={logo} alt="S.AI.N.T Logo" />
         </div>
       </div>

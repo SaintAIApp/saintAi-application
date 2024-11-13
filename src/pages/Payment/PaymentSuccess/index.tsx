@@ -12,7 +12,7 @@ const failed = () => {
       </div>
       <Link className="my-2 text-xl" to="/">Home</Link>
     </section>
-  )
-}
+  );
+};
 
-export default failed
+export default failed;

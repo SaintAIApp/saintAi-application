@@ -1,17 +1,16 @@
-
-import CategorySelector from '../../components/CategorySelector';
-import Generic1 from './Generic1';
+import CategorySelector from "../../components/CategorySelector";
+import Generic1 from "./Generic1";
 const index = () => {
   return (
-    <div className='md:ml-10 overflow-y-hidden md:mt-8 flex flex-col h-screen'>
-    <div className='sticky top-0 bg-black z-10 w-fit'>
-      <CategorySelector />
+    <div className="md:ml-10 mt-8 flex flex-col h-screen overflow-y-scroll">
+      <div className="sticky px-3 top-0 bg-black z-10 w-fit">
+        <CategorySelector />
+      </div>
+      <div className="flex-1 mt-4">
+        <Generic1 />
+      </div>
     </div>
-    <div className='flex-1 overflow-y-auto mt-4'>
-      <Generic1 />
-    </div>
-  </div>
-  )
-}
+  );
+};
 
-export default index
+export default index;

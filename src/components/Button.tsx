@@ -17,14 +17,14 @@ const Button:React.FC<Props> = ({text,onClick,className,variant,loading}:Props) 
             default:
                 return "";
         }
-      }
-  let varientClassName=getButtonClassName(variant);
+      };
+  const varientClassName=getButtonClassName(variant);
   
   return (
 
         <button disabled={loading} onClick={onClick} className={`${varientClassName} flex  space-x-3 items-center disabled:bg-slate-400 ${className} `}> {variant=="rounded" && <span className="p-3 rounded-full bg-white"> <GoArrowRight  height={12} width={12}/></span>} <span>{loading?"Loading...":text}</span></button>
 
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

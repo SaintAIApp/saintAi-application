@@ -5,23 +5,21 @@ import { BsFullscreenExit } from "react-icons/bs";
 import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-const Index = ({setIsChatBoxOpen, graphSelected, setGraphSelected ,small}: {
-  graphSelected: any,
-  setGraphSelected?: any,
-  small?:boolean,
-  setIsChatBoxOpen?:any
+const Index = ({
+  setIsChatBoxOpen,
+  graphSelected,
+  setGraphSelected,
+  small,
+}: {
+  graphSelected: any;
+  setGraphSelected?: any;
+  small?: boolean;
+  setIsChatBoxOpen?: any;
 }) => {
-  let {
-    color,
-    title,
-    prices,
-    dates,
-    diff,
-    name
-  } = graphSelected;
-  if(title===undefined)
-    title = graphSelected.img
-  console.log(graphSelected)
+  let { title } = graphSelected;
+  const { color, prices, dates, diff, name } = graphSelected;
+  if (title === undefined) title = graphSelected.img;
+  console.log(graphSelected);
   const generateRandomData = (count: number) => {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - count);
@@ -61,7 +59,7 @@ const Index = ({setIsChatBoxOpen, graphSelected, setGraphSelected ,small}: {
       stroke: {
         curve: "smooth",
         colors: [color],
-        width: "1"
+        width: "1",
       },
       fill: {
         colors: [color],
@@ -74,11 +72,11 @@ const Index = ({setIsChatBoxOpen, graphSelected, setGraphSelected ,small}: {
         },
       },
       tooltip: {
-        theme: 'dark', // or 'light'
+        theme: "dark", // or 'light'
         style: {
-          fontSize: '12px',
-          backgroundColor: '#333', // Set your desired background color
-          color: '#fff', // Set your desired text color
+          fontSize: "12px",
+          backgroundColor: "#333", // Set your desired background color
+          color: "#fff", // Set your desired text color
         },
         marker: {
           show: true,
@@ -87,23 +85,23 @@ const Index = ({setIsChatBoxOpen, graphSelected, setGraphSelected ,small}: {
           show: true,
         },
         y: {
-          formatter: function (val:any) {
+          formatter: function (val: any) {
             return val;
-          }
-        }
+          },
+        },
       },
       grid: {
-        borderColor: '#292929',
+        borderColor: "#292929",
         strokeDashArray: 0,
         xaxis: {
           lines: {
             show: false,
-          }
+          },
         },
         yaxis: {
           lines: {
             show: true,
-          }
+          },
         },
       },
       title: {},
@@ -119,18 +117,29 @@ const Index = ({setIsChatBoxOpen, graphSelected, setGraphSelected ,small}: {
       },
     },
   });
-  const handleClose = () => {   setGraphSelected(null); setIsChatBoxOpen(true);}
-
+  const handleClose = () => {
+    setGraphSelected(null);
+    setIsChatBoxOpen(true);
+  };
 
   return (
-    <div className={`p-3 ${ small ? "w-[80%] md:w-[40%] lg:w-[60%] ml-10":"w-[90%] md:w-[70%] lg:w-[90%]" }  my-5 md:my-10 shadow-md rounded-lg border border-darkSecondary bg-dark`}>
+    <div
+      className={`p-3 ${small
+        ? "w-[80%] md:w-[40%] lg:w-[60%] ml-10"
+        : "w-[90%] md:w-[70%] lg:w-[90%]"
+        }  my-5 md:my-10 shadow-md rounded-lg border border-darkSecondary bg-dark`}
+    >
       <div className="flex space-x-2">
         <div className="max-w-fit">
-        {small?<Link to="/analysis">
-            <BiArrowBack/>
-            </Link>:<button onClick={handleClose}>
-        <BsFullscreenExit />
-        </button>}
+          {small ? (
+            <Link to="/analysis">
+              <BiArrowBack />
+            </Link>
+          ) : (
+            <button onClick={handleClose}>
+              <BsFullscreenExit />
+            </button>
+          )}
         </div>
       </div>
 
@@ -139,9 +148,8 @@ const Index = ({setIsChatBoxOpen, graphSelected, setGraphSelected ,small}: {
           {prices && prices.length === 0 ? (
             <h1>Loading...</h1>
           ) : (
-
             <ReactApexChart
-            //@ts-ignore
+              // @ts-expect-error Unmatched type options
               options={chartState.options}
               series={chartState.series}
               type="area"
@@ -151,11 +159,11 @@ const Index = ({setIsChatBoxOpen, graphSelected, setGraphSelected ,small}: {
         </div>
         <div className="w-full md:w-[20%] flex pl-4 md:pl-0 items-center md:justify-start md:self-baseline space-x-2 md:flex-col pt-4">
           <div id="left">
-          <img
-            className="h-12 w-12 object-contain bg-darkSecondary"
-            src={title}
-            alt=""
-          />
+            <img
+              className="h-12 w-12 object-contain bg-darkSecondary"
+              src={title}
+              alt=""
+            />
           </div>
           <div id="right">
             <div id="top ">
@@ -166,18 +174,18 @@ const Index = ({setIsChatBoxOpen, graphSelected, setGraphSelected ,small}: {
                 {prices && prices[prices.length - 1]}
               </span>
               <span
-                className={`${
-                  diff.charAt(0) === "+" ? "text-green-600" : "text-red-500"
+                className={`${diff.charAt(0) === "+" ? "text-green-600" : "text-red-500"
                   } flex text-xl md:text-lg items-center`}
               >
-                {diff} {diff.charAt(0) === "+" ? <FiArrowUp /> : <FiArrowDown />}
+                {diff}{" "}
+                {diff.charAt(0) === "+" ? <FiArrowUp /> : <FiArrowDown />}
               </span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Index;

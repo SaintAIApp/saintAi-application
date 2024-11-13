@@ -1,22 +1,21 @@
-import { createBrowserRouter } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { lazy, Suspense } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import { ProtectedRoute } from "./protectedRoute";
 import App from "../App";
-import { ProtectedRoute } from "./ProtectedRoutes";
-import ForgotPassword from "../pages/Auth/ForgotPassword";
 import SidebarLayout from "../layouts/SidebarLayout";
+import ForgotPassword from "../pages/Auth/ForgotPassword";
 
 import LoadDataWrapper from "../components/LoadDataWrapper";
 
 // Lazy Loading all the pages
 
-const NotFound = lazy((): any => import("../pages/NotFound"));
-const Loader = lazy((): any => import("../components/Loader"));
+const NotFound = lazy(() => import("../pages/NotFound"));
+const Loader = lazy(() => import("../components/Loader"));
 const VerifyOTP = lazy((): any => import("../pages/Auth/OTP"));
-const WidgetsPage = lazy(()=>import("../pages/Widgets"));
+const WidgetsPage = lazy(() => import("../pages/Widgets"));
 
-const Pricing = lazy(()=>import("../pages/Pricing"))
-const Mine = lazy(()=>import("../pages/Mine"))
+const Pricing = lazy(() => import("../pages/Pricing"));
+const Mine = lazy(() => import("../pages/Mine"));
 const PaymentSuccess = lazy(
   (): any => import("../pages/Payment/PaymentSuccess")
 );
@@ -31,7 +30,7 @@ const router = createBrowserRouter([
       {
         path: "",
         element: (
-          <SidebarLayout>
+          <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[10px] pb-2" }}>
             <Suspense fallback={<Loader />}>
               <WidgetsPage />
             </Suspense>
@@ -41,46 +40,39 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: (
-          <ProtectedRoute>
-            <SidebarLayout>
-              <Suspense fallback={<Loader />}>
-                <Profile />
-              </Suspense>
-            </SidebarLayout>
-          </ProtectedRoute>
+          <SidebarLayout protectedRoute>
+            <Suspense fallback={<Loader />}>
+              <Profile />
+            </Suspense>
+          </SidebarLayout>
         ),
       },
       {
         path: "/pricing",
         element: (
-            <Suspense fallback={<Loader />}>
-              <Pricing />
-           </Suspense>
+          <Suspense fallback={<Loader />}>
+            <Pricing />
+          </Suspense>
         ),
       },
       {
         path: "/loaddata",
         element: (
-          // <ProtectedRoute>
-            <Suspense fallback={<Loader />}>
-              <LoadDataWrapper />
-            </Suspense>
-          // </ProtectedRoute>
+          <Suspense fallback={<Loader />}>
+            <LoadDataWrapper />
+          </Suspense>
         ),
       },
       {
         path: "/mine",
         element: (
-          // <ProtectedRoute>
-            <SidebarLayout>
-              <Suspense fallback={<Loader />}>
-                <Mine />
-              </Suspense>
-            </SidebarLayout>
-          // </ProtectedRoute>
+          <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[15px] pb-2" }}>
+            <Suspense fallback={<Loader />}>
+              <Mine />
+            </Suspense>
+          </SidebarLayout>
         ),
       },
-     
       {
         path: "/verifyOTP",
         element: (
@@ -120,4 +112,8 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-export default router;
+
+// https://github.com/ArnaudBarre/eslint-plugin-react-refresh/issues/25
+export const Routes = () => {
+  return <RouterProvider router={router} />;
+};

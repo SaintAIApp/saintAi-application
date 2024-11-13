@@ -1,24 +1,34 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { Upload } from "../types/data";
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import DeleteModal from "./DeleteChatModal";
 import { useAppSelector } from "../redux/hooks";
-const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFileId,setSelectedFileId}:{
-    files?:Upload[] | null;
-    setFileSeletedDelete?:any,
-    handleCancelSubscription?:any,
-    setSelectedFileId?:any,
-    selectedFileId?:string|null
+import { IoPerson } from "react-icons/io5";
+const SideBar = ({
+  files,
+  setFileSeletedDelete,
+  handleCancelSubscription,
+  selectedFileId,
+  setSelectedFileId,
+}: {
+  files?: Upload[] | null;
+  setFileSeletedDelete?: any;
+  handleCancelSubscription?: any;
+  setSelectedFileId?: any;
+  selectedFileId?: string | null;
 }) => {
-  const token = useAppSelector((state)=>{return state.auth.token})
- 
-    const navigate = useNavigate();
-    const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const token = useAppSelector((state) => {
+    return state.auth.token;
+  });
 
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const navigate = useNavigate();
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
+    new Set()
+  );
 
-  
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const categorizedFiles = useMemo(() => {
     if (!files) return null;
     interface CategorizedFiles {
@@ -75,7 +85,7 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
     );
   }, [files]);
   const toggleCategory = (category: string) => {
-    setExpandedCategories((prev:any):any => {
+    setExpandedCategories((prev: any): any => {
       const newSet = new Set(prev);
       if (newSet.has(category)) {
         newSet.delete(category);
@@ -84,7 +94,7 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
       }
       return newSet;
     });
-    setSelectedFileId(null)
+    setSelectedFileId(null);
   };
 
   const renderCategory = (title: string, categoryFiles: Upload[]) => {
@@ -96,11 +106,12 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
           onClick={() => toggleCategory(title)}
           className="flex justify-between items-center w-full px-3 py-2 bg-[#333] rounded-full"
         >
-          <span>{title} ({categoryFiles.length})</span>
+          <span>
+            {title} ({categoryFiles.length})
+          </span>
           <ChevronRightIcon
-            className={`h-5 w-5 transform transition-transform ${
-              expandedCategories.has(title) ? "rotate-90" : ""
-            }`}
+            className={`h-5 w-5 transform transition-transform ${expandedCategories.has(title) ? "rotate-90" : ""
+              }`}
           />
         </button>
         {expandedCategories.has(title) && (
@@ -109,11 +120,10 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
               <li className="" key={file._id}>
                 <button
                   onClick={() => setSelectedFileId(file._id)}
-                  className={`flex justify-between items-center w-full p-2 rounded-md transition-colors duration-200 ${
-                    selectedFileId === file._id
-                      ? "bg-primary text-white bg-opacity-80"
-                      : "hover:bg-gray-700 bg-[#333]"
-                  }`}
+                  className={`flex justify-between items-center w-full p-2 rounded-md transition-colors duration-200 ${selectedFileId === file._id
+                    ? "bg-primary text-white bg-opacity-80"
+                    : "hover:bg-gray-700 bg-[#333]"
+                    }`}
                 >
                   <span>{file.name}</span>
                   <div className="flex items-center">
@@ -135,71 +145,101 @@ const SideBar = ({files,setFileSeletedDelete,handleCancelSubscription,selectedFi
     );
   };
   return (
-    <div id="sideBar" className="h-full pt-8 pl-[3vw] flex flex-col justify-between">
-    <div className="flex-grow">
-      <ul className="flex flex-col space-y-2">
-        <li
-          onClick={() => {
-            navigate("/");
-          }}
-          className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${
-            window.location.pathname === "/" ? "bg-[#333333]" : ""
-          }`}
-        >
-          <img src="/icons/generic.svg" className="mr-2" alt="Generic" /> Generic
-        </li>
-      {files?<li className="cursor-pointer">
-        <div
-          onClick={() => toggleCategory("Personal")}
-          className={`py-2 rounded-full flex justify-between px-2 space-x-2 ${window.location.pathname === "/loaddata" ? "bg-[#333333]" : ""}`}
-        >
-          <div className="flex items-center">
-            <img src="/icons/personal.svg" className="mr-2" alt="Personal" /> Personal
-          </div>
-          <ChevronRightIcon
-            className={`h-5 w-5 transform transition-transform ${
-              expandedCategories.has("Personal") ? "rotate-90" : ""
-            }`}
-          />
-        </div>
-        {expandedCategories.has("Personal") && categorizedFiles && (
-          <ul className="mt-2 ml-4 space-y-2">
-            {renderCategory("Today", categorizedFiles.today)}
-            {renderCategory("Yesterday", categorizedFiles.yesterday)}
-            {renderCategory("Last 7 days", categorizedFiles.lastWeek)}
-            {renderCategory("Last 30 days", categorizedFiles.lastMonth)}
-            {renderCategory("Last Year", categorizedFiles.lastYear)}
-            {renderCategory("Older", categorizedFiles.older)}
-            {renderCategory("Unknown date", categorizedFiles.unknown)}
-          </ul>
-        )}
-      </li>:  <li onClick={() => { navigate("/loaddata") }} className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/loaddata" ? "bg-[#333333]" : ""}`}>
-        <img src="/icons/personal.svg" className="mr-2" alt="Personal" /> Personal
-      </li>}
-      <li
+    <div
+      id="sideBar"
+      className="fixed h-screen top-0 pt-24 pl-[3vw] flex flex-col justify-between"
+    >
+      <div className="flex-grow">
+        <ul className="flex flex-col space-y-2">
+          <li
+            onClick={() => {
+              navigate("/");
+            }}
+            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/" ? "bg-[#333333]" : ""
+              }`}
+          >
+            <img
+              src="/icons/generic.svg"
+              className="mr-2 w-6 h-6"
+              alt="Generic"
+            />{" "}
+            Generic
+          </li>
+          {files ? (
+            <li className="cursor-pointer">
+              <div
+                onClick={() => toggleCategory("Personal")}
+                className={`py-2 rounded-full flex justify-between px-2 space-x-2 ${window.location.pathname === "/loaddata" ? "bg-[#333333]" : ""
+                  }`}
+              >
+                <div className="flex items-center">
+                  <img
+                    src="/icons/personal.svg"
+                    className="mr-2 w-6"
+                    alt="Personal"
+                  />
+                  Personal
+                </div>
+                <ChevronRightIcon
+                  className={`h-5 w-5 transform transition-transform ${expandedCategories.has("Personal") ? "rotate-90" : ""
+                    }`}
+                />
+              </div>
+              {expandedCategories.has("Personal") && categorizedFiles && (
+                <ul className="mt-2 ml-4 space-y-2">
+                  {renderCategory("Today", categorizedFiles.today)}
+                  {renderCategory("Yesterday", categorizedFiles.yesterday)}
+                  {renderCategory("Last 7 days", categorizedFiles.lastWeek)}
+                  {renderCategory("Last 30 days", categorizedFiles.lastMonth)}
+                  {renderCategory("Last Year", categorizedFiles.lastYear)}
+                  {renderCategory("Older", categorizedFiles.older)}
+                  {renderCategory("Unknown date", categorizedFiles.unknown)}
+                </ul>
+              )}
+            </li>
+          ) : (
+            <li
+              onClick={() => {
+                navigate("/loaddata");
+              }}
+              className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/loaddata" ? "bg-[#333333]" : ""
+                }`}
+            >
+              <img
+                src="/icons/personal.svg"
+                className="mr-2 w-6"
+                alt="Personal"
+              />{" "}
+              Personal
+            </li>
+          )}
+          <li
             onClick={() => {
               navigate("/mine");
             }}
-            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${
-              window.location.pathname === "/mine" ? "bg-[#333333]" : ""
-            }`}
+            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/mine" ? "bg-[#333333]" : ""
+              }`}
           >
-            <img src="/icons/mine.svg" className="mr-2" alt="Mine" /> Mine
+            <img src="/icons/purplesaint.svg" className="mr-2 w-6" alt="Mine" />{" "}
+            Mine
           </li>
         </ul>
       </div>
-     {token && <div className="mt-auto pb-4">
-        <button
-          onClick={() => {
-            navigate("/profile");
-          }}
-          className="text-center w-full p-2 rounded-full bg-[#333333]"
-        >
-          Profile
-        </button>
-      </div>}
+      {token && (
+        <div className="mt-auto pb-4">
+          <button
+            onClick={() => {
+              navigate("/profile");
+            }}
+            className="text-center w-full p-2 rounded-full bg-[#333333] flex items-center justify-center"
+          >
+            <IoPerson className="h-4 inline-block mr-2" />
+            Profile
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default SideBar;
+export default memo(SideBar);

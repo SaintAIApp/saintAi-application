@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { revealVariant } from "../../constants/animations";
 import Button from "../../components/Button";
-import {MissionCard} from "../../components/MissionCard";
+import { MissionCard } from "../../components/MissionCard";
 
-const index = () => {
+const RoadMap = () => {
   const navigate = useNavigate();
 
   const slideInVariant = {
@@ -46,7 +46,7 @@ const index = () => {
               animate="visible"
               className="text-xl  relative mb-10 font-thin"
             >
-              <span className=" text-green-400 ">SaintAi</span> is a
+              <span className=" text-primary ">SaintAi</span> is a
               community-driven AI blockchain software focused on creating a
               participation-based cryptocurrency through an adaptable generative
               AI service
@@ -69,7 +69,7 @@ const index = () => {
             initial="initial"
             animate="animate"
           > */}
-            <img className="h-0 w-0 md:h-72 md:w-72" src="/cube.png" alt="" />
+          <img className="h-0 w-0 md:h-72 md:w-72" src="/cube.png" alt="" />
           {/* </motion.div> */}
         </>
       </div>
@@ -129,13 +129,15 @@ const index = () => {
               <h1>The next phase of decentralized SLM power</h1>
               <h1>Release the 4 Saints Automated Investment Platform:</h1>
               <div className="my-2">
-              <h1>SaintAI – Spot</h1>
-              <h1>SaintAI – Option</h1>
-              <h1>SaintAI – Bond</h1>
-              <h1>SaintAI – Short</h1>
-
+                <h1>SaintAI – Spot</h1>
+                <h1>SaintAI – Option</h1>
+                <h1>SaintAI – Bond</h1>
+                <h1>SaintAI – Short</h1>
               </div>
-              <h1>Establish St-Capital a peer to peer cryptocurrency funding platform for FinTech AI solution based projects using $STT</h1>
+              <h1>
+                Establish St-Capital a peer to peer cryptocurrency funding
+                platform for FinTech AI solution based projects using $STT
+              </h1>
             </div>
           </div>
           <div className="right">
@@ -162,4 +164,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default RoadMap;
