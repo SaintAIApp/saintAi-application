@@ -9,6 +9,16 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      "md": "640px",
+      // => @media (min-width: 640px) { ... }
+
+      "lg": "1024px",
+      // => @media (min-width: 1024px) { ... }
+
+      "xl": "1280px",
+      // => @media (min-width: 1280px) { ... }
+    },
     extend: {
       colors: {
         primary: "#17B982",
@@ -47,6 +57,7 @@ export default {
     },
   },
   plugins: [import("@tailwindcss/line-clamp"),
+    require('tailwind-scrollbar-hide'),
   function ({ matchUtilities, theme }: any) {
     matchUtilities(
       {
