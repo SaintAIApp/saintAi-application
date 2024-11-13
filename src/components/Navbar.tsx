@@ -48,7 +48,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-[#0008] px-[3vw] max-md:px-5 w-full sticky py-4 left-0 top-0 z-[90] flex items-center justify-between h-16 backdrop-blur-3xl">
+      <div className="bg-[#0008] px-[3vw] max-md:px-10 w-full sticky py-10 left-0 top-0 z-[90] flex items-center justify-between h-16 backdrop-blur-3xl border-b-2 border-b-white">
         {isMobile ? (
           <div className="flex flex-col w-full space-y-3">
             <div className="flex w-full justify-between">

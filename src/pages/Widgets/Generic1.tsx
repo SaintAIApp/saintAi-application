@@ -65,15 +65,26 @@ const Generic1 = () => {
   }, [curCategory, fetchCategoryData, location.search]);
 
   return (
-    <section className="overflow-x-hidden flex flex-row space-x-3">
-      <div className="h-full w-full">
+    <section
+      className="overflow-x-hidden flex flex-row">
+      <div className="h-full w-full md:w-[30rem] lg:w-[40rem] xl:w-[50rem]">
         <div>
           {isDataLoading ? (
             <Loader />
           ) : (
-            <div className="flex min-h-screen ">
+              <div className="flex min-h-screen    [&::-webkit-scrollbar]:w-2
+                [&::-webkit-scrollbar-track]:bg-gray-100
+                [&::-webkit-scrollbar-thumb]:bg-gray-300
+                dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 ">
               {/* Left section */}
-              <div className="w-full overflow-y-scroll">
+                <div className="w-full overflow-y-scroll scrollbar-hide
+                [&::-webkit-scrollbar]:w-2
+                [&::-webkit-scrollbar-track]:bg-gray-100
+                [&::-webkit-scrollbar-thumb]:bg-gray-300
+                dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+                dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
+                ">
                 <Column
                   curCategory={curCategory}
                   list={list}

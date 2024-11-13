@@ -134,19 +134,14 @@ const LoadData: React.FC<LoadDataProps> = ({
 
 
   return (
-    <section className="ml-0 md:ml-10 h-full self-start overflow-hidden">
-      <div className="flex items-start  relative w-full h-full rounded-xl overflow-hidden md:bg-transparent">
+    <section className="ml-0 md:ml-10 h-full overflow-hidden">
+      <div className="flex items-start relative w-full h-full rounded-xl overflow-hidden md:bg-transparent">
         {isMobile && (
           <div
             onClick={handleToggleSideBar}
             className="absolute z-[40] top-5 left-5"
           >
-            <FaChevronRight
-              height={6}
-              width={6}
-              fill="white"
-              className="h-6 w-6"
-            />
+            <FaChevronRight height={6} width={6} fill="white" className="h-6 w-6" />
           </div>
         )}
 
@@ -162,7 +157,7 @@ const LoadData: React.FC<LoadDataProps> = ({
             initial={{ x: "-100%" }}
             animate={{ x: showSideBar ? 0 : "-100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="fixed top-0 left-0 w-3/4 sm:w-1/2 h-full bg-black  z-50 pt-20"
+            className="fixed top-0 left-0 w-3/4 sm:w-1/2 h-full bg-black z-50 pt-20"
           >
             <SidebarContent
               files={files}
@@ -180,32 +175,36 @@ const LoadData: React.FC<LoadDataProps> = ({
           <></>
         )}
 
-        <div className="w-full space-x-2 h-full relative flex">
+        <div className="w-[100rem] h-full grid grid-cols-1 md:grid-cols-2 gap-2">
           {/* LEFT */}
-          {((window.innerWidth <= 768 && !selectedFileId) || window.innerWidth > 768) && <div className="w-full md:w-1/2 flex-gorw">
-            {isLoading ? (
-              <div className="h-full w-full  bg-[#000] bg-opacity-70 flex items-center justify-center flex-col">
-                <img src="/loading.gif" alt="Loading" />
-                <h1 className="text-left">{"Uploading File..."}</h1>
-              </div>
-            ) : (
-              <Form
-                fileName={fileName}
-                file={file}
-                setFileName={setFileName}
-                handleFileSelect={handleFileSelect}
-                handleLoadData={handleLoadData}
-              />
-            )}
-          </div>}
+          {((window.innerWidth <= 768 && !selectedFileId) || window.innerWidth > 768) && (
+            <div className="w-full flex-grow h-full">
+              {isLoading ? (
+                <div className="h-full w-full bg-[#000] bg-opacity-70 flex items-center justify-center flex-col">
+                  <img src="/loading.gif" alt="Loading" />
+                  <h1 className="text-left">{"Uploading File..."}</h1>
+                </div>
+              ) : (
+                <Form
+                  fileName={fileName}
+                  file={file}
+                  setFileName={setFileName}
+                  handleFileSelect={handleFileSelect}
+                  handleLoadData={handleLoadData}
+                />
+              )}
+            </div>
+          )}
           {/* RIGHT */}
-          {((window.innerWidth <= 768 && selectedFileId) || window.innerWidth > 768) && <div className=" flex-grow-0">
-            <ChatComponent
-              selectedFileId={selectedFileId}
-              setShowSideBar={setShowSideBar}
-              setSelectedFileId={setSelectedFileId}
-            />
-          </div>}
+          {((window.innerWidth <= 768 && selectedFileId) || window.innerWidth > 768) && (
+            <div className="flex-grow h-full">
+              <ChatComponent
+                selectedFileId={selectedFileId}
+                setShowSideBar={setShowSideBar}
+                setSelectedFileId={setSelectedFileId}
+              />
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -30,7 +30,7 @@ const router = createBrowserRouter([
       {
         path: "",
         element: (
-          <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[95px] pb-2" }}>
+          <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[10px] pb-2" }}>
             <Suspense fallback={<Loader />}>
               <WidgetsPage />
             </Suspense>
