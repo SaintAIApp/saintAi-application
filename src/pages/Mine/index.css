@@ -1,0 +1,38 @@
+.responsive-width {
+    width: 100%; /* Default width untuk layar kecil seperti mobile */
+  }
+  
+  @media (min-width: 768px) {
+    /* Untuk tablet dan layar dengan ukuran medium */
+    .responsive-width {
+      width: 300px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    /* Untuk laptop dan layar dengan ukuran besar */
+    .responsive-width {
+      width: 500px;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    /* Untuk layar desktop */
+    .responsive-width {
+      width: 600px;
+    }
+  }
+  
+  @media (min-width: 1536px) {
+    /* Untuk layar extra-large atau monitor yang sangat besar */
+    .responsive-width {
+      width: 700px;
+    }
+  }
+  @media (min-width: 1920px) {
+    /* Untuk layar ultra-wide */
+    .responsive-width {
+      width: 800px;
+    }
+  }
+  
