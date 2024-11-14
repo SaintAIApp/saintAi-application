@@ -1,7 +1,7 @@
 const Mine = () => {
 
   return (
-    <section className="overflow-x-hidden md:w-[300px] lg:w-[700px] xl:w-[900px]  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10 pt-[95px]">
+    <section className="overflow-x-hidden md:w-[300px] lg:w-[700px] xl:w-[900px]  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10 pt-[35px]">
       <div className="w-full flex space-x-21">
         <div className="flex w-full flex-col lg:flex-row items-start justify-between space-y-4 lg:space-y-0 lg:space-x-4 ">
           <div className=" h-[85vh] overflow-y-auto flex flex-col space-y-4 w-full ">
