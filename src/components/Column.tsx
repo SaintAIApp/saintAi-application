@@ -16,7 +16,7 @@ export const Column = ({
   return (
     <div className="w-full flex justify-center flex-col items-center md:items-start mb-2">
       {curCategory === "news" && (
-        <div className="container w-full gap-2 grid grid-cols-1">
+        <div className="container w-full gap-2 grid grid-cols-1 p-3 md:p-0">
           {list?.map((e: any, i: number) => (
             <News
               key={i}
