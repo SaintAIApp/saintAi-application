@@ -186,7 +186,7 @@ const SideBar = ({
                 />
               </div>
               {expandedCategories.has("Personal") && categorizedFiles && (
-                <ul className="mt-2 ml-4 space-y-2">
+                <ul className="mt-2 ml-3 space-y-2 w-full">
                   {renderCategory("Today", categorizedFiles.today)}
                   {renderCategory("Yesterday", categorizedFiles.yesterday)}
                   {renderCategory("Last 7 days", categorizedFiles.lastWeek)}
