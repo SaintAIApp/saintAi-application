@@ -5,10 +5,27 @@ import Loader from "../../components/Loader";
 import useFinanceService from "../../hooks/useFinance";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { updateCurCategory } from "../../redux/slices/widgetSlice";
+import useMineService from "../../hooks/useMine";
+import { detailMine } from "../../redux/slices/mineSlice";
 
 const Generic1 = () => {
   const { getStocksData, getCryptoData, getNewsData } = useFinanceService();
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+
+  const { getMineDetail } = useMineService();
+  const fetchDetailMine = useCallback(async () => {
+    if (!user?._id) return;
+    try {
+      const res = await getMineDetail(user._id);
+      console.log("RESPONSE MINE DETAIL", res.data);
+      dispatch(detailMine({ mine: res.data.data }));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setIsDataLoading(false);
+    }
+  }, [getMineDetail, user?._id, dispatch]);
 
   // Authentication
   const store = useAppSelector((state) => state);
@@ -62,7 +79,8 @@ const Generic1 = () => {
     } else {
       fetchCategoryData(curCategory);
     }
-  }, [curCategory, fetchCategoryData, location.search]);
+    fetchDetailMine();
+  }, [curCategory, fetchCategoryData, location.search, fetchDetailMine]);
 
   return (
     <section

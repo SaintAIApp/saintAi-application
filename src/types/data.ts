@@ -7,6 +7,12 @@ export interface IUser {
   otp: number | undefined;
   otp_expire: Date | undefined;
 }
+
+export interface MineData {
+  user_id: string;
+  clock: number;
+  coin_stt: number;
+}
 // export interface Wallet {
 //   walledId: string;
 // }

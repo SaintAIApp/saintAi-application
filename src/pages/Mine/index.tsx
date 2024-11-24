@@ -1,33 +1,50 @@
-import "./index.css";
-const Mine = () => {
 
+import "./index.css";
+import { useAppSelector } from "../../redux/hooks";
+
+const Mine = () => {
+  const mine = useAppSelector((state) => state.mine.mine);
   return (
     <section className="overflow-x-hidden responsive-width  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10 pt-[35px]">
       <div className="w-full flex space-x-21">
         <div className="flex w-full flex-col lg:flex-row items-start justify-between space-y-4 lg:space-y-0 lg:space-x-4 ">
           <div className=" h-[85vh] overflow-y-auto flex flex-col space-y-4 w-full ">
             <div className="rounded-xl border-2 border-[#333333] p-4 flex flex-col justify-center">
-              <div className="w-full h-16 bg-[#333333] rounded-full flex items-center px-5 space-x-3">
-                <h1 className="flex items-center justify-center text-sm h-6 w-6 md:h-8 md:w-8 bg-white text-black rounded-full">
-                  0
-                </h1>
-                <div className="flex w-full flex-col justify-center">
-                  <h1>50</h1>
-                  <div className="relative h-4 w-full bg-white rounded-full">
-                    <div className="bg-[#FF9B26] rounded-full absolute left-0 w-[50%] h-full"></div>
-                  </div>
+              <div className="w-full h-20 bg-[#333333] rounded-full flex items-center px-5 space-x-3 flex-col">
+                <div className="w-full flex justify-center">
+                  <h1>{mine?.clock.toFixed(2)}</h1>
                 </div>
-                <h1 className="flex items-center justify-center h-6 w-6 md:h-8 md:w-8 bg-white text-black text-sm rounded-full">
-                  60
-                </h1>
+                <div className="w-full flex items-center space-x-4">
+                  <h1 className="flex items-center justify-center text-sm h-6 w-6 md:h-8 md:w-8 bg-white text-black rounded-full">
+                    0
+                  </h1>
+                  <div className="flex w-full flex-col justify-center">
+                    <div className="relative h-4 w-full bg-white rounded-full">
+                      <div
+                        className="bg-[#FF9B26] rounded-full absolute left-0 h-full"
+                        style={{
+                          width: `${Math.min(((mine?.clock ?? 60) / 60), 1) * 100}%`
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                  <h1 className="flex items-center justify-center h-6 w-6 md:h-8 md:w-8 bg-white text-black text-sm rounded-full">
+                    60
+                  </h1>
+                </div>
               </div>
-              <div> 
+              <div>
                 <h1 className="text-center text-xl my-6">
                   Next STT Pay amount
                 </h1>
                 <div className="flex space-x-2">
-                  <div className="h-12 md:h-24 w-1/2 rounded-full bg-[#333333]"></div>
-                  <div className="h-12 md:h-24 w-1/2 rounded-full bg-[#333333]"></div>
+                  <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-[#333333] text-white text-center">
+                    <label className="text-xl font-bold">{mine?.coin_stt}</label>
+                  </div>
+                  <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-[#333333] text-white text-center">
+                    <label className="text-xl font-bold">1 hours
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>

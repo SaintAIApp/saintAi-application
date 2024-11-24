@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
+import mineReduce from "./slices/mineSlice";
 import walletReducer from "./slices/walletSlice";
 import widgetSlice from "./slices/widgetSlice";
 import subscriptionSlice from "./slices/subscriptionSlice";
@@ -14,7 +15,7 @@ const persistConfig = {
   version: 1,
 };
 
-const reducer = combineReducers({ auth: authReducer, wallet: walletReducer, subscription: subscriptionSlice, widget: widgetSlice, authModal: modalReducer });
+const reducer = combineReducers({ auth: authReducer,mine:mineReduce, wallet: walletReducer, subscription: subscriptionSlice, widget: widgetSlice, authModal: modalReducer });
 const persistedReducer = persistReducer(persistConfig, reducer);
 
 export const store = configureStore({

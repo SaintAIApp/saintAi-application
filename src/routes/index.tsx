@@ -66,7 +66,7 @@ const router = createBrowserRouter([
       {
         path: "/mine",
         element: (
-          <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "grid grid-cols-1 gap-2" }}>
+          <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[10px] pb-2" }}>
             <Suspense fallback={<Loader />}>
               <Mine />
             </Suspense>
