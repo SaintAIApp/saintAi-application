@@ -1,8 +1,10 @@
 
 import "./index.css";
 import { useAppSelector } from "../../redux/hooks";
+import { useNavigate } from "react-router-dom";
 
 const Mine = () => {
+  const navigate = useNavigate();
   const mine = useAppSelector((state) => state.mine.mine);
   return (
     <section className="overflow-x-hidden responsive-width  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10 pt-[35px]">
@@ -12,7 +14,7 @@ const Mine = () => {
             <div className="rounded-xl border-2 border-[#333333] p-4 flex flex-col justify-center">
               <div className="w-full h-20 bg-[#333333] rounded-full flex items-center px-5 space-x-3 flex-col">
                 <div className="w-full flex justify-center">
-                  <h1>{mine?.clock.toFixed(2)}</h1>
+                  <h1>{mine?.clock ? (Number.isInteger(mine.clock) ? mine.clock : mine.clock.toFixed(2)) : 0}</h1>
                 </div>
                 <div className="w-full flex items-center space-x-4">
                   <h1 className="flex items-center justify-center text-sm h-6 w-6 md:h-8 md:w-8 bg-white text-black rounded-full">
@@ -42,9 +44,22 @@ const Mine = () => {
                     <label className="text-xl font-bold">{mine?.coin_stt}</label>
                   </div>
                   <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-[#333333] text-white text-center">
-                    <label className="text-xl font-bold">1 hours
+                    <label className="text-xl font-bold">2 Hours
                     </label>
                   </div>
+                </div>
+                <div className="flex space-x-2 mt-2">
+                  <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-gradient-to-r from-[#3e0094] to-[#6a0dad] text-white text-center">
+                    <label className="text-4xl font-bold">2 0 4</label>
+                  </div>
+                  <button
+                    onClick={() => {
+                      navigate("/pricing");
+                    }}
+                    className="bg-gradient-to-r from-[#17B982] to-[#0F766E] rounded-full w-1/2 text-xl font-bold"
+                  >
+                    Upgrade Pass
+                  </button>
                 </div>
               </div>
             </div>
