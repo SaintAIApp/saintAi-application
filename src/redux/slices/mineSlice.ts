@@ -16,8 +16,8 @@ const authSlice = createSlice({
   name: "mine",
   initialState,
   reducers: {
-    detailMine: (state, action: PayloadAction<Omit<initialStateType, "isLoggedIn">>) => {
-      state.mine = action.payload.mine;      
+    detailMine: (state, action: PayloadAction<MineData>) => {
+      state.mine = action.payload;
     },
     setIsJackpot: (state, action: PayloadAction<boolean>) => {
       state.isJackpot = action.payload;

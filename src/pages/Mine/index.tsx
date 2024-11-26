@@ -13,7 +13,6 @@ const Mine = () => {
   const minutes = maxMiningDurationInMinutes % 60;
   const formattedDuration = `${hours}:${minutes.toString().padStart(2, "0")}`;
   const isJackpot = useAppSelector((state) => state.mine.isJackpot);
-  console.log("IS JACKPOT", isJackpot);
   function generateRandomNumber(existingNumbers: number[]): number {
     let randomNum;
     do {
@@ -47,8 +46,8 @@ const Mine = () => {
     let counter = 1;
 
     // Set interval for animation and random number update
-    const interval = setInterval(() => {
-      if (isJackpot) {
+    if (isJackpot) {
+      const interval = setInterval(() => {
         // Only update random numbers when isJackpot is true
         setRandomNumbers((prevNumbers) => {
           const newNumbers = [...prevNumbers];
@@ -57,7 +56,7 @@ const Mine = () => {
           });
           return newNumbers;
         });
-      }
+
 
       // Perform scrolling animation
       if (counter === listRef.current?.querySelectorAll("span").length) {
@@ -72,10 +71,10 @@ const Mine = () => {
       });
 
       counter++;
-    }, 3000); // Interval set to 3 seconds
-
+      }, 100); // Interval set to 3 seconds
+      return () => clearInterval(interval);
+    }
     // Cleanup interval when the component is unmounted
-    return () => clearInterval(interval);
   }, [isJackpot]);
 
 
@@ -122,7 +121,8 @@ const Mine = () => {
                   </div>
                 </div>
                 <div className="flex space-x-2 mt-2">
-                  <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-gradient-to-r from-[#3e0094] to-[#6a0dad] text-white text-center">
+                  <div className="flex flex-col items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-gradient-to-r from-[#3e0094] to-[#6a0dad] text-white text-center">
+                    <label htmlFor="" className="cursor-pointer mb-3 text-xl font-bold">Power Streak</label>
                     <p style={{
                       fontFamily: "Oswald",
                       fontSize: "36px",

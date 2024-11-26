@@ -19,7 +19,7 @@ const Generic1 = () => {
     try {
       const res = await getMineDetail(user._id);
       console.log("RESPONSE MINE DETAIL", res.data);
-      dispatch(detailMine({ mine: res.data.data }));
+      dispatch(detailMine(res.data.data));
     } catch (error) {
       console.log(error);
     } finally {
