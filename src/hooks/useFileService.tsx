@@ -2,7 +2,7 @@
 import useAxios from "./useAxios";
 import { useCallback } from "react";
 import useMineService from "./useMine";
-import { detailMine } from "../redux/slices/mineSlice";
+import { detailMine, setIsJackpot } from "../redux/slices/mineSlice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../redux/hooks";
 
@@ -59,12 +59,14 @@ const useFileService = () => {
 
   const sendMessage = useCallback(async (uploadId: string, body: string) => {
     try {
+      dispatch(setIsJackpot(true));
       const res = await api.post("/upload/send-message/" + uploadId, {
         message: body,
       });
       const userId = user?._id.toString();
       const mine = await getMineDetail(userId || "");
-      dispatch(detailMine({ mine: mine.data.data }));
+      dispatch(detailMine(mine.data.data));
+      dispatch(setIsJackpot(false));
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
@@ -73,13 +75,15 @@ const useFileService = () => {
 
   const sendMessageTrade = useCallback(async (body: string, userId: string) => {
     try {
+      dispatch(setIsJackpot(true));
       const res = await api.post("/upload/chat_with_trade_data", {
         user_msg: body,
         user_id: userId,
       });
 
       const mine = await getMineDetail(userId);
-      dispatch(detailMine({ mine: mine.data.data }));
+      dispatch(detailMine(mine.data.data));
+      dispatch(setIsJackpot(false));
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
