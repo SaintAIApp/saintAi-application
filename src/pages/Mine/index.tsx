@@ -6,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 const Mine = () => {
   const navigate = useNavigate();
   const mine = useAppSelector((state) => state.mine.mine);
+  const maxMiningDurationInMinutes: number | null | undefined = mine?.max_mining_duration ?? 0;
+
+  const hours = Math.floor(maxMiningDurationInMinutes / 60);
+  const minutes = maxMiningDurationInMinutes % 60;
+  const formattedDuration = `${hours}:${minutes.toString().padStart(2, "0")}`;
   return (
     <section className="overflow-x-hidden responsive-width  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10 pt-[35px]">
       <div className="w-full flex space-x-21">
@@ -44,7 +49,7 @@ const Mine = () => {
                     <label className="text-xl font-bold">{mine?.coin_stt || 0} STT</label>
                   </div>
                   <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-[#333333] text-white text-center">
-                    <label className="text-xl font-bold">2 Hours
+                    <label className="text-xl font-bold">{formattedDuration} hours
                     </label>
                   </div>
                 </div>
@@ -56,9 +61,12 @@ const Mine = () => {
                     onClick={() => {
                       navigate("/pricing");
                     }}
-                    className="bg-gradient-to-r from-[#17B982] to-[#0F766E] rounded-full w-1/2 text-xl font-bold"
+                    className="cursor-pointer bg-gradient-to-r from-[#17B982] to-[#0F766E] rounded-full w-1/2 text-xl font-bold"
                   >
-                    Upgrade Pass
+                    <div className="flex flex-col cursor-pointer">
+                      <label htmlFor="" className="cursor-pointer">Power Pass</label>
+                      <label htmlFor="" className="cursor-pointer">Upgrade</label>
+                    </div>
                   </button>
                 </div>
               </div>
