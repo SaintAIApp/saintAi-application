@@ -2,10 +2,78 @@
 import "./index.css";
 import { useAppSelector } from "../../redux/hooks";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect, useRef, useState } from "react";
+import { TweenMax, Elastic } from "gsap";
 const Mine = () => {
   const navigate = useNavigate();
   const mine = useAppSelector((state) => state.mine.mine);
+  const isJackpot = useAppSelector((state) => state.mine.isJackpot);
+  console.log("IS JACKPOT", isJackpot);
+  function generateRandomNumber(existingNumbers: number[]): number {
+    let randomNum;
+    do {
+      randomNum = Math.floor(Math.random() * 900) + 100; // Angka acak 3 digit antara 100-999
+    } while (existingNumbers.includes(randomNum)); // Pastikan angka unik
+    return randomNum;
+  }
+
+
+  const [randomNumbers, setRandomNumbers] = useState<number[]>([
+    generateRandomNumber([]),
+    generateRandomNumber([]),
+    generateRandomNumber([]),
+    generateRandomNumber([]),
+    generateRandomNumber([]),
+  ]);
+
+
+
+  const listRef = useRef<HTMLSpanElement | null>(null);
+  useEffect(() => {
+    if (!listRef.current) return; // Ensure the ref is available
+
+    // Clone first child and append it to the list (for scrolling animation)
+    const firstChild = listRef.current.querySelector("span:first-child");
+    if (firstChild) {
+      listRef.current.appendChild(firstChild.cloneNode(true));
+    }
+
+    const liHeight = listRef.current.querySelector("span")?.offsetHeight || 0;
+    let counter = 1;
+
+    // Set interval for animation and random number update
+    const interval = setInterval(() => {
+      if (isJackpot) {
+        // Only update random numbers when isJackpot is true
+        setRandomNumbers((prevNumbers) => {
+          const newNumbers = [...prevNumbers];
+          newNumbers.forEach((_, index) => {
+            newNumbers[index] = generateRandomNumber(newNumbers);
+          });
+          return newNumbers;
+        });
+      }
+
+      // Perform scrolling animation
+      if (counter === listRef.current?.querySelectorAll("span").length) {
+        counter = 1;
+        TweenMax.set(listRef.current, { y: 0 }); // Reset position Y
+      }
+
+      // Apply animation to list (scroll effect)
+      TweenMax.to(listRef.current, 1, {
+        y: 0 - liHeight * counter,
+        ease: Elastic.easeInOut.config(8, 0),
+      });
+
+      counter++;
+    }, 3000); // Interval set to 3 seconds
+
+    // Cleanup interval when the component is unmounted
+    return () => clearInterval(interval);
+  }, [isJackpot]);
+
+
   return (
     <section className="overflow-x-hidden responsive-width  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10 pt-[35px]">
       <div className="w-full flex space-x-21">
@@ -50,7 +118,47 @@ const Mine = () => {
                 </div>
                 <div className="flex space-x-2 mt-2">
                   <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-gradient-to-r from-[#3e0094] to-[#6a0dad] text-white text-center">
-                    <label className="text-4xl font-bold">2 0 4</label>
+                    <p style={{
+                      fontFamily: "Oswald",
+                      fontSize: "36px",
+                      textTransform: "uppercase",
+                      color: "black",
+                      height: "1em",
+                      lineHeight: "1em",
+                      overflow: "hidden",
+                      margin: 0,
+                      WebkitFontSmoothing: "antialiased",
+                      WebkitBackfaceVisibility: "hidden",
+                      backfaceVisibility: "hidden",
+                    }}>
+                      <span style={{
+                        margin: "-.25em 0 0 0",
+                        padding: 0,
+                        display: "inline-block",
+                        verticalAlign: "middle",
+                        height: "1em",
+                        lineHeight: "1em",
+                      }} ref={listRef}>
+                        {randomNumbers.map((number, index) => (
+                          <span
+                            key={index}
+                            style={{
+                              margin: 0,
+                              padding: 0,
+                              listStyle: "none",
+                              height: "1em",
+                              lineHeight: "1em",
+                              display: "block",
+                              color: "white",
+                              fontWeight: "bold",
+                              marginRight: "0.75rem",
+                            }}
+                          >
+                            {number.toString().split("").join(" ")} {/* Spacing between digits */}
+                          </span>
+                        ))}
+                      </span>
+                    </p>
                   </div>
                   <button
                     onClick={() => {
