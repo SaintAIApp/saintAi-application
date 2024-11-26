@@ -35,4 +35,37 @@
       width: 800px;
     }
   }
+  .list {
+    margin: -.25em 0 0 0;
+    padding: 0;
+    display: inline-block;
+    vertical-align: middle;
+    height: 1em;
+    line-height: 1em;
+  }
   
+  /* Use a class selector for each span inside .list */
+  .list-item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 1em;
+    line-height: 1em;
+    display: block;
+  }
+  
+  /* Use a class selector for the paragraph */
+  .paragraph {
+    font-family: Oswald;
+    font-size: 36px;
+    text-transform: uppercase;
+    color: black;
+    height: 1em;
+    line-height: 1em;
+    overflow: hidden;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
