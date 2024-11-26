@@ -41,7 +41,7 @@ const Mine = () => {
                 </h1>
                 <div className="flex space-x-2">
                   <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-[#333333] text-white text-center">
-                    <label className="text-xl font-bold">{mine?.coin_stt}</label>
+                    <label className="text-xl font-bold">{mine?.coin_stt || 0} STT</label>
                   </div>
                   <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-[#333333] text-white text-center">
                     <label className="text-xl font-bold">2 Hours

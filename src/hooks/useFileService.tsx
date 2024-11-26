@@ -4,10 +4,12 @@ import { useCallback } from "react";
 import useMineService from "./useMine";
 import { detailMine } from "../redux/slices/mineSlice";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "../redux/hooks";
 
 const useFileService = () => {
   const api = useAxios();
   const dispatch = useDispatch();
+  const { user } = useAppSelector((state) => state.auth);
   const { getMineDetail } = useMineService();
   const uploadFile = useCallback(async (formData: FormData) => {
     try {
@@ -60,11 +62,14 @@ const useFileService = () => {
       const res = await api.post("/upload/send-message/" + uploadId, {
         message: body,
       });
+      const userId = user?._id.toString();
+      const mine = await getMineDetail(userId || "");
+      dispatch(detailMine({ mine: mine.data.data }));
       return res;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
-  }, [api]);
+  }, [api, user, getMineDetail,dispatch]);
 
   const sendMessageTrade = useCallback(async (body: string, userId: string) => {
     try {
