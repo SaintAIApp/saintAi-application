@@ -1,6 +1,6 @@
 
 import "./index.css";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { TweenMax, Elastic } from "gsap";
