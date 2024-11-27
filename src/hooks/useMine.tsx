@@ -12,8 +12,16 @@ const useMineService = () => {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
   }, [api]);
+  const getTotalDuration = useCallback(async () => {
+    try {
+      const res = await api.get("/user/mine/total-duration");
+      return res;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || "Something went wrong");
+    }
+  }, [api]);
 
-  return { getMineDetail };
+  return { getMineDetail, getTotalDuration };
 };
 
 export default useMineService;

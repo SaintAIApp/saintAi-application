@@ -12,6 +12,8 @@ export interface MineData {
   user_id: string;
   clock: number;
   max_mining_duration:number;
+  mining_duration:number;
+  last_mining_date: Date;
   coin_stt: number;
 }
 // export interface Wallet {
