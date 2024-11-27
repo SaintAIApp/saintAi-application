@@ -178,7 +178,6 @@ const Mine = () => {
                   <div className="flex flex-col items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-gradient-to-r from-[#3e0094] to-[#6a0dad] text-white text-center">
                     <label htmlFor="" className="cursor-pointer mb-3 text-xl font-bold">Power Streak</label>
                     <p style={{
-                      fontFamily: "Oswald",
                       fontSize: "36px",
                       textTransform: "uppercase",
                       color: "black",
