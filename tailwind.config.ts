@@ -57,7 +57,8 @@ export default {
     },
   },
   plugins: [import("@tailwindcss/line-clamp"),
-    require('tailwind-scrollbar-hide'),
+    require("tailwind-scrollbar-hide"),
+    require("daisyui"),
   function ({ matchUtilities, theme }: any) {
     matchUtilities(
       {

@@ -81,7 +81,11 @@ const Generic1 = () => {
     }
     fetchDetailMine();
   }, [curCategory, fetchCategoryData, location.search, fetchDetailMine]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => { setIsModalOpen(false); };
   return (
     <section
       className="overflow-x-hidden flex flex-row ">
@@ -96,6 +100,7 @@ const Generic1 = () => {
                 <div className="w-full overflow-y-scroll scrollbar-hide 
                 ">
                 <Column
+                    openModal={openModal}
                   curCategory={curCategory}
                   list={list}
                 />
@@ -103,6 +108,7 @@ const Generic1 = () => {
             </div>
           )}
         </div>
+        <dialog id="my_modal_1" className={`modal ${isModalOpen ? 'modal-open' : ''}`}> <div className="modal-box"> <h3 className="text-lg font-bold">Hello!</h3> <p className="py-4">Press ESC key or click the button below to close</p> <div className="modal-action"> <button className="btn" onClick={closeModal}>Close</button> </div> </div> </dialog>
       </div>
     </section>
   );
