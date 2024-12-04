@@ -13,7 +13,7 @@ export const Column = ({
   list: any;
   setIsChatBoxOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   setGraphSelected?: React.Dispatch<React.SetStateAction<any>>;
-    openModal: () => void;
+    openModal: (url: string) => void;
 }) => {
   return (
     <div className="w-full flex justify-center flex-col items-center md:items-start mb-2">

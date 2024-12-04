@@ -7,16 +7,20 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { updateCurCategory } from "../../redux/slices/widgetSlice";
 import useMineService from "../../hooks/useMine";
 import { detailMine } from "../../redux/slices/mineSlice";
-
+import useFileService from "../../hooks/useFileService";
+import { BeatLoader } from "react-spinners";
 const Generic1 = () => {
   const { getStocksData, getCryptoData, getNewsData } = useFinanceService();
+  const { summarizeArticle } = useFileService();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
-
+  const [article, setArticle] = useState(null);
+  const [isSummarizeLoading, setIsSummarizeLoading] = useState(false);
   const { getMineDetail } = useMineService();
   const fetchDetailMine = useCallback(async () => {
     if (!user?._id) return;
     try {
+
       const res = await getMineDetail(user._id);
       console.log("RESPONSE MINE DETAIL", res.data);
       dispatch(detailMine(res.data.data));
@@ -27,6 +31,21 @@ const Generic1 = () => {
     }
   }, [getMineDetail, user?._id, dispatch]);
 
+  const storeSummarize = useCallback(async (url: string) => {
+    if (!user?._id) return;
+    try {
+      setIsSummarizeLoading(true);
+      const res = await summarizeArticle(url);
+      console.log("RESPONSE SUMMARIZE", res.data);
+      setArticle(res.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSummarizeLoading(false);
+    }
+  },
+    [summarizeArticle, user?._id]);
+
   // Authentication
   const store = useAppSelector((state) => state);
   const { widget } = store;
@@ -35,6 +54,7 @@ const Generic1 = () => {
 
   const [list, setList] = useState<any[]>([]);
   const [isDataLoading, setIsDataLoading] = useState(false);
+
 
   const fetchCategoryData = useCallback(async (category: string) => {
     try {
@@ -82,8 +102,9 @@ const Generic1 = () => {
     fetchDetailMine();
   }, [curCategory, fetchCategoryData, location.search, fetchDetailMine]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => {
+  const openModal = async (url: string) => {
     setIsModalOpen(true);
+    await storeSummarize(url);
   };
   const closeModal = () => { setIsModalOpen(false); };
   return (
@@ -108,7 +129,24 @@ const Generic1 = () => {
             </div>
           )}
         </div>
-        <dialog id="my_modal_1" className={`modal ${isModalOpen ? 'modal-open' : ''}`}> <div className="modal-box"> <h3 className="text-lg font-bold">Hello!</h3> <p className="py-4">Press ESC key or click the button below to close</p> <div className="modal-action"> <button className="btn" onClick={closeModal}>Close</button> </div> </div> </dialog>
+        <dialog id="my_modal_1" className={`modal ${isModalOpen ? "modal-open" : ""}`}>
+          <div className="modal-box">
+            <h3 className="text-lg font-bold">Summarize Article</h3>
+
+            {isSummarizeLoading ?
+              (
+                <div className="w-full justify-center flex flex-col items-center">
+                  <BeatLoader color="#17B982" />
+                  <label className="text-sm text-gray-300 mt-4">Please Waiting...</label>
+                </div>
+              ) : (
+                <article>{article}</article>
+              )}
+            <div className="modal-action">
+              <button className="btn" onClick={closeModal}>Close</button>
+            </div>
+          </div>
+        </dialog>
       </div>
     </section>
   );

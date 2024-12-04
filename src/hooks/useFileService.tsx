@@ -73,6 +73,22 @@ const useFileService = () => {
     }
   }, [api, user, getMineDetail,dispatch]);
 
+  const summarizeArticle = useCallback(async (url: string) => {
+    try {
+      dispatch(setIsJackpot(true));
+      const res = await api.post("/upload/summarize-article/", {
+        url: url,
+      });
+      const userId = user?._id.toString();
+      const mine = await getMineDetail(userId || "");
+      dispatch(detailMine(mine.data.data));
+      dispatch(setIsJackpot(false));
+      return res;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || "Something went wrong");
+    }
+  }, [api, user, getMineDetail, dispatch]);
+
   const sendMessageTrade = useCallback(async (body: string, userId: string) => {
     try {
       dispatch(setIsJackpot(true));
@@ -108,6 +124,7 @@ const useFileService = () => {
     getChatHistory,
     sendMessage,
     deleteFile,
+    summarizeArticle,
     sendMessageTrade,
     getChatHistoryTrade,
   };

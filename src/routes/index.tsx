@@ -16,6 +16,7 @@ const WidgetsPage = lazy(() => import("../pages/Widgets"));
 
 const Pricing = lazy(() => import("../pages/Pricing"));
 const Mine = lazy(() => import("../pages/Mine"));
+const Halo = lazy(() => import("../pages/Halo"));
 const PaymentSuccess = lazy(
   (): any => import("../pages/Payment/PaymentSuccess")
 );
@@ -69,6 +70,16 @@ const router = createBrowserRouter([
           <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[10px] pb-2" }}>
             <Suspense fallback={<Loader />}>
               <Mine />
+            </Suspense>
+          </SidebarLayout>
+        ),
+      },
+      {
+        path: "/halo",
+        element: (
+          <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[10px] pb-2" }}>
+            <Suspense fallback={<Loader />}>
+              <Halo />
             </Suspense>
           </SidebarLayout>
         ),
