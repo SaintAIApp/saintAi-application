@@ -1,263 +1,269 @@
 
+import { useCallback, useEffect, useState } from "react";
 import "./index.css";
+import socket from "../../services/socket";
 import { useAppSelector } from "../../redux/hooks";
-import { useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { TweenMax, Elastic } from "gsap";
-import useMineService from "../../hooks/useMine";
+import { IoIosSend } from "react-icons/io";
+type User = {
+  userId: string;
+  username: string;
+};
 const Halo = () => {
-  const navigate = useNavigate();
-  const mine = useAppSelector((state) => state.mine.mine);
-  const maxMiningDurationInMinutes: number = mine?.max_mining_duration ?? 0;
-  const miningDurationMinutes: number = mine?.mining_duration ?? 0;
+  const { user } = useAppSelector((state) => state.auth); // Ambil data user dari state auth
+  const [messages, setMessages] = useState<any[]>([]); // State untuk pesan
+  const [newMessage, setNewMessage] = useState(""); // State untuk pesan baru
+  const [isWindowFocused, setIsWindowFocused] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
+  const [typingUser, setTypingUser] = useState<string | null>(null);
+  const handleTyping = useCallback(() => {
+    if (user?._id) {
+      socket.emit("typing", { userId: user._id, groupId: "dkashkdjs" });
+    }
+  }, [user]);
+  useEffect(() => {
+    const markAsRead = (messageId: string) => {
+      if (user?._id) {
+        socket.emit("readMessage", { messageId, userId: user._id, username: user.username });
+      }
+    };
 
-  function resetDailyCounter(lastMiningDate: Date | undefined, maxMiningDurationInMinutes: number, miningDuration: number) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set today to 00:00:00 for comparison
+    const groupId = "dkashkdjs";
 
-    let result: string | number = "0:00"; // Default value for formattedDuration
+    // Join ke grup
+    socket.emit("joinGroup", groupId);
 
-    // Check if the last mining date exists
-    if (lastMiningDate) {
-      const lastMiningDateObj = new Date(lastMiningDate);
-      lastMiningDateObj.setHours(0, 0, 0, 0);
-      console.log(lastMiningDateObj.getTime(), today.getTime());
-      // Check if the last mining date is from the previous day
-      if (lastMiningDateObj.getTime() < today.getTime()) {
-        const hours = Math.floor(miningDuration / 60);
-        const minutes = miningDuration % 60;
-        result = `${hours}:${minutes.toString().padStart(2, "0")}`;
-      } else {
-        const hours = Math.floor(maxMiningDurationInMinutes / 60);
-        const minutes = maxMiningDurationInMinutes % 60;
-        result = `${hours}:${minutes.toString().padStart(2, "0")}`; // Format as hours:minutes
+    // Fetch existing messages ketika bergabung ke grup
+    socket.emit("getMessages", groupId, (fetchedMessages: any[]) => {
+      setMessages(fetchedMessages);
+      if (isWindowFocused) {
+        fetchedMessages.forEach((message) => {
+          if (!message.readBy?.includes(user?._id) && message.sender !== user?._id) {
+            markAsRead(message._id);
+          }
+        });
+      }
+    });
+
+    socket.on("typing", (typingUser) => {
+      if (typingUser.userId !== user?._id) {
+        setTypingUser(user?.username || "Someone"); // Tampilkan indikator typing
+      }
+    });
+
+    // Terima event 'stopTyping' saat user berhenti mengetik
+    socket.on("stopTyping", () => {
+      setTypingUser(null); // Hapus nama pengguna yang sedang mengetik
+    });
+
+    // Terima pesan baru secara real-time
+    socket.on("newMessage", (message) => {
+      setMessages((prev) => [...prev, message]);
+      setIsTyping(false);
+      setTypingUser(null);
+      if (isWindowFocused && message.sender !== user?._id) {
+        markAsRead(message._id);
+      }
+    });
+
+    const handleFocus = () => setIsWindowFocused(true);
+    const handleBlur = () => setIsWindowFocused(false);
+
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("blur", handleBlur);
+
+    return () => {
+      socket.off("newMessage");
+      socket.off("typing");
+      socket.off("stopTyping");
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("blur", handleBlur);
+    };
+
+  }, [isWindowFocused, user, isTyping]);
+
+  // Fungsi untuk mengirim pesan baru
+  const sendMessage = () => {
+    if (newMessage.trim() && user) {
+      socket.emit("sendMessage", {
+        content: newMessage,
+        sender: user._id,
+        senderName: user.username,
+        groupId: "dkashkdjs",
+      });
+      setNewMessage(""); // Reset input setelah mengirim pesan
+      setIsTyping(false);
+      setTypingUser(null);
+    }
+  };
+  const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewMessage(e.target.value);
+
+    if (e.target.value) {
+      if (!isTyping) {
+        setIsTyping(true);
+        handleTyping();
       }
     } else {
-      const hours = Math.floor(maxMiningDurationInMinutes / 60);
-      const minutes = maxMiningDurationInMinutes % 60;
-      result = `${hours}:${minutes.toString().padStart(2, "0")}`; // Format as hours:minutes
+      setIsTyping(false); // Jika input kosong, set typing ke false
+      socket.emit("stopTyping", { userId: user?._id, groupId: "dkashkdjs" });
     }
-    return result; // Return either formattedDuration or miningDuration
-  }
-
-  // Ensure `mine?.last_mining_date` is a `Date` or handle it as undefined
-  const miningDuration = resetDailyCounter(mine?.last_mining_date ? new Date(mine.last_mining_date) : undefined, maxMiningDurationInMinutes, miningDurationMinutes);
-
-
-  const isJackpot = useAppSelector((state) => state.mine.isJackpot);
-  function generateRandomNumber(existingNumbers: number[]): number {
-    let randomNum;
-    do {
-      randomNum = Math.floor(Math.random() * 900) + 100; // Angka acak 3 digit antara 100-999
-    } while (existingNumbers.includes(randomNum)); // Pastikan angka unik
-    return randomNum;
-  }
-  const [totalDuration, setTotalDuration] = useState(0)
-
-  const [randomNumbers, setRandomNumbers] = useState<number[]>([
-    generateRandomNumber([]),
-    generateRandomNumber([]),
-    generateRandomNumber([]),
-    generateRandomNumber([]),
-    generateRandomNumber([]),
-  ]);
-
-
-
-  const listRef = useRef<HTMLSpanElement | null>(null);
-  useEffect(() => {
-    if (!listRef.current) return; // Ensure the ref is available
-
-    // Clone first child and append it to the list (for scrolling animation)
-    const firstChild = listRef.current.querySelector("span:first-child");
-    if (firstChild) {
-      listRef.current.appendChild(firstChild.cloneNode(true));
-    }
-
-    const liHeight = listRef.current.querySelector("span")?.offsetHeight || 0;
-    let counter = 1;
-    const totalDurationInHour = totalDuration / 60;
-    console.log("TOTAL DURATION", totalDurationInHour, totalDuration);
-    // Set interval for animation and random number update
-    if (totalDurationInHour === 1000) {
-      setRandomNumbers(Array(5).fill(100)); // Set all numbers to 100 if condition is met
-      fetchDetailMine();
-      return;
-    }
-    if (isJackpot) {
-      const interval = setInterval(() => {
-        // Only update random numbers when isJackpot is true
-        setRandomNumbers((prevNumbers) => {
-          const newNumbers = [...prevNumbers];
-          newNumbers.forEach((_, index) => {
-            newNumbers[index] = generateRandomNumber(newNumbers);
-          });
-          return newNumbers;
-        });
-
-
-        // Perform scrolling animation
-        if (counter === listRef.current?.querySelectorAll("span").length) {
-          counter = 1;
-          TweenMax.set(listRef.current, { y: 0 }); // Reset position Y
-        }
-
-        // Apply animation to list (scroll effect)
-        TweenMax.to(listRef.current, 1, {
-          y: 0 - liHeight * counter,
-          ease: Elastic.easeInOut.config(8, 0),
-        });
-
-        counter++;
-      }, 100); // Interval set to 3 seconds
-      return () => clearInterval(interval);
-    }
-    // Cleanup interval when the component is unmounted
-  }, [isJackpot, totalDuration]);
-
-  const { getTotalDuration } = useMineService();
-
-  const fetchDetailMine = useCallback(async () => {
-    try {
-      const res = await getTotalDuration();
-      console.log("RESPONSE MINE DETAIL", res.data);
-      setTotalDuration(res.data.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      // setIsDataLoading(false); // Uncomment if you're managing loading state
-    }
-  }, [getTotalDuration]);
-
-  useEffect(() => {
-    fetchDetailMine();
-  }, [fetchDetailMine]);
+  };
+  console.log(messages);
   return (
-    <section className="overflow-x-hidden responsive-width  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10 pt-[35px]">
-      <div className="w-full flex space-x-21">
-        <div className="flex w-full flex-col lg:flex-row items-start justify-between space-y-4 lg:space-y-0 lg:space-x-4 ">
-          <div className=" h-[85vh] overflow-y-auto flex flex-col space-y-4 w-full ">
-            <div className="rounded-xl border-2 border-[#333333] p-4 flex flex-col justify-center">
-              <div className="w-full h-20 bg-[#333333] rounded-full flex items-center px-5 space-x-3 flex-col">
-                <div className="w-full flex justify-center">
-                  <h1>{mine?.clock ? (Number.isInteger(mine.clock) ? mine.clock : mine.clock.toFixed(2)) : 0}</h1>
-                </div>
-                <div className="w-full flex items-center space-x-4">
-                  <h1 className="flex items-center justify-center text-sm h-6 w-6 md:h-8 md:w-8 bg-white text-black rounded-full">
-                    0
-                  </h1>
-                  <div className="flex w-full flex-col justify-center">
-                    <div className="relative h-4 w-full bg-white rounded-full">
-                      <div
-                        className="bg-[#FF9B26] rounded-full absolute left-0 h-full"
-                        style={{
-                          width: `${Math.min(((mine?.clock ?? 60) / 60), 1) * 100}%`
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                  <h1 className="flex items-center justify-center h-6 w-6 md:h-8 md:w-8 bg-white text-black text-sm rounded-full">
-                    60
-                  </h1>
-                </div>
+    <section className="overflow-x-hidden   flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10 pt-[35px] h-screen">
+      <div className="border border-[#fff] w-full h-[85vh] rounded-lg flex flex-col">
+        <div className="max-h-[85vh] h-[85vh] overflow-auto p-5">
+          {messages.map((message) => (
+
+            <div
+              key={message._id}
+              className={`flex items-start gap-2.5 ${message.sender === user?._id ? "justify-end" : "justify-start"
+                }`}
+            >
+              <div className="h-8 w-8 rounded-full bg-primary p-3 flex items-center justify-center">
+                <label className="text-white uppercase">{message.senderName ? message.senderName.slice(0, 2) : "NA"}</label>
               </div>
-              <div>
-                <h1 className="text-center text-xl my-6">
-                  Next STT Pay amount
-                </h1>
-                <div className="flex space-x-2">
-                  <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-[#333333] text-white text-center">
-                    <label className="text-xl font-bold">{mine?.coin_stt || 0} STT</label>
+
+
+              {message.sender === user?._id ? (
+                <div className="flex flex-col gap-1 w-auto max-w-[320px]">
+                  <div className="flex items-center justify-end space-x-2 rtl:space-x-reverse">
+                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                      You
+                    </span>
+                    <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                      {new Date(message.timestamp).toLocaleTimeString()}
+                    </span>
                   </div>
-                  <div className="flex items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-[#333333] text-white text-center">
-                    <label className="text-xl font-bold">{miningDuration} hours
-                    </label>
-                  </div>
-                </div>
-                <div className="flex space-x-2 mt-2">
-                  <div className="flex flex-col items-center justify-center h-12 md:h-24 w-1/2 rounded-full bg-gradient-to-r from-[#3e0094] to-[#6a0dad] text-white text-center">
-                    <label htmlFor="" className="cursor-pointer mb-3 text-xl font-bold">Power Streak</label>
-                    <p style={{
-                      fontFamily: "Oswald",
-                      fontSize: "36px",
-                      textTransform: "uppercase",
-                      color: "black",
-                      height: "1em",
-                      lineHeight: "1em",
-                      overflow: "hidden",
-                      margin: 0,
-                      WebkitFontSmoothing: "antialiased",
-                      WebkitBackfaceVisibility: "hidden",
-                      backfaceVisibility: "hidden",
-                    }}>
-                      <span style={{
-                        margin: "-.25em 0 0 0",
-                        padding: 0,
-                        display: "inline-block",
-                        verticalAlign: "middle",
-                        height: "1em",
-                        lineHeight: "1em",
-                      }} ref={listRef}>
-                        {randomNumbers.map((number, index) => (
-                          <span
-                            key={index}
-                            style={{
-                              margin: 0,
-                              padding: 0,
-                              listStyle: "none",
-                              height: "1em",
-                              lineHeight: "1em",
-                              display: "block",
-                              color: "white",
-                              fontWeight: "bold",
-                              marginRight: "0.75rem",
-                            }}
-                          >
-                            {number.toString().split("").join(" ")} {/* Spacing between digits */}
-                          </span>
-                        ))}
-                      </span>
+                  <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                    <p className="text-sm font-normal text-gray-900 dark:text-white">
+                      {message.content}
                     </p>
                   </div>
-                  <button
-                    onClick={() => {
-                      navigate("/pricing");
-                    }}
-                    className="cursor-pointer bg-gradient-to-r from-[#17B982] to-[#0F766E] rounded-full w-1/2 text-xl font-bold"
-                  >
-                    <div className="flex flex-col cursor-pointer">
-                      <label htmlFor="" className="cursor-pointer">Power Pass</label>
-                      <label htmlFor="" className="cursor-pointer">Upgrade</label>
-                    </div>
-                  </button>
+                  <div className="flex space-x-2">
+                    {message.readByUser && message.readByUser.length > 0 ? (
+                      message.readByUser.map((item: User) => (
+                        <div className="h-3 w-3 rounded-full bg-blue p-3 flex items-center justify-center" key={item.userId}>
+                          <label className="text-white uppercase text-sm">
+                            {item.username ? item.username.slice(0, 2) : "NA"}
+                          </label>
+                        </div>
+                      ))
+                    ) : (
+                      <span>No one has read</span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="border-2 rounded-xl border-[#333333] p-4">
-              <ul className="flex flex-col space-y-6  *:pb-2">
-                <li className="flex items-center justify-between text-sm lg:text-xl">
-                  <p>Current Supply</p>
-                  <p>Next Halving supply</p>
+              ) : (
+                <div className="flex flex-col gap-1 w-auto max-w-[320px]">
+                  <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                      {message.senderName}
+                    </span>
+                      <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                        {new Date(message.timestamp).toLocaleTimeString()}
+                      </span>
+                    </div>
+                    <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                      <p className="text-sm font-normal text-gray-900 dark:text-white">
+                        {message.content}
+                    </p>
+                  </div>
+                  <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                    Delivered
+                  </span>
+                </div>
+              )}
+              <button
+                id="dropdownMenuIconButton"
+                data-dropdown-toggle="dropdownDots"
+                data-dropdown-placement="bottom-start"
+                className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600"
+                type="button"
+              >
+                <svg
+                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 4 15"
+                >
+                  <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                </svg>
+              </button>
+              <div
+                id="dropdownDots"
+                className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600"
+              >
+                <ul
+                  className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                  aria-labelledby="dropdownMenuIconButton"
+                >
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Reply
+                    </a>
                 </li>
-                <li className="flex items-center justify-between text-sm lg:text-xl">
-                  <p>61,345,345</p>
-                  <p>31,000,000</p>
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Forward
+                    </a>
                 </li>
-                <li className="flex items-center justify-between text-sm lg:text-xl">
-                  <p>Current Reward</p>
-                  <p>Next Reward</p>
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Copy
+                    </a>
                 </li>
-                <li className="flex items-center justify-between text-sm lg:text-xl">
-                  <p>$STT price</p>
-                  <p>$STT Market Cap</p>
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Report
+                    </a>
                 </li>
-                <li className="flex items-center justify-between text-sm lg:text-xl">
-                  <p>$0.35</p>
-                  <p>$27,000,000</p>
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Delete
+                    </a>
                 </li>
               </ul>
             </div>
           </div>
+          ))}
+        </div>
+
+        <div className="border-t border-gray-300 p-4 flex gap-3">
+          {typingUser && (
+            <div className="text-sm text-gray-500 dark:text-gray-400 p-2">
+              {typingUser} is typing...
+            </div>
+          )}
+
+          <input
+            value={newMessage}
+            onChange={handleChangeMessage}
+            placeholder="Type your message"
+            className="flex-grow bg-gray-100 dark:bg-gray-700 text-black dark:text-white border border-gray-600 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#016FCB]"
+          />
+          <button
+            onClick={sendMessage}
+            className="flex-shrink-0 rounded-full flex items-center px-4 justify-center p-2 bg-primary disabled:bg-gray-300 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <IoIosSend fill="green" className="text-xl" />
+          </button>
         </div>
       </div>
     </section>

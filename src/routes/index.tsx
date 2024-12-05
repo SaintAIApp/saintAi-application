@@ -77,7 +77,7 @@ const router = createBrowserRouter([
       {
         path: "/halo",
         element: (
-          <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[10px] pb-2" }}>
+          <SidebarLayout chatOptions={{ chatOpenDefault: false, chatClassName: "hidden" }}>
             <Suspense fallback={<Loader />}>
               <Halo />
             </Suspense>
