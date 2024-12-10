@@ -107,6 +107,7 @@ const Generic1 = () => {
     await storeSummarize(url);
   };
   const closeModal = () => { setIsModalOpen(false); };
+
   return (
     <section
       className="overflow-x-hidden flex flex-row ">
@@ -115,8 +116,7 @@ const Generic1 = () => {
           {isDataLoading ? (
             <Loader />
           ) : (
-              <div className="flex min-h-screen
-          ">
+              <div className="flex min-h-screen">
               {/* Left section */}
                 <div className="w-full overflow-y-scroll scrollbar-hide 
                 ">

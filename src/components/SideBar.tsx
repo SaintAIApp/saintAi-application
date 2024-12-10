@@ -22,7 +22,7 @@ const SideBar = ({
   const token = useAppSelector((state) => {
     return state.auth.token;
   });
-
+  const isChatCommunity = useAppSelector((state) => state.widget.isChatCommunity);
   const navigate = useNavigate();
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set()
@@ -150,6 +150,8 @@ const SideBar = ({
     dispatch(updateIsChatCommunity({ isChatCommunity: true }));
   };
 
+  const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
+
   return (
     <div
       id="sideBar"
@@ -233,11 +235,18 @@ const SideBar = ({
             onClick={() => {
               onClickHalo();
             }}
-            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/mine" ? "bg-[#333333]" : ""
-              }`}
+            className={`cursor-pointer `}
           >
-            <img src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-and-lines-1/2/11-512.png" className="mr-2 w-6" alt="Mine" />{" "}
-            Halo
+            <div className={`indicator rounded-full ${isChatCommunity === true ? "bg-[#333333]  px-2" : "ml-[-10px]"} `}>
+              {(totalUnreadMessage ?? 0) > 0 && (
+                <span className="indicator-item badge badge-secondary">{totalUnreadMessage}+</span>
+              )}
+
+              <div className="btn flex items-center bg-transparent border-none">
+                <img src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-and-lines-1/2/11-512.png" className="w-6" alt="Mine" />{" "}
+                <label htmlFor="" className="text-md">Halo</label>
+              </div>
+            </div>
           </li>
         </ul>
       </div>

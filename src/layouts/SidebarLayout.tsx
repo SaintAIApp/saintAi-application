@@ -7,8 +7,9 @@ import DefaultSideBar from "../components/SideBar";
 import { useAuthStateCheck } from "../hooks/useAuthState";
 import ChatComponent from "../pages/Widgets/ChatComponent";
 import clsx from "clsx";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Halo from "../pages/Halo";
+import { updateIsChatCommunity } from "../redux/slices/widgetSlice";
 
 type Props = {
   children: ReactNode;
@@ -31,6 +32,24 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   const isOpen = isMobile ? false : chatOptions.chatOpenDefault;
   const [isChatOpen, setIsChatOpen] = useState(isOpen ?? false);
   const isChatCommunity = useAppSelector((state) => state.widget.isChatCommunity);
+  const dispatch = useAppDispatch();
+  const onCloseHalo = () => {
+    dispatch(updateIsChatCommunity({ isChatCommunity: false }));
+  };
+  const onClickHalo = () => {
+    dispatch(updateIsChatCommunity({ isChatCommunity: true }));
+  };
+  const modal = document.getElementById("my_modal_4");
+
+  if (modal) {
+    window.addEventListener("click", (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (target === modal) {
+        onCloseHalo();
+      }
+    });
+  }
+  const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
   return (
     <div className="flex flex-col min-h-screen h-screen bg-black text-white">
       <Toaster />
@@ -62,13 +81,43 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
                     alt="Chat Button"
                   />
                 </button>
+                <div
+                  onClick={() => {
+                    onClickHalo();
+                  }}
+                  className="indicator fixed md:hidden bottom-[70px] z-50 right-5 shadow-xl p-1 rounded-full bg-dark "
+                >
+
+
+
+                  {(totalUnreadMessage ?? 0) > 0 && (
+                    <span className="indicator-item badge badge-secondary">{totalUnreadMessage}+</span>
+                  )}
+                  <button
+                  >
+                    <img
+                      src={"https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-and-lines-1/2/11-512.png"}
+                      className="h-10 w-10 object-contain md:h-12 md:w-12 bg-black rounded-full"
+                      alt="Chat Button"
+                    />
+                  </button>
+                </div>
               </>
             )
           }
         </main>
       </div>
-      <dialog id="my_modal_4" className={`modal  ${isChatCommunity ? "modal-open" : ""}`} >
-        <div className="bg-black  border-1 border border-grey p-4 rounded-badge modal-bottom w-1/2 max-w-5x  h-[50rem]">
+      <dialog id="my_modal_4" className={`modal p-4 md:p-0  ${isChatCommunity ? "modal-open" : ""}`} >
+        <div className="bg-black  border-1 border border-grey p-4 rounded-badge modal-bottom w-full md:w-1/2 max-w-xl  h-auto min-h-[72vh]">
+          <div className="flex items-center justify-center flex-row gap-3">
+            <img
+              src={logoCircle}
+              className="h-10 w-10 object-contain md:h-8 md:w-8 bg-black rounded-full"
+              alt="Chat Button"
+            />
+            <h6 className="font-bold text-2xl">HALO</h6>
+            <button onClick={() => onCloseHalo()} className="btn btn-sm btn-circle btn-ghost">✕</button>
+          </div>
           <Halo />
         </div>
       </dialog>

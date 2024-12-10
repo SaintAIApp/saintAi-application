@@ -13,16 +13,15 @@ const Mine = () => {
 
   function resetDailyCounter(lastMiningDate: Date | undefined, maxMiningDurationInMinutes: number, miningDuration: number) {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set today to 00:00:00 for comparison
+    today.setHours(0, 0, 0, 0); 
 
-    let result: string | number = "0:00"; // Default value for formattedDuration
+    let result: string | number = "0:00"; 
 
-    // Check if the last mining date exists
+
     if (lastMiningDate) {
       const lastMiningDateObj = new Date(lastMiningDate);
       lastMiningDateObj.setHours(0, 0, 0, 0);
-      console.log(lastMiningDateObj.getTime(), today.getTime());
-      // Check if the last mining date is from the previous day
+
       if (lastMiningDateObj.getTime() < today.getTime()) {
         const hours = Math.floor(miningDuration / 60);
         const minutes = miningDuration % 60;
@@ -30,17 +29,17 @@ const Mine = () => {
       } else {
         const hours = Math.floor(maxMiningDurationInMinutes / 60);
         const minutes = maxMiningDurationInMinutes % 60;
-        result = `${hours}:${minutes.toString().padStart(2, "0")}`; // Format as hours:minutes
+        result = `${hours}:${minutes.toString().padStart(2, "0")}`; 
       }
     } else {
       const hours = Math.floor(maxMiningDurationInMinutes / 60);
       const minutes = maxMiningDurationInMinutes % 60;
-      result = `${hours}:${minutes.toString().padStart(2, "0")}`; // Format as hours:minutes
+      result = `${hours}:${minutes.toString().padStart(2, "0")}`; 
     }
-    return result; // Return either formattedDuration or miningDuration
+    return result; 
   }
 
-  // Ensure `mine?.last_mining_date` is a `Date` or handle it as undefined
+
   const miningDuration = resetDailyCounter(mine?.last_mining_date ? new Date(mine.last_mining_date) : undefined, maxMiningDurationInMinutes, miningDurationMinutes);
 
 
@@ -48,8 +47,8 @@ const Mine = () => {
   function generateRandomNumber(existingNumbers: number[]): number {
     let randomNum;
     do {
-      randomNum = Math.floor(Math.random() * 900) + 100; // Angka acak 3 digit antara 100-999
-    } while (existingNumbers.includes(randomNum)); // Pastikan angka unik
+      randomNum = Math.floor(Math.random() * 900) + 100;
+    } while (existingNumbers.includes(randomNum)); 
     return randomNum;
   }
   const [totalDuration, setTotalDuration] = useState(0)
@@ -66,9 +65,9 @@ const Mine = () => {
 
   const listRef = useRef<HTMLSpanElement | null>(null);
   useEffect(() => {
-    if (!listRef.current) return; // Ensure the ref is available
+    if (!listRef.current) return;
 
-    // Clone first child and append it to the list (for scrolling animation)
+
     const firstChild = listRef.current.querySelector("span:first-child");
     if (firstChild) {
       listRef.current.appendChild(firstChild.cloneNode(true));
@@ -78,15 +77,15 @@ const Mine = () => {
     let counter = 1;
     const totalDurationInHour = totalDuration / 60;
     console.log("TOTAL DURATION", totalDurationInHour, totalDuration);
-    // Set interval for animation and random number update
+
     if (totalDurationInHour === 1000) {
-      setRandomNumbers(Array(5).fill(100)); // Set all numbers to 100 if condition is met
+      setRandomNumbers(Array(5).fill(100)); 
       fetchDetailMine();
       return;
     }
     if (isJackpot) {
       const interval = setInterval(() => {
-        // Only update random numbers when isJackpot is true
+
         setRandomNumbers((prevNumbers) => {
           const newNumbers = [...prevNumbers];
           newNumbers.forEach((_, index) => {
@@ -96,23 +95,23 @@ const Mine = () => {
         });
 
 
-      // Perform scrolling animation
+
       if (counter === listRef.current?.querySelectorAll("span").length) {
         counter = 1;
-        TweenMax.set(listRef.current, { y: 0 }); // Reset position Y
+        TweenMax.set(listRef.current, { y: 0 }); 
       }
 
-      // Apply animation to list (scroll effect)
+
       TweenMax.to(listRef.current, 1, {
         y: 0 - liHeight * counter,
         ease: Elastic.easeInOut.config(8, 0),
       });
 
       counter++;
-      }, 100); // Interval set to 3 seconds
+      }, 100); 
       return () => clearInterval(interval);
     }
-    // Cleanup interval when the component is unmounted
+
   }, [isJackpot, totalDuration]);
 
   const { getTotalDuration } = useMineService();
@@ -125,7 +124,7 @@ const Mine = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      // setIsDataLoading(false); // Uncomment if you're managing loading state
+
     }
   }, [getTotalDuration]);
 

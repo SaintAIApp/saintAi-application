@@ -2,31 +2,39 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./index.css";
 import socket from "../../services/socket";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { IoIosSend } from "react-icons/io";
+import { updateTotalUnreadMessage } from "../../redux/slices/widgetSlice";
+import { debounce } from "lodash";
 type User = {
   userId: string;
   username: string;
 };
 const Halo = () => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState(""); 
   const [isWindowFocused, setIsWindowFocused] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const [typingUser, setTypingUser] = useState<string | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = useCallback(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  const [unreadCount, setUnreadCount] = useState(0);
+  const handleStopTyping = debounce(() => {
+    if (user?._id) {
+      socket.emit("stopTyping", { userId: user._id, groupId: "dkashkdjs" });
+      setIsTyping(false);
     }
-  }, []);
+  }, 2000);
+
   const handleTyping = useCallback(() => {
     if (user?._id) {
-      socket.emit("typing", { userId: user._id, groupId: "dkashkdjs" });
+      socket.emit("typing", { userId: user._id, groupId: "dkashkdjs", username: user.username });
+      setIsTyping(true);
+      handleStopTyping();
     }
-  }, [user]);
+  }, [user, handleStopTyping]);
+
   useEffect(() => {
     const markAsRead = (messageId: string) => {
       if (user?._id) {
@@ -36,24 +44,30 @@ const Halo = () => {
 
     const groupId = "dkashkdjs";
 
-
     socket.emit("joinGroup", groupId);
 
 
     socket.emit("getMessages", groupId, (fetchedMessages: any[]) => {
       setMessages(fetchedMessages);
       if (isWindowFocused) {
-        fetchedMessages.forEach((message) => {
-          if (!message.readBy?.includes(user?._id) && message.sender !== user?._id) {
+        const unreadMessages = fetchedMessages.filter(message =>
+          !message.readBy?.includes(user?._id) && message.sender !== user?._id
+        );
+        setUnreadCount(unreadMessages.length);
+        dispatch(updateTotalUnreadMessage({ totalUnreadMessage: unreadMessages.length }));
+
+        if (isWindowFocused) {
+          unreadMessages.forEach((message) => {
             markAsRead(message._id);
-          }
-        });
+          });
+        }
       }
     });
 
     socket.on("typing", (typingUser) => {
+      console.log(typingUser);
       if (typingUser.userId !== user?._id) {
-        setTypingUser(user?.username || "Someone"); 
+        setTypingUser(typingUser?.username || "Someone"); 
       }
     });
 
@@ -70,9 +84,31 @@ const Halo = () => {
       if (isWindowFocused && message.sender !== user?._id) {
         markAsRead(message._id);
       }
+
+      if (message.sender !== user?._id && !message.readBy?.includes(user?._id)) {
+        setUnreadCount(prev => prev + 1);
+        dispatch(updateTotalUnreadMessage({ totalUnreadMessage: unreadCount + 1 }));
+      }
+
+      if (isWindowFocused && message.sender !== user?._id) {
+        markAsRead(message._id);
+        setUnreadCount(prev => prev - 1);
+        dispatch(updateTotalUnreadMessage({ totalUnreadMessage: unreadCount - 1 }));
+      }
     });
 
-    const handleFocus = () => setIsWindowFocused(true);
+    const handleFocus = () => {
+      setIsWindowFocused(true);
+      if (messages.some(message => !message.readBy?.includes(user?._id) && message.sender !== user?._id)) {
+        messages.forEach((message) => {
+          if (!message.readBy?.includes(user?._id) && message.sender !== user?._id) {
+            markAsRead(message._id);
+          }
+        });
+        setUnreadCount(0);
+        dispatch(updateTotalUnreadMessage({ totalUnreadMessage: 0 }));
+      }
+    };
     const handleBlur = () => setIsWindowFocused(false);
 
     window.addEventListener("focus", handleFocus);
@@ -86,7 +122,7 @@ const Halo = () => {
       window.removeEventListener("blur", handleBlur);
     };
 
-  }, [isWindowFocused, user, isTyping]);
+  }, [isWindowFocused, user, isTyping, dispatch, unreadCount]);
 
 
   const sendMessage = () => {
@@ -102,7 +138,7 @@ const Halo = () => {
       setTypingUser(null);
     }
   };
-  const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewMessage(e.target.value);
 
     if (e.target.value) {
@@ -115,13 +151,26 @@ const Halo = () => {
       socket.emit("stopTyping", { userId: user?._id, groupId: "dkashkdjs" });
     }
   };
-  console.log(messages);
+  const chatBodyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [messages]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+  const scrollToBottom = () => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  };
   return (
     <section className="overflow-x-hidden   flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 ">
       <div className="w-full h-full rounded-lg flex flex-col">
-        <div className="h-[65vh] overflow-auto  ">
+        <div className="h-[55vh] overflow-y-auto" ref={chatBodyRef}>
           {messages.map((message) => (
-
             <div
               key={message._id}
               className={`flex items-start gap-2.5 ${message.sender === user?._id ? "justify-end" : "justify-start"
@@ -191,26 +240,37 @@ const Halo = () => {
           </div>
           ))}
         </div>
-
-        <div className="border-t border-gray-700 p-4 flex gap-3 flex-col">
+        <div className="h-8">
           {typingUser && (
-            <div className="text-sm text-gray-500 dark:text-gray-400 p-2">
+            <div className="text-sm text-primary  bottom-[220px] flex justify-center">
               {typingUser} is typing...
             </div>
           )}
-          <div className="gap-3 flex ">
-          <input
-              value={newMessage}
-              onChange={handleChangeMessage}
-              placeholder="Type your message"
-              className="flex-grow bg-transparent text-black dark:text-white border border-gray-600 rounded-full px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#016FCB]"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  sendMessage();
-                }
-              }}
-            />
+        </div>
+        <div className="border-t border-gray-700 p-4 flex gap-3 flex-col">
+          <div className="gap-3 flex  items-center">
+            <div className="w-full">
+              <textarea
+                value={newMessage}
+                onChange={handleChangeMessage}
+                placeholder="Type your message"
+                className="bg-transparent text-black dark:text-white border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#016FCB]"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                  }
+                }}
+                style={{ width: "100%", overflow: "hidden", wordWrap: "break-word", maxHeight: "150px", overflowY: "auto" }}
+                rows={1}
+                onInput={(e) => {
+                  const target = e.currentTarget as HTMLTextAreaElement; // Cast to HTMLTextAreaElement
+                  target.style.height = "auto"; // Reset the height to auto
+                  target.style.height = `${target.scrollHeight}px`; // Set the height to the scroll height
+                }}
+              />
+
+            </div>
 
             <button
               onClick={sendMessage}
