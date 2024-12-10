@@ -6,6 +6,7 @@ import DeleteModal from "./DeleteChatModal";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { IoPerson } from "react-icons/io5";
 import { updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import snakeGif from "../assets/solver_hamilton.gif";
 const SideBar = ({
   files,
   setFileSeletedDelete,
@@ -151,6 +152,7 @@ const SideBar = ({
   };
 
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
+  const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
 
   return (
     <div
@@ -250,9 +252,16 @@ const SideBar = ({
           </li>
         </ul>
       </div>
-
+      {isBotRunning && (
+        <div className="bg-black  flex-col flex items-center justify-center w-32 flex-grow">
+          <div className="border border-grey p-1 rounded-lg">
+            <img src={snakeGif} />
+          </div>
+        </div>
+      )}
       {token && (
         <div className="mt-auto pb-4">
+
           <button
             onClick={() => {
               navigate("/profile");

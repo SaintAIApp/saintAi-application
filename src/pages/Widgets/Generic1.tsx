@@ -130,7 +130,34 @@ const Generic1 = () => {
           )}
         </div>
         <dialog id="my_modal_1" className={`modal ${isModalOpen ? "modal-open" : ""}`}>
-          <div className="modal-box">
+          <div
+            className="
+    max-h-[calc(100vh-5em)]
+    col-start-1
+    row-start-1
+    w-11/12
+    max-w-xl
+    scale-90
+    transform
+    translate-x-var(--tw-translate-x)
+    translate-y-var(--tw-translate-y)
+    rotate-var(--tw-rotate)
+    skew-x-var(--tw-skew-x)
+    skew-y-var(--tw-skew-y)
+    scale-x-[0.9]
+    scale-y-[0.9]
+    rounded-box
+    bg-[color:var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)))]
+    p-6
+    transition-all
+    duration-200
+    ease-[cubic-bezier(0.4,0,0.2,1)]
+    shadow-2xl
+    overflow-y-auto
+    overscroll-contain
+  "
+          >
+
             <h3 className="text-lg font-bold">Summarize Article</h3>
 
             {isSummarizeLoading ?

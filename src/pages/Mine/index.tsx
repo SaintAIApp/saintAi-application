@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { TweenMax, Elastic } from "gsap";
 import useMineService from "../../hooks/useMine";
+import { detailMine } from "../../redux/slices/mineSlice";
+import { useDispatch } from "react-redux";
 const Mine = () => {
   const navigate = useNavigate();
   const mine = useAppSelector((state) => state.mine.mine);
@@ -51,7 +53,7 @@ const Mine = () => {
     } while (existingNumbers.includes(randomNum)); 
     return randomNum;
   }
-  const [totalDuration, setTotalDuration] = useState(0)
+  const [totalDuration, setTotalDuration] = useState(0);
 
   const [randomNumbers, setRandomNumbers] = useState<number[]>([
     generateRandomNumber([]),
@@ -123,14 +125,33 @@ const Mine = () => {
       setTotalDuration(res.data.data);
     } catch (error) {
       console.log(error);
-    } finally {
-
-    }
+    } 
   }, [getTotalDuration]);
 
+  const { getMineDetail } = useMineService();
   useEffect(() => {
     fetchDetailMine();
-  }, [fetchDetailMine]); 
+  }, [fetchDetailMine]); const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchMineDetail = async () => {
+      const userId = user?._id.toString();
+      if (userId) {
+        const mine = await getMineDetail(userId);
+        dispatch(detailMine(mine.data.data));
+      }
+    };
+
+    // Panggil fetchMineDetail segera saat komponen dimuat
+    fetchMineDetail();
+
+    // Atur interval untuk memanggil fetchMineDetail setiap 10 detik
+    const intervalId = setInterval(fetchMineDetail, 10000);
+
+    // Bersihkan interval ketika komponen di-unmount
+    return () => clearInterval(intervalId);
+  }, [user, dispatch, getMineDetail]);
+
   return (
     <section className="overflow-x-hidden responsive-width  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10 pt-[35px]">
       <div className="w-full flex space-x-21">

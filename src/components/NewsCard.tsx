@@ -36,7 +36,7 @@ const index = ({
         e.preventDefault();
         window.open(url, "popup", "width=1200,height=800");
       }}
-      className="flex flex-col z-10 items-center overflow-hidden bg-dark border border-darkSecondary rounded-lg shadow md:flex-row hover:border-white/10 transition"
+      className="flex flex-col  items-center overflow-hidden bg-dark border border-darkSecondary rounded-lg shadow md:flex-row hover:border-white/10 transition"
     >
       <img
         className="object-cover w-full rounded-t-lg h-56 md:h-full md:w-48 md:rounded-none md:rounded-s-lg"
