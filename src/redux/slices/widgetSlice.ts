@@ -2,11 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type initialStateType = {
   curCategory: string,
-  genericType: string
+  genericType: string,
+  isChatCommunity?: boolean
+  totalUnreadMessage?: number
 }
 const initialState: initialStateType = {
   curCategory: "stocks",
-  genericType: "generic1"
+  genericType: "generic1",
+  isChatCommunity:false,
+  totalUnreadMessage:0
 };
 const widgetSlice = createSlice({
   name: "widget",
@@ -17,8 +21,14 @@ const widgetSlice = createSlice({
     },
     updateGenericType: (state, action) => {
       state.genericType = action.payload.genericType;
+    },
+    updateIsChatCommunity:(state,action) => {
+      state.isChatCommunity = action.payload.isChatCommunity;
+    },
+    updateTotalUnreadMessage:(state,action) => {
+      state.totalUnreadMessage = action.payload.totalUnreadMessage;
     }
   }
 });
-export const { updateCurCategory, updateGenericType } = widgetSlice.actions;
+export const { updateCurCategory, updateGenericType,updateIsChatCommunity,updateTotalUnreadMessage } = widgetSlice.actions;
 export default widgetSlice.reducer;

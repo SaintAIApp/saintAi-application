@@ -5,6 +5,7 @@ import News from "../components/NewsCard";
 import StockChart from "./Graphs/CandleStick";
 
 export const Column = ({
+  openModal,
   curCategory,
   list,
 }: {
@@ -12,13 +13,15 @@ export const Column = ({
   list: any;
   setIsChatBoxOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   setGraphSelected?: React.Dispatch<React.SetStateAction<any>>;
+    openModal?: (url: string) => void;
 }) => {
   return (
     <div className="w-full flex justify-center flex-col items-center md:items-start mb-2">
       {curCategory === "news" && (
-        <div className="container w-full gap-2 grid grid-cols-1 p-3 md:p-0">
+        <div className="container w-full gap-2 grid grid-cols-1 p-3 md:p-0 ">
           {list?.map((e: any, i: number) => (
             <News
+              openModal={openModal}
               key={i}
               title={e.title}
               description={e.summary}

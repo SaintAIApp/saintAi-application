@@ -11,6 +11,7 @@ export interface IUser {
 export interface MineData {
   user_id: string;
   clock: number;
+  bot_running: boolean;
   max_mining_duration:number;
   mining_duration:number;
   last_mining_date: Date;

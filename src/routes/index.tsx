@@ -16,6 +16,7 @@ const WidgetsPage = lazy(() => import("../pages/Widgets"));
 
 const Pricing = lazy(() => import("../pages/Pricing"));
 const Mine = lazy(() => import("../pages/Mine"));
+
 const PaymentSuccess = lazy(
   (): any => import("../pages/Payment/PaymentSuccess")
 );
