@@ -7,6 +7,7 @@ import DefaultSideBar from "../components/SideBar";
 import { useAuthStateCheck } from "../hooks/useAuthState";
 import ChatComponent from "../pages/Widgets/ChatComponent";
 import clsx from "clsx";
+import Halo from "../pages/Halo";
 
 type Props = {
   children: ReactNode;
@@ -65,6 +66,13 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
           }
         </main>
       </div>
+
+
+      <dialog id="my_modal_4" className="modal modal-open p-3 md:p-0">
+        <div className="modal-box bg-black  border border-grey w-full md:w-1/2  max-w-xl md:max-w-lg h-[80%] max-h-4xl">
+          <Halo />
+        </div>
+      </dialog>
     </div >
   );
 };
