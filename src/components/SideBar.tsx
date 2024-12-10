@@ -3,8 +3,9 @@ import { Upload } from "../types/data";
 import { memo, useMemo, useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import DeleteModal from "./DeleteChatModal";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { IoPerson } from "react-icons/io5";
+import { updateIsChatCommunity } from "../redux/slices/widgetSlice";
 const SideBar = ({
   files,
   setFileSeletedDelete,
@@ -144,6 +145,11 @@ const SideBar = ({
       </li>
     );
   };
+  const dispatch = useAppDispatch();
+  const onClickHalo = () => {
+    dispatch(updateIsChatCommunity({ isChatCommunity: true }));
+  };
+
   return (
     <div
       id="sideBar"
@@ -225,16 +231,17 @@ const SideBar = ({
           </li>
           <li
             onClick={() => {
-              navigate("/halo");
+              onClickHalo();
             }}
             className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/mine" ? "bg-[#333333]" : ""
               }`}
           >
-            <img src="/icons/purplesaint.svg" className="mr-2 w-6" alt="Mine" />{" "}
+            <img src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-and-lines-1/2/11-512.png" className="mr-2 w-6" alt="Mine" />{" "}
             Halo
           </li>
         </ul>
       </div>
+
       {token && (
         <div className="mt-auto pb-4">
           <button

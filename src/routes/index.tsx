@@ -75,16 +75,6 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/halo",
-        element: (
-          <SidebarLayout chatOptions={{ chatOpenDefault: false, chatClassName: "hidden" }}>
-            <Suspense fallback={<Loader />}>
-              <Halo />
-            </Suspense>
-          </SidebarLayout>
-        ),
-      },
-      {
         path: "/verifyOTP",
         element: (
           <Suspense fallback={<Loader />}>

@@ -7,6 +7,7 @@ import DefaultSideBar from "../components/SideBar";
 import { useAuthStateCheck } from "../hooks/useAuthState";
 import ChatComponent from "../pages/Widgets/ChatComponent";
 import clsx from "clsx";
+import { useAppSelector } from "../redux/hooks";
 import Halo from "../pages/Halo";
 
 type Props = {
@@ -29,7 +30,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   const isMobile = window.innerWidth <= 768;
   const isOpen = isMobile ? false : chatOptions.chatOpenDefault;
   const [isChatOpen, setIsChatOpen] = useState(isOpen ?? false);
-
+  const isChatCommunity = useAppSelector((state) => state.widget.isChatCommunity);
   return (
     <div className="flex flex-col min-h-screen h-screen bg-black text-white">
       <Toaster />
@@ -66,10 +67,8 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
           }
         </main>
       </div>
-
-
-      <dialog id="my_modal_4" className="modal modal-open p-3 md:p-0">
-        <div className="modal-box bg-black  border border-grey w-full md:w-1/2  max-w-xl md:max-w-lg h-[80%] max-h-4xl">
+      <dialog id="my_modal_4" className={`modal  ${isChatCommunity ? "modal-open" : ""}`} >
+        <div className="bg-black  border-1 border border-grey p-4 rounded-badge modal-bottom w-1/2 max-w-5x  h-[50rem]">
           <Halo />
         </div>
       </dialog>
