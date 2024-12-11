@@ -184,15 +184,15 @@ const Halo = () => {
               {message.sender === user?._id ? (
                 <div className="flex flex-col gap-1 w-auto max-w-[320px]">
                   <div className="flex items-center justify-end space-x-2 rtl:space-x-reverse">
-                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                    <span className="text-sm font-semibold text-white">
                       You
                     </span>
-                    <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                    <span className="text-sm font-normal text-gray-400">
                       {new Date(message.timestamp).toLocaleTimeString()}
                     </span>
                   </div>
-                  <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                    <p className="text-sm font-normal text-gray-900 dark:text-white">
+                  <div className="flex flex-col leading-1.5 p-4 border-gray-200  rounded-e-xl rounded-es-xl bg-gray-700">
+                    <p className="text-sm font-normal text-white">
                       {message.content}
                     </p>
                   </div>
@@ -215,26 +215,26 @@ const Halo = () => {
               ) : (
                 <div className="flex flex-col gap-1 w-auto max-w-[320px]">
                   <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                      <span className="text-sm font-semibold text-white">
                       {message.senderName}
                     </span>
-                      <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                      <span className="text-sm font-normal text-gray-400">
                         {new Date(message.timestamp).toLocaleTimeString()}
                       </span>
                     </div>
-                    <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                      <p className="text-sm font-normal text-gray-900 dark:text-white">
+                    <div className="flex flex-col leading-1.5 p-4 border-gray-200  rounded-e-xl rounded-es-xl bg-gray-700">
+                      <p className="text-sm font-normal text-white">
                         {message.content}
                     </p>
                   </div>
-                  <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                    <span className="text-sm font-normal text-gray-400">
                     Delivered
                   </span>
                 </div>
               )}
               <div
                 id="dropdownDots"
-                className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600"
+                className="z-10 hidden  divide-y  rounded-lg shadow w-40 bg-gray-700 divide-gray-600"
               >
             </div>
           </div>
@@ -254,7 +254,7 @@ const Halo = () => {
                 value={newMessage}
                 onChange={handleChangeMessage}
                 placeholder="Type your message"
-                className="bg-transparent text-black dark:text-white border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#016FCB]"
+                className="bg-transparent  text-white border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#016FCB]"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
