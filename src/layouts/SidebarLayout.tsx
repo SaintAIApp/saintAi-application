@@ -10,6 +10,7 @@ import clsx from "clsx";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Halo from "../pages/Halo";
 import { updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import snakeGif from "../assets/solver_hamilton.gif";
 
 type Props = {
   children: ReactNode;
@@ -49,6 +50,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       }
     });
   }
+  const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
   return (
     <div className="flex flex-col min-h-screen h-screen bg-black text-white">
@@ -102,6 +104,17 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
                     />
                   </button>
                 </div>
+                {isBotRunning && (
+                <div
+                  className="indicator fixed md:hidden bottom-[70px] z-50 left-5  "
+                >
+                  <div className="bg-black  flex-col flex items-center justify-center w-14 flex-grow">
+                    <div className="border-[0.5px] border-grey p-1 w-14 ">
+                      <img src={snakeGif} className="w-14" />
+                    </div>
+                  </div>
+                </div>
+                )}
               </>
             )
           }

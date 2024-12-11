@@ -178,7 +178,7 @@ const ChatComponent: React.FC<{
       <dialog id="my_modal_1" className={`modal ${popupSnake === true ? "modal-open" : ""}  `}>
         <div className="bg-black border border-grey p-8 rounded-lg flex-col flex items-center justify-center">
           <img src={snakeGif} />
-          <label className="font-bold mt-5">Success Automated Running Mining</label>
+          <label className="font-bold mt-5">Success Automated Mining Running</label>
           <button className="px-6 py-1 rounded-md bg-primary text-white mt-4" onClick={() => setPopupSnake(false)}>Close</button>
         </div>
       </dialog>
