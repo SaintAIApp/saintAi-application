@@ -147,7 +147,8 @@ const Generic1 = () => {
     scale-x-[0.9]
     scale-y-[0.9]
     rounded-box
-    bg-[color:var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)))]
+    border border-grey
+    bg-black
     p-6
     transition-all
     duration-200
@@ -170,7 +171,7 @@ const Generic1 = () => {
                 <article>{article}</article>
               )}
             <div className="modal-action">
-              <button className="btn" onClick={closeModal}>Close</button>
+              <button className="btn bg-primary text-white" onClick={closeModal}>Close</button>
             </div>
           </div>
         </dialog>
