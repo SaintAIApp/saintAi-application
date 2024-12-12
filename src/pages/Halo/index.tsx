@@ -18,7 +18,7 @@ const Halo = () => {
   const [isWindowFocused, setIsWindowFocused] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const [typingUser, setTypingUser] = useState<string | null>(null);
-
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const handleStopTyping = debounce(() => {
     if (user?._id) {
@@ -41,10 +41,14 @@ const Halo = () => {
         socket.emit("readMessage", { messageId, userId: user._id, username: user.username });
       }
     };
-
+    socket.emit("userConnected", user?._id);
     const groupId = "dkashkdjs";
 
     socket.emit("joinGroup", groupId);
+
+    socket.on("onlineUsers", (users) => {
+      setOnlineUsers(users);
+    });
 
 
     socket.emit("getMessages", groupId, (fetchedMessages: any[]) => {
@@ -65,7 +69,6 @@ const Halo = () => {
     });
 
     socket.on("typing", (typingUser) => {
-      console.log(typingUser);
       if (typingUser.userId !== user?._id) {
         setTypingUser(typingUser?.username || "Someone"); 
       }
@@ -108,9 +111,20 @@ const Halo = () => {
         setUnreadCount(0);
         dispatch(updateTotalUnreadMessage({ totalUnreadMessage: 0 }));
       }
+      socket.on("onlineUsers", (users) => {
+        setOnlineUsers(users);
+      });
     };
     const handleBlur = () => setIsWindowFocused(false);
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        socket.emit("userDisconnected", user?._id);
+      } else if (document.visibilityState === "visible") {
+        socket.emit("userConnected", user?._id);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("focus", handleFocus);
     window.addEventListener("blur", handleBlur);
 
@@ -118,26 +132,32 @@ const Halo = () => {
       socket.off("newMessage");
       socket.off("typing");
       socket.off("stopTyping");
+      socket.off("onlineUsers");
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("focus", handleFocus);
       window.removeEventListener("blur", handleBlur);
     };
 
   }, [isWindowFocused, user, isTyping, dispatch, unreadCount]);
-
-
+  const [isSending, setIsSending] = useState(false);
   const sendMessage = () => {
     if (newMessage.trim() && user) {
+      setIsSending(true); // Set loading state to true
       socket.emit("sendMessage", {
         content: newMessage,
         sender: user._id,
         senderName: user.username,
         groupId: "dkashkdjs",
+      }, () => {
+        // Callback after message is sent
+        setIsSending(false); // Reset loading state
+        setNewMessage("");
+        setIsTyping(false);
+        setTypingUser(null);
       });
-      setNewMessage(""); 
-      setIsTyping(false);
-      setTypingUser(null);
     }
   };
+
   const handleChangeMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewMessage(e.target.value);
 
@@ -152,7 +172,6 @@ const Halo = () => {
     }
   };
   const chatBodyRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
@@ -176,9 +195,13 @@ const Halo = () => {
               className={`flex items-start gap-2.5 ${message.sender === user?._id ? "justify-end" : "justify-start"
                 }`}
             >
-              <div className="h-8 w-8 rounded-full bg-primary p-3 flex items-center justify-center">
-                <label className="text-white uppercase">{message.senderName ? message.senderName.slice(0, 2) : "NA"}</label>
+              <div className="indicator">
+                <span className={`indicator-item indicator-end w-3 h-3 rounded-full  ${onlineUsers.includes(message.sender) ? "bg-primary" : "bg-dark"}`}></span>
+                <div className="h-8 w-8 rounded-full bg-primary p-3 flex items-center justify-center">
+                  <label className="text-white uppercase">{message.senderName ? message.senderName.slice(0, 2) : "NA"}</label>
+                </div>
               </div>
+
 
 
               {message.sender === user?._id ? (
@@ -273,14 +296,20 @@ const Halo = () => {
             </div>
 
             <button
+              disabled={isSending}
               onClick={sendMessage}
               className="flex-shrink-0 rounded-full flex items-center px-4 justify-center p-2 bg-primary disabled:bg-gray-300 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <IoIosSend fill="green" className="text-xl" />
             </button>
+            {isSending && <span>Sending...</span>} {/* Sending indicator */}
           </div>
 
         </div>
+        <div>
+          Total Online Users : <span className="text-primary">{onlineUsers.length} </span>
+        </div>
+
       </div>
     </section>
   );

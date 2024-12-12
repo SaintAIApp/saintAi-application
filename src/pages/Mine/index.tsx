@@ -13,7 +13,7 @@ const Mine = () => {
   const maxMiningDurationInMinutes: number = mine?.max_mining_duration ?? 0;
   const miningDurationMinutes: number = mine?.mining_duration ?? 0;
 
-  function resetDailyCounter(lastMiningDate: Date | undefined, maxMiningDurationInMinutes: number, miningDuration: number) {
+  function resetDailyCounter(lastMiningDate: Date | undefined, maxMiningDurationInMinutes: number) {
     const today = new Date();
     today.setHours(0, 0, 0, 0); 
 
@@ -24,15 +24,10 @@ const Mine = () => {
       const lastMiningDateObj = new Date(lastMiningDate);
       lastMiningDateObj.setHours(0, 0, 0, 0);
 
-      if (lastMiningDateObj.getTime() < today.getTime()) {
-        const hours = Math.floor(miningDuration / 60);
-        const minutes = miningDuration % 60;
-        result = `${hours}:${minutes.toString().padStart(2, "0")}`;
-      } else {
         const hours = Math.floor(maxMiningDurationInMinutes / 60);
         const minutes = maxMiningDurationInMinutes % 60;
         result = `${hours}:${minutes.toString().padStart(2, "0")}`; 
-      }
+
     } else {
       const hours = Math.floor(maxMiningDurationInMinutes / 60);
       const minutes = maxMiningDurationInMinutes % 60;
@@ -42,7 +37,7 @@ const Mine = () => {
   }
 
 
-  const miningDuration = resetDailyCounter(mine?.last_mining_date ? new Date(mine.last_mining_date) : undefined, maxMiningDurationInMinutes, miningDurationMinutes);
+  const miningDuration = resetDailyCounter(mine?.last_mining_date ? new Date(mine.last_mining_date) : undefined, maxMiningDurationInMinutes);
 
 
   const isJackpot = useAppSelector((state) => state.mine.isJackpot);
