@@ -11,7 +11,6 @@ const Mine = () => {
   const navigate = useNavigate();
   const mine = useAppSelector((state) => state.mine.mine);
   const maxMiningDurationInMinutes: number = mine?.max_mining_duration ?? 0;
-  const miningDurationMinutes: number = mine?.mining_duration ?? 0;
 
   function resetDailyCounter(lastMiningDate: Date | undefined, maxMiningDurationInMinutes: number) {
     const today = new Date();
@@ -58,8 +57,19 @@ const Mine = () => {
     generateRandomNumber([]),
   ]);
 
+  const { getTotalDuration } = useMineService();
 
+  const fetchDetailMine = useCallback(async () => {
+    try {
+      const res = await getTotalDuration();
+      console.log("RESPONSE MINE DETAIL", res.data);
+      setTotalDuration(res.data.data);
+    } catch (error) {
+      console.log(error);
+    } 
+  }, [getTotalDuration]);
 
+  const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
   const listRef = useRef<HTMLSpanElement | null>(null);
   useEffect(() => {
     if (!listRef.current) return;
@@ -90,38 +100,50 @@ const Mine = () => {
           });
           return newNumbers;
         });
+        if (counter === listRef.current?.querySelectorAll("span").length) {
+          counter = 1;
+          TweenMax.set(listRef.current, { y: 0 });
+        }
 
 
+        TweenMax.to(listRef.current, 1, {
+          y: 0 - liHeight * counter,
+          ease: Elastic.easeInOut.config(8, 0),
+        });
 
-      if (counter === listRef.current?.querySelectorAll("span").length) {
-        counter = 1;
-        TweenMax.set(listRef.current, { y: 0 }); 
-      }
-
-
-      TweenMax.to(listRef.current, 1, {
-        y: 0 - liHeight * counter,
-        ease: Elastic.easeInOut.config(8, 0),
-      });
-
-      counter++;
-      }, 100); 
+        counter++;
+      }, 100);
       return () => clearInterval(interval);
     }
 
-  }, [isJackpot, totalDuration]);
+    if (isBotRunning) {
+      const interval = setInterval(() => {
+        setRandomNumbers((prevNumbers) => {
+          const newNumbers = [...prevNumbers];
+          newNumbers.forEach((_, index) => {
+            newNumbers[index] = generateRandomNumber(newNumbers);
+          });
+          return newNumbers;
+        });
 
-  const { getTotalDuration } = useMineService();
+        if (counter === listRef.current?.querySelectorAll("span").length) {
+          counter = 1;
+          TweenMax.set(listRef.current, { y: 0 });
+        }
 
-  const fetchDetailMine = useCallback(async () => {
-    try {
-      const res = await getTotalDuration();
-      console.log("RESPONSE MINE DETAIL", res.data);
-      setTotalDuration(res.data.data);
-    } catch (error) {
-      console.log(error);
-    } 
-  }, [getTotalDuration]);
+        TweenMax.to(listRef.current, 1, {
+          y: 0 - liHeight * counter,
+          ease: Elastic.easeInOut.config(8, 0),
+        });
+
+        counter++;
+      }, 4000); // Run the interval every 10 seconds
+
+      return () => clearInterval(interval);
+    }
+
+  }, [isJackpot, totalDuration, isBotRunning,fetchDetailMine]);
+
 
   const { getMineDetail } = useMineService();
   useEffect(() => {
