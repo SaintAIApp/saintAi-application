@@ -1,7 +1,7 @@
 
 import Chart from "react-apexcharts";
 
-const StockChart = ({ data }: any) => {
+const StockChart = ({ openModal, data }: any) => {
   if (!data.data) {
     return;
   }
@@ -78,9 +78,21 @@ const StockChart = ({ data }: any) => {
 
   return (
     <div className="flex w-full">
-      <div className='w-full mr-4'>
+      <div className='w-full mr-4 mb-3'>
         {/* @ts-expect-error Unmatched type options */}
         <Chart options={options} series={series} type="candlestick" height={350} width={"100%"} />
+        <div className="flex justify-end w-full">
+          <button
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              openModal?.("crypto", data.symbol);
+
+            }}
+            className="bg-dark text-primary w-fit px-5 py-1 rounded-md flex z-10"
+            style={{ border: "0.7px solid rgb(54 151 102)" }}
+          >Analysis</button>
+        </div>
       </div>
     </div>
   );

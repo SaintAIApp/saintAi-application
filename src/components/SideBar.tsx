@@ -5,7 +5,7 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import DeleteModal from "./DeleteChatModal";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { IoPerson } from "react-icons/io5";
-import { updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import { setIsTestrisModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
 import snakeGif from "../assets/solver_hamilton.gif";
 const SideBar = ({
   files,
@@ -150,10 +150,12 @@ const SideBar = ({
   const onClickHalo = () => {
     dispatch(updateIsChatCommunity({ isChatCommunity: true }));
   };
+  const onClickTetris = () => {
+    dispatch(setIsTestrisModal({ isTetrisModal: true }));
+  };
 
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
   const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
-
   return (
     <div
       id="sideBar"
@@ -250,6 +252,29 @@ const SideBar = ({
               </div>
             </div>
           </li>
+          <li className="cursor-pointer">
+            <div
+              onClick={() => toggleCategory("Personal")}
+              className={`py-2 rounded-full flex justify-between px-2 space-x-2 ${window.location.pathname === "/loaddata" ? "bg-[#333333]" : ""
+                }`}
+            >
+              <div className="flex items-center">
+                <img
+                  src="/icons/personal.svg"
+                  className="mr-2 w-6"
+                  alt="Personal"
+                />
+                Play 2 Earn
+              </div>
+              <ChevronRightIcon
+                className={`h-5 w-5 transform transition-transform ${expandedCategories.has("Personal") ? "rotate-90" : ""
+                  }`}
+              />
+            </div>
+            <ul className="mt-2 ml-3 space-y-2 w-full">
+              <li onClick={() => onClickTetris()}>Centipede</li>
+            </ul>
+          </li>
         </ul>
       </div>
       {isBotRunning && (
@@ -273,6 +298,7 @@ const SideBar = ({
           </button>
         </div>
       )}
+
     </div>
   );
 };

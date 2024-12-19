@@ -7,11 +7,13 @@ import DefaultSideBar from "../components/SideBar";
 import { useAuthStateCheck } from "../hooks/useAuthState";
 import ChatComponent from "../pages/Widgets/ChatComponent";
 import clsx from "clsx";
+
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Halo from "../pages/Halo";
-import { updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import { setIsTestrisModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
 import snakeGif from "../assets/solver_hamilton.gif";
 
+import TetrisGame from "../components/Game/TetrisGame";
 type Props = {
   children: ReactNode;
   customSidebar?: ReactNode;
@@ -33,12 +35,14 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   const isOpen = isMobile ? false : chatOptions.chatOpenDefault;
   const [isChatOpen, setIsChatOpen] = useState(isOpen ?? false);
   const isChatCommunity = useAppSelector((state) => state.widget.isChatCommunity);
+  const isTetrisModal = useAppSelector((state) => state.widget.isTetrisModal);
+
   const dispatch = useAppDispatch();
   const onCloseHalo = () => {
     dispatch(updateIsChatCommunity({ isChatCommunity: false }));
   };
-  const onClickHalo = () => {
-    dispatch(updateIsChatCommunity({ isChatCommunity: true }));
+  const onCloseTetris = () => {
+    dispatch(setIsTestrisModal({ isTetrisModal: false }));
   };
   const modal = document.getElementById("my_modal_4");
 
@@ -50,6 +54,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       }
     });
   }
+  const [isGameStarted, setIsGameStarted] = useState(false);
   const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
   return (
@@ -132,6 +137,23 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
             <button onClick={() => onCloseHalo()} className="btn btn-sm btn-circle btn-ghost">✕</button>
           </div>
           <Halo />
+        </div>
+      </dialog>
+      <dialog id="my_modal_6" className={`modal p-4 md:p-0  ${isTetrisModal ? "modal-open" : ""}`} >
+        <div className="bg-black  border-1 border border-grey p-4 rounded-badge modal-bottom w-full md:w-1/2 max-w-xl  h-auto min-h-[72vh]">
+          <div className="flex items-center justify-center flex-row gap-3">
+            <img
+              // src={logoCircle}
+              className="h-10 w-10 object-contain md:h-8 md:w-8 bg-black rounded-full"
+              alt="Chat Button"
+            />
+            <button onClick={() => onCloseTetris()} className="btn btn-sm btn-circle btn-ghost">✕</button>
+          </div>
+          {!isGameStarted ? (
+            <button onClick={() => setIsGameStarted(true)}>Start Game</button>
+          ) : (
+            <TetrisGame />
+          )}
         </div>
       </dialog>
     </div >

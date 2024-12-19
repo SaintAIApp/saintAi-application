@@ -14,9 +14,14 @@ const Generic1 = () => {
   const { summarizeArticle } = useFileService();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
-  const [article, setArticle] = useState(null);
+
+  const [article, setArticle] = useState<string>("");
+  const [type, setType] = useState<string>("");
+
   const [isSummarizeLoading, setIsSummarizeLoading] = useState(false);
+
   const { getMineDetail } = useMineService();
+
   const fetchDetailMine = useCallback(async () => {
     if (!user?._id) return;
     try {
@@ -30,6 +35,7 @@ const Generic1 = () => {
       // setIsDataLoading(false);
     }
   }, [getMineDetail, user?._id, dispatch]);
+  const { sendMessageTrade } = useFileService();
 
   const storeSummarize = useCallback(async (url: string) => {
     if (!user?._id) return;
@@ -45,6 +51,21 @@ const Generic1 = () => {
     }
   },
     [summarizeArticle, user?._id]);
+
+  const analysisCrypto = useCallback(async (name: string) => {
+    if (!user?._id) return;
+    try {
+      const chat = `Provide current analysis of ${name}`;
+      setIsSummarizeLoading(true);
+      const res = await sendMessageTrade(chat, user?._id);
+      setArticle(res.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSummarizeLoading(false);
+    }
+  },
+    [sendMessageTrade, user?._id]);
 
   // Authentication
   const store = useAppSelector((state) => state);
@@ -102,11 +123,34 @@ const Generic1 = () => {
     fetchDetailMine();
   }, [curCategory, fetchCategoryData, location.search, fetchDetailMine]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = async (url: string) => {
+  const openModal = async (type: string = "article", value: string) => {
     setIsModalOpen(true);
-    await storeSummarize(url);
+    setType(type);
+    if (type === "article") {
+      await storeSummarize(value);
+    } else {
+      await analysisCrypto(value);
+    }
   };
+
   const closeModal = () => { setIsModalOpen(false); };
+  const searchTitle = useAppSelector((state) => state.widget.search);
+
+  const filterByTitle = (searchTerm: string) => {
+    if (searchTerm === "") {
+      setList(list);
+    } else {
+
+      const filtered = list.filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase()));
+      setList(filtered);
+    }
+  };
+
+  useEffect(() => {
+    if (searchTitle !== undefined) {
+      filterByTitle(searchTitle);
+    }
+  }, [searchTitle, list]);
 
   return (
     <section
@@ -159,7 +203,8 @@ const Generic1 = () => {
   "
           >
 
-            <h3 className="text-lg font-bold">Summarize Article</h3>
+            <h3 className="text-lg font-bold">{type === "article" ? "Summarize Article" : "Result Analysis"}</h3>
+
 
             {isSummarizeLoading ?
               (
@@ -168,7 +213,7 @@ const Generic1 = () => {
                   <label className="text-sm text-gray-300 mt-4">Please Waiting...</label>
                 </div>
               ) : (
-                <article>{article}</article>
+                <article dangerouslySetInnerHTML={{ __html: article }}></article>
               )}
             <div className="modal-action">
               <button className="btn bg-primary text-white" onClick={closeModal}>Close</button>

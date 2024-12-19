@@ -6,7 +6,7 @@ import ConnectModal from "./ConnectModal";
 import NavMenu from "./NavMenu";
 import { IoMenu, IoWallet } from "react-icons/io5";
 import logo from "../assets/saintailogo.png";
-import { updateGenericType } from "../redux/slices/widgetSlice";
+import { searchTitle, updateGenericType } from "../redux/slices/widgetSlice";
 import { logout } from "../redux/slices/authSlice";
 import { setCurrentModal } from "../redux/slices/modalSlice";
 
@@ -45,6 +45,10 @@ const Navbar = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [dispatch, curCategory]);
+
+  const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(searchTitle({ search: event.target.value }));
+  };
 
   return (
     <>
@@ -120,6 +124,7 @@ const Navbar = () => {
                     </svg>
 
                     <input
+                      onChange={(event) => onChangeSearch(event)}
                       className="w-full bg-black placeholder:text-slate-400 text-white text-sm border border-gray-700 rounded-md pl-10 pr-3 py-1 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                       placeholder="Search..."
                     />
