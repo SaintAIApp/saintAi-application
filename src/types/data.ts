@@ -7,6 +7,16 @@ export interface IUser {
   otp: number | undefined;
   otp_expire: Date | undefined;
 }
+
+export interface MineData {
+  user_id: string;
+  clock: number;
+  bot_running: boolean;
+  max_mining_duration:number;
+  mining_duration:number;
+  last_mining_date: Date;
+  coin_stt: number;
+}
 // export interface Wallet {
 //   walledId: string;
 // }

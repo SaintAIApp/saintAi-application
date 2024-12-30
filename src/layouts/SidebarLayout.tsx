@@ -1,4 +1,4 @@
-import React, { memo, ReactNode, useEffect, useState } from "react";
+import React, { memo, ReactNode, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import logoCircle from "../assets/saintlogocircle.png";
 import AuthModal from "../components/AuthModal";
@@ -8,6 +8,13 @@ import { useAuthStateCheck } from "../hooks/useAuthState";
 import ChatComponent from "../pages/Widgets/ChatComponent";
 import clsx from "clsx";
 
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import Halo from "../pages/Halo";
+import { setIsTestrisModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import snakeGif from "../assets/solver_hamilton.gif";
+
+import TetrisGame from "../components/Game/TetrisGame";
+import useFileService from "../hooks/useFileService";
 type Props = {
   children: ReactNode;
   customSidebar?: ReactNode;
@@ -28,7 +35,46 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   const isMobile = window.innerWidth <= 768;
   const isOpen = isMobile ? false : chatOptions.chatOpenDefault;
   const [isChatOpen, setIsChatOpen] = useState(isOpen ?? false);
-  console.log(isChatOpen)
+  const isChatCommunity = useAppSelector((state) => state.widget.isChatCommunity);
+  const isTetrisModal = useAppSelector((state) => state.widget.isTetrisModal);
+  const [isGameStarted, setIsGameStarted] = useState(false);
+  const { updateMining } = useFileService();
+  const dispatch = useAppDispatch();
+  const onCloseHalo = () => {
+    dispatch(updateIsChatCommunity({ isChatCommunity: false }));
+
+  };
+  const onCloseTetris = async () => {
+    dispatch(setIsTestrisModal({ isTetrisModal: false }));
+    setIsGameStarted(false);
+    const endTime = Date.now();
+    const timeElapsed = (endTime - startTime) / 1000;
+    await updateMining(timeElapsed);
+  };
+  const modal = document.getElementById("my_modal_4");
+
+  if (modal) {
+    window.addEventListener("click", (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (target === modal) {
+        onCloseHalo();
+      }
+    });
+  }
+  const [startTime, setStartTime] = useState(0);
+  const startGame = () => {
+    setIsGameStarted(true);
+    setStartTime(Date.now());
+  };
+
+  const endGame = async () => {
+    const endTime = Date.now();
+    const timeElapsed = (endTime - startTime) / 1000;
+    await updateMining(timeElapsed);
+    setIsGameStarted(false);
+  };
+  const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
+  const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
 
   return (
     <div className="flex flex-col min-h-screen h-screen bg-black text-white">
@@ -46,7 +92,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
           {
             withChat === true && (
               <>
-                <div className={clsx("w-[100%] flex flex-col md:pr-3 p-3 pb-3 pt-[95px] fixed md:relative ml-auto md:ml-auto z-40")}>
+                <div className={clsx(`w-[100%] flex flex-col md:pr-3 p-3 pb-3 pt-[95px] md:pt-[35px] fixed md:relative ml-auto md:ml-auto  h-[80%] md:h-full ${isChatOpen ? "z-20" : "z-0"} ${chatOptions.chatClassName}`)}>
                   <ChatComponent isOpen={isChatOpen} setIsOpen={setIsChatOpen} className={`${isChatOpen ? "" : "hidden"} ml-auto`} />
                 </div>
                 <button
@@ -61,11 +107,80 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
                     alt="Chat Button"
                   />
                 </button>
+                <div
+                  onClick={() => {
+                    onClickHalo();
+                  }}
+                  className="indicator fixed md:hidden bottom-[70px] z-50 right-5 shadow-xl p-1 rounded-full bg-dark "
+                >
+
+
+
+                  {(totalUnreadMessage ?? 0) > 0 && (
+                    <span className="indicator-item badge badge-secondary">{totalUnreadMessage}+</span>
+                  )}
+                  <button
+                  >
+                    <img
+                      src={"https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-and-lines-1/2/11-512.png"}
+                      className="h-10 w-10 object-contain md:h-12 md:w-12 bg-black rounded-full"
+                      alt="Chat Button"
+                    />
+                  </button>
+                </div>
+                {isBotRunning && (
+                <div
+                  className="indicator fixed md:hidden bottom-[70px] z-50 left-5  "
+                >
+                  <div className="bg-black  flex-col flex items-center justify-center w-14 flex-grow">
+                    <div className="border-[0.5px] border-grey p-1 w-14 ">
+                      <img src={snakeGif} className="w-14" />
+                    </div>
+                  </div>
+                </div>
+                )}
               </>
             )
           }
         </main>
       </div>
+      <dialog id="my_modal_4" className={`modal p-4 md:p-0  ${isChatCommunity ? "modal-open" : ""}`} >
+        <div className="bg-black  border-1 border border-grey p-4 rounded-badge modal-bottom w-full md:w-1/2 max-w-xl  h-auto min-h-[72vh]">
+          <div className="flex items-center justify-center flex-row gap-3">
+            <img
+              src={logoCircle}
+              className="h-10 w-10 object-contain md:h-8 md:w-8 bg-black rounded-full"
+              alt="Chat Button"
+            />
+            <h6 className="font-bold text-2xl">HALO</h6>
+            <button onClick={() => onCloseHalo()} className="btn btn-sm btn-circle btn-ghost">✕</button>
+          </div>
+          <Halo />
+        </div>
+      </dialog>
+      <dialog id="my_modal_6" className={`modal p-2 md:p-0  ${isTetrisModal ? "modal-open" : ""}`} >
+        <div className="bg-black  border-1 border border-grey p-1 rounded-badge modal-bottom w-full md:w-2/4 max-w-xl  h-auto min-h-[72vh]">
+          <div className="flex items-center justify-center flex-row gap-3 mt-5">
+            <img
+              src={logoCircle}
+              className="h-10 w-10 object-contain md:h-8 md:w-8 bg-black rounded-full"
+              alt="Chat Button"
+            />
+            <h5 className="font-bold text-xl">CENTIPEDE</h5>
+            <button onClick={() => onCloseTetris()} className="btn btn-sm btn-circle btn-ghost">✕</button>
+          </div>
+          {!isGameStarted ? (
+            <div className="flex items-center justify-center mt-6">
+              <button onClick={() => startGame()} className="bg-primary text-white p-2 rounded-md hover:bg-secondary">Start Game</button>
+            </div>
+          ) : (
+              <div className="flex items-center justify-center mt-4">
+                <TetrisGame onGameOver={endGame} />
+              </div>
+
+          )}
+        </div>
+      </dialog>
     </div >
   );
 };

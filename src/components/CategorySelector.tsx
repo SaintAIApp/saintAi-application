@@ -8,7 +8,7 @@ const CategorySelector = () => {
   const { curCategory, genericType } = useAppSelector((state) => state.widget);
 
   return (
-    <div className="top-0 left-0 w-full pb-3 ">
+    <div className="top-0 left-0 w-full pb-3" style={{ zIndex: 999 }}>
       <ul className="w-full text-sm h-full flex justify-start text-white space-x-2 md:space-x-5 cursor-pointer">
         <li
           className={`${curCategory === "news" ? "font-semibold text-blue" : ""

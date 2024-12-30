@@ -16,6 +16,7 @@ const WidgetsPage = lazy(() => import("../pages/Widgets"));
 
 const Pricing = lazy(() => import("../pages/Pricing"));
 const Mine = lazy(() => import("../pages/Mine"));
+
 const PaymentSuccess = lazy(
   (): any => import("../pages/Payment/PaymentSuccess")
 );
@@ -66,7 +67,7 @@ const router = createBrowserRouter([
       {
         path: "/mine",
         element: (
-          <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[15px] pb-2" }}>
+          <SidebarLayout withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[10px] pb-2" }}>
             <Suspense fallback={<Loader />}>
               <Mine />
             </Suspense>

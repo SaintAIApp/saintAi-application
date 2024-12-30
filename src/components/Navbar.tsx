@@ -6,7 +6,7 @@ import ConnectModal from "./ConnectModal";
 import NavMenu from "./NavMenu";
 import { IoMenu, IoWallet } from "react-icons/io5";
 import logo from "../assets/saintailogo.png";
-import { updateGenericType } from "../redux/slices/widgetSlice";
+import { searchTitle, updateGenericType } from "../redux/slices/widgetSlice";
 import { logout } from "../redux/slices/authSlice";
 import { setCurrentModal } from "../redux/slices/modalSlice";
 
@@ -46,9 +46,13 @@ const Navbar = () => {
     };
   }, [dispatch, curCategory]);
 
+  const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(searchTitle({ search: event.target.value }));
+  };
+
   return (
     <>
-      <div className="bg-[#0008] px-[3vw] max-md:px-10 w-full sticky py-10 left-0 top-0 z-[90] flex items-center justify-between h-16 backdrop-blur-3xl border-b-2 border-b-white">
+      <div className="bg-[#0008] px-[3vw] max-md:px-10 w-full sticky py-10 left-0 top-0 z-[90] flex items-center justify-between h-16 backdrop-blur-3xl border-b border-gray-700">
         {isMobile ? (
           <div className="flex flex-col w-full space-y-3">
             <div className="flex w-full justify-between">
@@ -113,14 +117,15 @@ const Navbar = () => {
                 <Link to={"/"}>
                   <img src={logo} className="h-8" alt="Logo" />
                 </Link>
-                <div className="min-w-[200px] ml-12">
+                <div className="w-[170px] ml-12">
                   <div className="relative flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="absolute w-5 h-5 top-2.5 left-2.5 text-slate-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="absolute w-5 h-5 top-1.5 left-2.5 text-slate-200">
                       <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
                     </svg>
 
                     <input
-                      className="w-full bg-[#333333] placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pl-10 pr-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                      onChange={(event) => onChangeSearch(event)}
+                      className="w-full bg-black placeholder:text-slate-400 text-white text-sm border border-gray-700 rounded-md pl-10 pr-3 py-1 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                       placeholder="Search..."
                     />
 

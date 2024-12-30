@@ -198,7 +198,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
               }
             }}
             placeholder="Type your message..."
-            className="flex-grow bg-black disabled:bg-gray-300 text-white border border-gray-600 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-grow bg-black disabled:bg-[#333] text-white border border-gray-600 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             disabled={isResponseLoading || !selectedFileId}

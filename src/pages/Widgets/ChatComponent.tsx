@@ -3,6 +3,8 @@ import ChatItem from "../../components/Chat/ChatItem";
 import { IoIosSend } from "react-icons/io";
 import { BiConversation } from "react-icons/bi";
 import logo from "../../assets/saintailogo.png";
+import snakeGif from "../../assets/solver_hamilton.gif";
+
 import TypewriterEffect from "../../components/TypeWriting";
 
 import useFileService from "../../hooks/useFileService";
@@ -20,7 +22,7 @@ const ChatComponent: React.FC<{
   const [isHistoryLoading, setIsHistoryLoading] = useState(false);
   const [isResponseLoading, setIsResponseLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [popupSnake, setPopupSnake] = useState(false);
   const chatBodyRef = useRef<HTMLDivElement>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -90,6 +92,9 @@ const ChatComponent: React.FC<{
           return newChats;
         });
         setChat("");
+        if (res.data?.data === "Success running automate mining") {
+          setPopupSnake(true)
+        }
       }
     } catch (error) {
       console.log(error);
@@ -102,7 +107,7 @@ const ChatComponent: React.FC<{
 
   return (
     <div
-      className={`flex flex-col flex-shrink-0 bg-[#000000]  rounded-xl  w-full  ${className} h-[40rem] md:h-full  md:mt-0`}
+      className={`flex flex-col flex-shrink-0 bg-[#000000]  rounded-xl  w-full  ${className} h-full md:h-full  md:mt-0`}
       style={{
         border: "1.2px solid #333",
         visibility: isOpen ? "visible" : "hidden",
@@ -159,7 +164,7 @@ const ChatComponent: React.FC<{
                 handleSendMessage();
               }
             }}
-            className="flex-grow bg-black disabled:bg-gray-300 text-white border border-gray-600 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-grow bg-black disabled:bg-gray-300 text-white border border-gray-600 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#016FCB]"
           />
           <button
             disabled={isResponseLoading}
@@ -170,6 +175,13 @@ const ChatComponent: React.FC<{
           </button>
         </div>
       </div>
+      <dialog id="my_modal_1" className={`modal ${popupSnake === true ? "modal-open" : ""}  `}>
+        <div className="bg-black border border-grey p-8 rounded-lg flex-col flex items-center justify-center">
+          <img src={snakeGif} />
+          <label className="font-bold mt-5">Success Automated Mining Running</label>
+          <button className="px-6 py-1 rounded-md bg-primary text-white mt-4" onClick={() => setPopupSnake(false)}>Close</button>
+        </div>
+      </dialog>
     </div>
   );
 };

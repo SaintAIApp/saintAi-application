@@ -3,8 +3,11 @@ import { Upload } from "../types/data";
 import { memo, useMemo, useState } from "react";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import DeleteModal from "./DeleteChatModal";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { IoPerson } from "react-icons/io5";
+import { setIsTestrisModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import snakeGif from "../assets/solver_hamilton.gif";
+import playToEarn from "../assets/icons/play2earn.png";
 const SideBar = ({
   files,
   setFileSeletedDelete,
@@ -21,7 +24,7 @@ const SideBar = ({
   const token = useAppSelector((state) => {
     return state.auth.token;
   });
-
+  const isChatCommunity = useAppSelector((state) => state.widget.isChatCommunity);
   const navigate = useNavigate();
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set()
@@ -96,6 +99,7 @@ const SideBar = ({
     });
     setSelectedFileId(null);
   };
+  const [isGame, setIsGame] = useState(false);
 
   const renderCategory = (title: string, categoryFiles: Upload[]) => {
     if (categoryFiles.length === 0) return null;
@@ -144,6 +148,16 @@ const SideBar = ({
       </li>
     );
   };
+  const dispatch = useAppDispatch();
+  const onClickHalo = () => {
+    dispatch(updateIsChatCommunity({ isChatCommunity: true }));
+  };
+  const onClickTetris = () => {
+    dispatch(setIsTestrisModal({ isTetrisModal: true }));
+  };
+
+  const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
+  const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
   return (
     <div
       id="sideBar"
@@ -186,7 +200,7 @@ const SideBar = ({
                 />
               </div>
               {expandedCategories.has("Personal") && categorizedFiles && (
-                <ul className="mt-2 ml-4 space-y-2">
+                <ul className="mt-2 ml-3 space-y-2 w-full">
                   {renderCategory("Today", categorizedFiles.today)}
                   {renderCategory("Yesterday", categorizedFiles.yesterday)}
                   {renderCategory("Last 7 days", categorizedFiles.lastWeek)}
@@ -223,10 +237,60 @@ const SideBar = ({
             <img src="/icons/purplesaint.svg" className="mr-2 w-6" alt="Mine" />{" "}
             Mine
           </li>
+          <li
+            onClick={() => {
+              onClickHalo();
+            }}
+            className={`cursor-pointer `}
+          >
+            <div className={`indicator rounded-full ${isChatCommunity === true ? "bg-[#333333]  px-2" : "ml-[-10px]"} `}>
+              {(totalUnreadMessage ?? 0) > 0 && (
+                <span className="indicator-item badge badge-secondary">{totalUnreadMessage}+</span>
+              )}
+
+              <div className="btn flex items-center bg-transparent border-none">
+                <img src="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-and-lines-1/2/11-512.png" className="w-6" alt="Mine" />{" "}
+                <label htmlFor="" className="text-md">Halo</label>
+              </div>
+            </div>
+          </li>
+          <li className="cursor-pointer">
+            <div
+              onClick={() => setIsGame(!isGame)}
+              className={`py-2 rounded-full flex justify-between px-2 space-x-2 ${isGame === true ? "bg-[#333333]" : ""
+                }`}
+            >
+              <div className="flex items-center">
+                <img
+                  src={playToEarn}
+                  className="mr-2 w-6 bg-white rounded-full"
+                  alt="Play To Earn"
+                />
+                Play 2 Earn
+              </div>
+              <ChevronRightIcon
+                className={`h-5 w-5 transform transition-transform ${isGame ? "rotate-90" : ""
+                  }`}
+              />
+            </div>
+            {isGame && (
+              <ul className="mt-2 ml-4 space-y-2 w-full">
+                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickTetris()}>Centipede</li>
+            </ul>
+            )}
+          </li>
         </ul>
       </div>
+      {isBotRunning && (
+        <div className="bg-black  flex-col flex items-center justify-center w-32 flex-grow">
+          <div className="border border-grey p-1 rounded-lg">
+            <img src={snakeGif} />
+          </div>
+        </div>
+      )}
       {token && (
         <div className="mt-auto pb-4">
+
           <button
             onClick={() => {
               navigate("/profile");
@@ -238,6 +302,7 @@ const SideBar = ({
           </button>
         </div>
       )}
+
     </div>
   );
 };
