@@ -30,6 +30,7 @@ const useFileService = () => {
     }
   }, [api]);
 
+
   const deleteFile = useCallback(async (uploadId: string) => {
     try {
       const res = await api.delete("/upload/" + uploadId);
@@ -72,6 +73,22 @@ const useFileService = () => {
       throw new Error(error.response?.data?.message || "Something went wrong");
     }
   }, [api, user, getMineDetail,dispatch]);
+
+  const updateMining = useCallback(async (time: number) => {
+    try {
+      dispatch(setIsJackpot(true));
+      const res = await api.post("/upload/update-mining", {
+        timeTaken: time,
+      });
+      const userId = user?._id.toString();
+      const mine = await getMineDetail(userId || "");
+      dispatch(detailMine(mine.data.data));
+      dispatch(setIsJackpot(false));
+      return res;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || "Something went wrong");
+    }
+  }, [api, user, getMineDetail, dispatch]);
 
   const summarizeArticle = useCallback(async (url: string) => {
     try {
@@ -125,6 +142,7 @@ const useFileService = () => {
     sendMessage,
     deleteFile,
     summarizeArticle,
+    updateMining,
     sendMessageTrade,
     getChatHistoryTrade,
   };

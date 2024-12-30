@@ -14,6 +14,7 @@ import { setIsTestrisModal, updateIsChatCommunity } from "../redux/slices/widget
 import snakeGif from "../assets/solver_hamilton.gif";
 
 import TetrisGame from "../components/Game/TetrisGame";
+import useFileService from "../hooks/useFileService";
 type Props = {
   children: ReactNode;
   customSidebar?: ReactNode;
@@ -36,13 +37,19 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   const [isChatOpen, setIsChatOpen] = useState(isOpen ?? false);
   const isChatCommunity = useAppSelector((state) => state.widget.isChatCommunity);
   const isTetrisModal = useAppSelector((state) => state.widget.isTetrisModal);
-
+  const [isGameStarted, setIsGameStarted] = useState(false);
+  const { updateMining } = useFileService();
   const dispatch = useAppDispatch();
   const onCloseHalo = () => {
     dispatch(updateIsChatCommunity({ isChatCommunity: false }));
+
   };
-  const onCloseTetris = () => {
+  const onCloseTetris = async () => {
     dispatch(setIsTestrisModal({ isTetrisModal: false }));
+    setIsGameStarted(false);
+    const endTime = Date.now();
+    const timeElapsed = (endTime - startTime) / 1000;
+    await updateMining(timeElapsed);
   };
   const modal = document.getElementById("my_modal_4");
 
@@ -54,9 +61,21 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       }
     });
   }
-  const [isGameStarted, setIsGameStarted] = useState(false);
+  const [startTime, setStartTime] = useState(0);
+  const startGame = () => {
+    setIsGameStarted(true);
+    setStartTime(Date.now());
+  };
+
+  const endGame = async () => {
+    const endTime = Date.now();
+    const timeElapsed = (endTime - startTime) / 1000;
+    await updateMining(timeElapsed);
+    setIsGameStarted(false);
+  };
   const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
+
   return (
     <div className="flex flex-col min-h-screen h-screen bg-black text-white">
       <Toaster />
@@ -139,20 +158,26 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
           <Halo />
         </div>
       </dialog>
-      <dialog id="my_modal_6" className={`modal p-4 md:p-0  ${isTetrisModal ? "modal-open" : ""}`} >
-        <div className="bg-black  border-1 border border-grey p-4 rounded-badge modal-bottom w-full md:w-1/2 max-w-xl  h-auto min-h-[72vh]">
-          <div className="flex items-center justify-center flex-row gap-3">
+      <dialog id="my_modal_6" className={`modal p-2 md:p-0  ${isTetrisModal ? "modal-open" : ""}`} >
+        <div className="bg-black  border-1 border border-grey p-1 rounded-badge modal-bottom w-full md:w-2/4 max-w-xl  h-auto min-h-[72vh]">
+          <div className="flex items-center justify-center flex-row gap-3 mt-5">
             <img
-              // src={logoCircle}
+              src={logoCircle}
               className="h-10 w-10 object-contain md:h-8 md:w-8 bg-black rounded-full"
               alt="Chat Button"
             />
+            <h5 className="font-bold text-xl">CENTIPEDE</h5>
             <button onClick={() => onCloseTetris()} className="btn btn-sm btn-circle btn-ghost">✕</button>
           </div>
           {!isGameStarted ? (
-            <button onClick={() => setIsGameStarted(true)}>Start Game</button>
+            <div className="flex items-center justify-center mt-6">
+              <button onClick={() => startGame()} className="bg-primary text-white p-2 rounded-md hover:bg-secondary">Start Game</button>
+            </div>
           ) : (
-            <TetrisGame />
+              <div className="flex items-center justify-center mt-4">
+                <TetrisGame onGameOver={endGame} />
+              </div>
+
           )}
         </div>
       </dialog>
