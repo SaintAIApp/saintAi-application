@@ -13,7 +13,7 @@ export const Column = ({
   list: any;
   setIsChatBoxOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   setGraphSelected?: React.Dispatch<React.SetStateAction<any>>;
-    openModal?: (url: string) => void;
+    openModal?: (type: string, url: string) => void;
 }) => {
   return (
     <div className="w-full flex justify-center flex-col items-center md:items-start mb-2">
@@ -39,7 +39,10 @@ export const Column = ({
 
       {(curCategory === "stocks" || curCategory === "crypto") &&
         list?.map((data: any, index: number) => (
-          <StockChart key={index} data={data} />
+          <StockChart  
+          openModal={openModal} 
+          key={index} 
+          data={data} />
         ))}
     </div>
   );

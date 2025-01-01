@@ -7,6 +7,7 @@ import { TweenMax, Elastic } from "gsap";
 import useMineService from "../../hooks/useMine";
 import { detailMine } from "../../redux/slices/mineSlice";
 import { useDispatch } from "react-redux";
+import CentipedeGame from "../../components/Game/Centipede";
 const Mine = () => {
   const navigate = useNavigate();
   const mine = useAppSelector((state) => state.mine.mine);

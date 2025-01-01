@@ -5,8 +5,9 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import DeleteModal from "./DeleteChatModal";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { IoPerson } from "react-icons/io5";
-import { updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import { setIsTestrisModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
 import snakeGif from "../assets/solver_hamilton.gif";
+import playToEarn from "../assets/icons/play2earn.png";
 const SideBar = ({
   files,
   setFileSeletedDelete,
@@ -98,6 +99,7 @@ const SideBar = ({
     });
     setSelectedFileId(null);
   };
+  const [isGame, setIsGame] = useState(false);
 
   const renderCategory = (title: string, categoryFiles: Upload[]) => {
     if (categoryFiles.length === 0) return null;
@@ -150,10 +152,12 @@ const SideBar = ({
   const onClickHalo = () => {
     dispatch(updateIsChatCommunity({ isChatCommunity: true }));
   };
+  const onClickTetris = () => {
+    dispatch(setIsTestrisModal({ isTetrisModal: true }));
+  };
 
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
   const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
-
   return (
     <div
       id="sideBar"
@@ -250,6 +254,31 @@ const SideBar = ({
               </div>
             </div>
           </li>
+          <li className="cursor-pointer">
+            <div
+              onClick={() => setIsGame(!isGame)}
+              className={`py-2 rounded-full flex justify-between px-2 space-x-2 ${isGame === true ? "bg-[#333333]" : ""
+                }`}
+            >
+              <div className="flex items-center">
+                <img
+                  src={playToEarn}
+                  className="mr-2 w-6 bg-white rounded-full"
+                  alt="Play To Earn"
+                />
+                Play 2 Earn
+              </div>
+              <ChevronRightIcon
+                className={`h-5 w-5 transform transition-transform ${isGame ? "rotate-90" : ""
+                  }`}
+              />
+            </div>
+            {isGame && (
+              <ul className="mt-2 ml-4 space-y-2 w-full">
+                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickTetris()}>Centipede</li>
+            </ul>
+            )}
+          </li>
         </ul>
       </div>
       {isBotRunning && (
@@ -273,6 +302,7 @@ const SideBar = ({
           </button>
         </div>
       )}
+
     </div>
   );
 };

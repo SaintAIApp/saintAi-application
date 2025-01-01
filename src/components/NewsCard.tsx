@@ -8,7 +8,7 @@ const index = ({
   type,
   url
 }: {
-    openModal?: (url: string) => void,
+    openModal?: (type: string, url: string) => void,
   title: string;
   description: string;
   image: string;
@@ -56,7 +56,7 @@ const index = ({
           onClick={(event) => {
             event.preventDefault();
             event.stopPropagation();
-            openModal?.(url);
+            openModal?.("article",url);
 
           }}
           className="bg-dark text-primary w-fit px-5 py-1 rounded-md"
