@@ -40,6 +40,10 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   const [isGameStarted, setIsGameStarted] = useState(false);
   const { updateMining } = useFileService();
   const dispatch = useAppDispatch();
+  const onClickHalo = () => {
+    dispatch(updateIsChatCommunity({ isChatCommunity: true }));
+
+  };
   const onCloseHalo = () => {
     dispatch(updateIsChatCommunity({ isChatCommunity: false }));
 
