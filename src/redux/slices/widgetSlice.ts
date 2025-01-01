@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type initialStateType = {
   curCategory: string,
   genericType: string,
-  search: string,
+  search?: string,
   isChatCommunity?: boolean
   isTetrisModal?: boolean
   totalUnreadMessage?: number
