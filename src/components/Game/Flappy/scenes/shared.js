@@ -1,0 +1,15 @@
+export const GAME_SCENE_KEY = 'game-scene';
+export const PRELOAD_SCENE_KEY = 'preload-scene';
+export const GROUND = 'ground';
+export const BACKGROUND = 'background';
+export const BIRD = 'bird';
+export const PIPE = 'pipe';
+export const READY_MESSAGE = 'message';
+export const GAME_OVER_MESSAGE = 'gameover';
+export const START_BUTTON = 'start-button';
+export const POINT_SOUND = 'point';
+export const FLAP_SOUND = 'flap';
+export const SWOOSH_SOUND = 'swoosh';
+export const HIT_SOUND = 'hit';
+export const DIE_SOUND = 'die';
+export const PRIMARY_COLOR = '#e06119';
