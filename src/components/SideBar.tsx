@@ -5,7 +5,7 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import DeleteModal from "./DeleteChatModal";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { IoPerson } from "react-icons/io5";
-import { setIsTestrisModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import { setIsBirdieFlapModal, setIsTestrisModal, setIsTirexModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
 import snakeGif from "../assets/solver_hamilton.gif";
 import playToEarn from "../assets/icons/play2earn.png";
 const SideBar = ({
@@ -158,6 +158,18 @@ const SideBar = ({
 
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
   const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
+
+  const onClickJurassicBot = () => {
+    dispatch(setIsTirexModal({ isTirexModal: true }));
+
+  };
+
+
+
+  const onClickFlappy = () => {
+    dispatch(setIsBirdieFlapModal({ isBirdieFlappy: true }));
+
+  };
   return (
     <div
       id="sideBar"
@@ -276,6 +288,8 @@ const SideBar = ({
             {isGame && (
               <ul className="mt-2 ml-4 space-y-2 w-full">
                 <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickTetris()}>Centipede</li>
+                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickFlappy()}>Birdie Flap</li>
+                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickJurassicBot()}> Jurassic  Boy</li>
             </ul>
             )}
           </li>
