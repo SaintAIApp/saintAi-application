@@ -10,7 +10,7 @@ import clsx from "clsx";
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Halo from "../pages/Halo";
-import { setIsTestrisModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import { setIsTestrisModal, setIsTirexModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
 import snakeGif from "../assets/solver_hamilton.gif";
 
 import TetrisGame from "../components/Game/TetrisGame";
@@ -84,33 +84,21 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const gridIframe = useRef<HTMLIFrameElement>(null);
 
-  function handleIframe() {
-    const iframeItem = gridIframe.current;
-    if (iframeItem) {
-      console.log("HALO ADA NGGA", iframeItem);
-      const iframeDocument = iframeItem.contentDocument;
-      if (iframeDocument) {
-        // Ambil elemen canvas dengan ID game dari iframe
-        const gameCanvas = iframeDocument.getElementById("game");
-        console.log(gameCanvas)
-        if (gameCanvas) {
-          console.log("Canvas element found:", gameCanvas);
-          // Contoh: mengubah properti canvas
-          (gameCanvas as HTMLCanvasElement).height = 200;
-        }
+  const handleButtonClick = async () => {
+    console.log("hello");
+    setIframeLoaded(!iframeLoaded);
 
-        // Ambil elemen dengan class footer dan tambahkan display none
-        const footerElement = iframeDocument.querySelector(".footer");
-        if (footerElement) {
-          console.log("Footer element found:", footerElement);
-          (footerElement as HTMLElement).style.display = "none";
-        }
-      }
+    if (iframeLoaded) {
+      dispatch(setIsTirexModal({ isTirexModal: false }));
+      setIsGameStarted(false);
+      const endTime = Date.now();
+      const timeElapsed = (endTime - startTime) / 1000;
+      await updateMining(timeElapsed);
+    } else {
+      console.log("start")
+      setStartTime(Date.now());
     }
-  }
-  function handleButtonClick() {
-    setIframeLoaded(true);
-  }
+  };
 
   return (
     <div className="flex flex-col min-h-screen h-screen bg-black text-white">
@@ -248,6 +236,15 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
         >
 
           <div>
+            <div className="flex items-center justify-center flex-row gap-3 mb-10">
+              <img
+                src={logoCircle}
+                className="h-10 w-10 object-contain md:h-8 md:w-8 bg-black rounded-full"
+                alt="Chat Button"
+              />
+              <h5 className="font-bold text-xl">Jurassic Boy</h5>
+              <button onClick={() => onCloseTetris()} className="btn btn-sm btn-circle btn-ghost">✕</button>
+            </div>
 
             {iframeLoaded && (
               <iframe
@@ -259,17 +256,12 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
                 title="Game Iframe"
                 frameBorder={0}
                 scrolling="no"
-                style={{ overflow: "hidden", height: "330px", borderRadius: "10px", }} // Set overflow to hidden
-                onLoad={handleIframe}
+                style={{ overflow: "hidden", height: "330px", borderRadius: "10px", }} 
               />
             )}
           </div>
-          <div className="modal-action">
-
-            <div>
-              <button className="btn bg-primary text-white" onClick={handleButtonClick}>Start Game</button>
-            </div>
-
+          <div className="flex items-center justify-center mt-10">
+            <button className="btn bg-primary text-white" onClick={() => handleButtonClick()}>{iframeLoaded ? "Close Game" : "Start Game"}</button>
           </div>
         </div>
       </dialog>

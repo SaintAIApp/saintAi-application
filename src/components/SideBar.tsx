@@ -159,7 +159,7 @@ const SideBar = ({
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
   const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
 
-  const loadIframe = () => {
+  const onClickJurassicBot = () => {
     dispatch(setIsTirexModal({ isTirexModal: true }));
 
   };
@@ -287,8 +287,8 @@ const SideBar = ({
             {isGame && (
               <ul className="mt-2 ml-4 space-y-2 w-full">
                 <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickTetris()}>Centipede</li>
-                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickFlappy()}>Flappy</li>
-                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => loadIframe()}>Tirex</li>
+                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickFlappy()}>Birdie Flap</li>
+                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickJurassicBot()}> Jurassic  Boy</li>
             </ul>
             )}
           </li>
