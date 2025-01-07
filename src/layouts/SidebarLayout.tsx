@@ -1,4 +1,4 @@
-import React, { memo, ReactNode, useState } from "react";
+import React, { memo, ReactNode, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import logoCircle from "../assets/saintlogocircle.png";
 import AuthModal from "../components/AuthModal";
@@ -37,6 +37,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   const [isChatOpen, setIsChatOpen] = useState(isOpen ?? false);
   const isChatCommunity = useAppSelector((state) => state.widget.isChatCommunity);
   const isTetrisModal = useAppSelector((state) => state.widget.isTetrisModal);
+  const isTirexModal = useAppSelector((state) => state.widget.isTirexModal);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const { updateMining } = useFileService();
   const dispatch = useAppDispatch();
@@ -79,6 +80,37 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   };
   const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
+
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const gridIframe = useRef<HTMLIFrameElement>(null);
+
+  function handleIframe() {
+    const iframeItem = gridIframe.current;
+    if (iframeItem) {
+      console.log("HALO ADA NGGA", iframeItem);
+      const iframeDocument = iframeItem.contentDocument;
+      if (iframeDocument) {
+        // Ambil elemen canvas dengan ID game dari iframe
+        const gameCanvas = iframeDocument.getElementById("game");
+        console.log(gameCanvas)
+        if (gameCanvas) {
+          console.log("Canvas element found:", gameCanvas);
+          // Contoh: mengubah properti canvas
+          (gameCanvas as HTMLCanvasElement).height = 200;
+        }
+
+        // Ambil elemen dengan class footer dan tambahkan display none
+        const footerElement = iframeDocument.querySelector(".footer");
+        if (footerElement) {
+          console.log("Footer element found:", footerElement);
+          (footerElement as HTMLElement).style.display = "none";
+        }
+      }
+    }
+  }
+  function handleButtonClick() {
+    setIframeLoaded(true);
+  }
 
   return (
     <div className="flex flex-col min-h-screen h-screen bg-black text-white">
@@ -183,6 +215,62 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
               </div>
 
           )}
+        </div>
+      </dialog>
+      <dialog id="my_modal_1" className={`modal ${isTirexModal ? "modal-open" : ""}`}>
+        <div
+          className="
+    max-h-[calc(100vh-5em)]
+    col-start-1
+    row-start-1
+    w-11/12
+    max-w-xl
+    scale-90
+    transform
+    translate-x-var(--tw-translate-x)
+    translate-y-var(--tw-translate-y)
+    rotate-var(--tw-rotate)
+    skew-x-var(--tw-skew-x)
+    skew-y-var(--tw-skew-y)
+    scale-x-[0.9]
+    scale-y-[0.9]
+    rounded-box
+    border border-grey
+    bg-black
+    p-6
+    transition-all
+    duration-200
+    ease-[cubic-bezier(0.4,0,0.2,1)]
+    shadow-2xl
+    overflow-y-auto
+    overscroll-contain
+  "
+        >
+
+          <div>
+
+            {iframeLoaded && (
+              <iframe
+                // ref={iframeRef}
+                ref={gridIframe}
+                src="https://albert-gonzalez.github.io/run-and-jump-rxjs/"
+                width="530"
+                height="400"
+                title="Game Iframe"
+                frameBorder={0}
+                scrolling="no"
+                style={{ overflow: "hidden", height: "330px", borderRadius: "10px", }} // Set overflow to hidden
+                onLoad={handleIframe}
+              />
+            )}
+          </div>
+          <div className="modal-action">
+
+            <div>
+              <button className="btn bg-primary text-white" onClick={handleButtonClick}>Start Game</button>
+            </div>
+
+          </div>
         </div>
       </dialog>
     </div >

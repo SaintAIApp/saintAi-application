@@ -220,6 +220,7 @@ const Generic1 = () => {
             </div>
           </div>
         </dialog>
+       
       </div>
     </section>
   );

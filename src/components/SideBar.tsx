@@ -5,7 +5,7 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import DeleteModal from "./DeleteChatModal";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { IoPerson } from "react-icons/io5";
-import { setIsTestrisModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import { setIsTestrisModal, setIsTirexModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
 import snakeGif from "../assets/solver_hamilton.gif";
 import playToEarn from "../assets/icons/play2earn.png";
 const SideBar = ({
@@ -158,6 +158,17 @@ const SideBar = ({
 
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
   const isBotRunning = useAppSelector((state) => state.mine.mine?.bot_running);
+
+  const loadIframe = () => {
+    dispatch(setIsTirexModal({ isTirexModal: true }));
+
+  };
+
+
+
+  const onClickFlappy = () => {
+    window.open("https://ashu05g.github.io/FlappyBird_Game/game.html", "popup", "width=1200,height=800");
+  };
   return (
     <div
       id="sideBar"
@@ -276,6 +287,8 @@ const SideBar = ({
             {isGame && (
               <ul className="mt-2 ml-4 space-y-2 w-full">
                 <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickTetris()}>Centipede</li>
+                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickFlappy()}>Flappy</li>
+                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => loadIframe()}>Tirex</li>
             </ul>
             )}
           </li>
