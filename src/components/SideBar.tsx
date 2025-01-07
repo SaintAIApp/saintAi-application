@@ -5,7 +5,7 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import DeleteModal from "./DeleteChatModal";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { IoPerson } from "react-icons/io5";
-import { setIsTestrisModal, setIsTirexModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import { setIsBirdieFlapModal, setIsTestrisModal, setIsTirexModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
 import snakeGif from "../assets/solver_hamilton.gif";
 import playToEarn from "../assets/icons/play2earn.png";
 const SideBar = ({
@@ -167,7 +167,8 @@ const SideBar = ({
 
 
   const onClickFlappy = () => {
-    window.open("https://ashu05g.github.io/FlappyBird_Game/game.html", "popup", "width=1200,height=800");
+    dispatch(setIsBirdieFlapModal({ isBirdieFlappy: true }));
+
   };
   return (
     <div

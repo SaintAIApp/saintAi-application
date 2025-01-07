@@ -10,7 +10,7 @@ import clsx from "clsx";
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Halo from "../pages/Halo";
-import { setIsTestrisModal, setIsTirexModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import { setIsBirdieFlapModal, setIsTestrisModal, setIsTirexModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
 import snakeGif from "../assets/solver_hamilton.gif";
 
 import TetrisGame from "../components/Game/TetrisGame";
@@ -38,6 +38,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   const isChatCommunity = useAppSelector((state) => state.widget.isChatCommunity);
   const isTetrisModal = useAppSelector((state) => state.widget.isTetrisModal);
   const isTirexModal = useAppSelector((state) => state.widget.isTirexModal);
+  const isBirdieFlappy = useAppSelector((state) => state.widget.isBirdieFlappy);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const { updateMining } = useFileService();
   const dispatch = useAppDispatch();
@@ -82,10 +83,10 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   const totalUnreadMessage = useAppSelector((state) => state.widget.totalUnreadMessage);
 
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [startBirdieFlappy, setStartBirdieFlappy] = useState(false);
   const gridIframe = useRef<HTMLIFrameElement>(null);
 
-  const handleButtonClick = async () => {
-    console.log("hello");
+  const handleStartJurassic = async () => {
     setIframeLoaded(!iframeLoaded);
 
     if (iframeLoaded) {
@@ -95,7 +96,19 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       const timeElapsed = (endTime - startTime) / 1000;
       await updateMining(timeElapsed);
     } else {
-      console.log("start")
+      setStartTime(Date.now());
+    }
+  };
+  const handleStartBirdie = async () => {
+    setStartBirdieFlappy(!startBirdieFlappy);
+
+    if (startBirdieFlappy) {
+      dispatch(setIsBirdieFlapModal({ isBirdieFlappy: false }));
+      setIsGameStarted(false);
+      const endTime = Date.now();
+      const timeElapsed = (endTime - startTime) / 1000;
+      await updateMining(timeElapsed);
+    } else {
       setStartTime(Date.now());
     }
   };
@@ -243,7 +256,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
                 alt="Chat Button"
               />
               <h5 className="font-bold text-xl">Jurassic Boy</h5>
-              <button onClick={() => onCloseTetris()} className="btn btn-sm btn-circle btn-ghost">✕</button>
+              <button onClick={() => handleStartJurassic()} className="btn btn-sm btn-circle btn-ghost">✕</button>
             </div>
 
             {iframeLoaded && (
@@ -261,7 +274,64 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
             )}
           </div>
           <div className="flex items-center justify-center mt-10">
-            <button className="btn bg-primary text-white" onClick={() => handleButtonClick()}>{iframeLoaded ? "Close Game" : "Start Game"}</button>
+            <button className="btn bg-primary text-white" onClick={() => handleStartJurassic()}>{iframeLoaded ? "Close Game" : "Start Game"}</button>
+          </div>
+        </div>
+      </dialog>
+      <dialog id="my_modal_1" className={`modal ${isBirdieFlappy ? "modal-open" : ""}`}>
+        <div
+          className="
+         max-h-[calc(100vh-5em)]
+          w-[400px]
+    scale-90
+    transform
+    translate-x-var(--tw-translate-x)
+    translate-y-var(--tw-translate-y)
+    rotate-var(--tw-rotate)
+    skew-x-var(--tw-skew-x)
+    skew-y-var(--tw-skew-y)
+    scale-x-[0.9]
+    scale-y-[0.9]
+    rounded-box
+    border border-grey
+    bg-black
+    p-6
+    transition-all
+    duration-200
+    ease-[cubic-bezier(0.4,0,0.2,1)]
+    shadow-2xl
+    overflow-y-auto
+    overscroll-contain
+  "
+        >
+
+          <div>
+            <div className="flex items-center justify-center flex-row gap-3 mb-10">
+              <img
+                src={logoCircle}
+                className="h-10 w-10 object-contain md:h-8 md:w-8 bg-black rounded-full"
+                alt="Chat Button"
+              />
+              <h5 className="font-bold text-xl">Birdie Flap</h5>
+              <button onClick={() => handleStartBirdie()} className="btn btn-sm btn-circle btn-ghost">✕</button>
+            </div>
+
+            {startBirdieFlappy && (
+              <iframe
+                // ref={iframeRef}
+                ref={gridIframe}
+                src="https://ashu05g.github.io/FlappyBird_Game/game"
+                title="Game Iframe"
+                height="600"
+                width="350"
+                frameBorder={0}
+                scrolling="no"
+                style={{ overflow: "hidden", borderRadius: "10px", }}
+              />
+            )}
+          </div>
+          <div className="flex items-center justify-center mt-10">
+            <button className="btn bg-primary text-white" onClick={() => handleStartBirdie()}>{startBirdieFlappy ? "Close Game" : "Start Game"}</button>
           </div>
         </div>
       </dialog>
