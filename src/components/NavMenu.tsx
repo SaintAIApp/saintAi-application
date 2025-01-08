@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/slices/authSlice";
 import { setCurrentModal } from "../redux/slices/modalSlice";
 import { notify } from "../utils/notify";
+import { setGameModalList } from "../redux/slices/widgetSlice";
 
 const NavMenu = ({ triggerButton }: { triggerButton: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -15,6 +16,10 @@ const NavMenu = ({ triggerButton }: { triggerButton: React.ReactNode }) => {
   const token = useAppSelector((state) => {
     return state.auth.token;
   });
+  const onClickPlay2Earn = () => {
+    dispatch(setGameModalList({ isGameModalList: true }));
+  };
+
   return (
     <Dialog.Root>
       <Dialog.Trigger>{triggerButton}</Dialog.Trigger>
@@ -126,6 +131,13 @@ const NavMenu = ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                       className={`flex w-full items-center space-x-3 `}
                     >
                       <span className="w-full">Mining</span>
+                    </Dialog.Close>
+                  </li>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                    <Dialog.Close
+                      onClick={() => onClickPlay2Earn()}
+                      className={`flex w-full items-center space-x-3 `}>
+                      <span className="w-full">Play 2 Earn</span>
                     </Dialog.Close>
                   </li>
                 </>

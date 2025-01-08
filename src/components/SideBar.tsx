@@ -164,8 +164,6 @@ const SideBar = ({
 
   };
 
-
-
   const onClickFlappy = () => {
     dispatch(setIsBirdieFlapModal({ isBirdieFlappy: true }));
 
@@ -287,7 +285,7 @@ const SideBar = ({
             </div>
             {isGame && (
               <ul className="mt-2 ml-4 space-y-2 w-full">
-                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickTetris()}>Centipede</li>
+                <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickTetris()}>Tessara</li>
                 <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickFlappy()}>Birdie Flap</li>
                 <li className="bg-[#333333] py-1 rounded-md px-2" onClick={() => onClickJurassicBot()}> Jurassic  Boy</li>
             </ul>
