@@ -1,4 +1,4 @@
-import React, { memo, ReactNode, useEffect, useRef, useState } from "react";
+import React, { memo, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import logoCircle from "../assets/saintlogocircle.png";
 import AuthModal from "../components/AuthModal";
@@ -66,6 +66,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
     setStartBirdieFlappy
   } = useGameControls({ updateMining });
 
+
   const { formatTime } = useTimer();
 
   useEffect(() => {
@@ -103,7 +104,8 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
 
   const handleCloseGameModal = () => {
     dispatch(setGameModalList({ isGameModalList: false }));
-  }
+  };
+
   const onClickTetris = () => {
     dispatch(setIsTestrisModal({ isTetrisModal: true }));
     dispatch(setGameModalList({ isGameModalList: false }));
@@ -119,6 +121,89 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
     dispatch(setGameModalList({ isGameModalList: false }));
     dispatch(setIsBirdieFlapModal({ isBirdieFlappy: true }));
 
+  };
+  const [iframeMouseOver, setIframeMouseOver] = useState(false);
+  const [lastClickTime, setLastClickTime] = useState<number>(0);
+  const [lastBlurTime, setLastBlurTime] = useState<number>(0);
+
+  // Use useRef for timeouts
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const blurTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startInactivityTimer = useCallback(() => {
+
+    if (inactivityTimeoutRef.current) {
+      clearTimeout(inactivityTimeoutRef.current);
+    }
+    const currentTime = Date.now();
+    if (currentTime - lastBlurTime > 2000 && isGameStarted) {
+      console.log("Inactivity detected, ending game.");
+      endGame();
+    }
+  }, [isGameStarted, lastBlurTime, endGame]);
+
+  const handleBlur = useCallback(() => {
+    const currentTime = Date.now();
+    if (blurTimeoutRef.current) {
+      clearTimeout(blurTimeoutRef.current);
+    }
+
+    if (!isGameStarted && (currentTime - lastBlurTime >= 2000)) {
+      startGame();
+    }
+
+    setLastBlurTime(currentTime);
+    startInactivityTimer();
+  }, [isGameStarted, lastBlurTime, startGame, startInactivityTimer]);
+
+  const handleClick = useCallback(() => {
+    const currentTime = Date.now();
+
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+    }
+
+    if (!isGameStarted && (currentTime - lastClickTime > 2000)) {
+      startGame();
+    }
+
+    setLastClickTime(currentTime);
+    startInactivityTimer();
+  }, [isGameStarted, lastClickTime, startGame, startInactivityTimer]);
+
+  const handleMouseMove = useCallback(() => {
+    startInactivityTimer();
+  }, [startInactivityTimer]);
+
+  useEffect(() => {
+
+    window.focus();
+
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("click", handleClick);
+    window.addEventListener("mousemove", handleMouseMove);
+
+    startInactivityTimer();
+
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("click", handleClick);
+      window.removeEventListener("mousemove", handleMouseMove);
+
+      if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
+      if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
+      if (inactivityTimeoutRef.current) clearTimeout(inactivityTimeoutRef.current);
+    };
+  }, [iframeMouseOver, handleBlur, handleClick, handleMouseMove, startInactivityTimer]);
+
+  const handleOnMouseOver = () => {
+    setIframeMouseOver(true);
+  };
+
+  const handleOnMouseOut = () => {
+    window.focus();
+    setIframeMouseOver(false);
   };
 
   return (
@@ -260,8 +345,13 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
         <div className="flex items-center justify-center mt-3 mb-3 text-xl font-bold">
           Time : {formatTime(elapsedTime)}
         </div>
-        {startBirdieFlappy && (
+        <div
+          className="iframeWrapper"
+          onMouseOver={handleOnMouseOver}
+          onMouseOut={handleOnMouseOut}
+        >
           <iframe
+            onClick={() => startGame()}
             ref={gridIframe}
             src="https://ashu05g.github.io/FlappyBird_Game/game"
             title="Flappy Bird Game"
@@ -271,14 +361,15 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
             scrolling="no"
             style={{ overflow: "hidden", borderRadius: "10px" }}
           />
-        )}
+
+        </div>
 
         <div className="flex items-center justify-center mt-3">
           <button
             className="btn bg-primary text-white"
             onClick={handleBirdieToggle}
           >
-            {startBirdieFlappy ? "Close Game" : "Start Game"}
+            Close Game
           </button>
         </div>
       </GameModal>
@@ -301,7 +392,6 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
               <span className="w-full text-center">Jurassic Boy</span>
             </li>
           </ul>
-
         </div>
       </GameModal>
     </div>
