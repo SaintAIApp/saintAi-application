@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import clsx from "clsx";
 
 interface ChatButtonProps {
@@ -13,6 +13,7 @@ interface ChatButtonProps {
         left?: string;
         right?: string;
     };
+    style?: CSSProperties;
 }
 
 const ChatButton: React.FC<ChatButtonProps> = ({
@@ -21,12 +22,13 @@ const ChatButton: React.FC<ChatButtonProps> = ({
     alt,
     badge,
     className,
-    position
+    position,
+    style
 }) => (
     <div
         onClick={onClick}
         className={clsx(
-            "indicator fixed md:hidden z-50 shadow-xl p-1 rounded-full bg-dark",
+            "indicator fixed md:hidden z-50 shadow-xl p-1 rounded-full bg-dark ",
             position && {
                 [`bottom-${position.bottom}`]: position.bottom,
                 [`top-${position.top}`]: position.top,
@@ -35,6 +37,10 @@ const ChatButton: React.FC<ChatButtonProps> = ({
             },
             className
         )}
+        style={{
+            ...style,
+
+        }}
     >
         {(badge ?? 0) > 0 && (
             <span className="indicator-item badge badge-secondary">{badge}+</span>

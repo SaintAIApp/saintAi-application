@@ -10,7 +10,7 @@ import clsx from "clsx";
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Halo from "../pages/Halo";
-import { setIsBirdieFlapModal, setIsTestrisModal, setIsTirexModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
+import { setGameModalList, setIsBirdieFlapModal, setIsTestrisModal, setIsTirexModal, updateIsChatCommunity } from "../redux/slices/widgetSlice";
 import snakeGif from "../assets/solver_hamilton.gif";
 
 import TetrisGame from "../components/Game/TetrisGame";
@@ -47,6 +47,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
     isTetrisModal,
     isTirexModal,
     isBirdieFlappy,
+    isGameModalList,
     totalUnreadMessage
   } = useAppSelector((state) => state.widget);
 
@@ -100,6 +101,23 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       () => dispatch(setIsBirdieFlapModal({ isBirdieFlappy: !isBirdieFlappy }))
     );
 
+  const onClickTetris = () => {
+    dispatch(setIsTestrisModal({ isTetrisModal: true }));
+    dispatch(setGameModalList({ isGameModalList: false }));
+  };
+
+  const onClickJurassicBot = () => {
+    dispatch(setGameModalList({ isGameModalList: false }));
+    dispatch(setIsTirexModal({ isTirexModal: true }));
+
+  };
+
+  const onClickFlappy = () => {
+    dispatch(setGameModalList({ isGameModalList: false }));
+    dispatch(setIsBirdieFlapModal({ isBirdieFlappy: true }));
+
+  };
+
   return (
     <div className="flex flex-col min-h-screen h-screen bg-black text-white">
       <Toaster />
@@ -131,12 +149,13 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
                 />
               </div>
               <ChatButton
+                style={{ top: "106px" }}
                 onClick={() => setIsChatOpen(prev => !prev)}
                 image={logoCircle}
                 alt="Chat Button"
                 position={{
-                  top: "[108px]",
-                  right: "2"
+                  top: "[700px]",
+                  right: "5"
                 }}
               />
 
@@ -235,6 +254,9 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
         onClose={handleBirdieToggle}
         className="w-[400px]"
       >
+        <div className="flex items-center justify-center mt-3 mb-3 text-xl font-bold">
+          Time : {formatTime(elapsedTime)}
+        </div>
         {startBirdieFlappy && (
           <iframe
             ref={gridIframe}
@@ -247,9 +269,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
             style={{ overflow: "hidden", borderRadius: "10px" }}
           />
         )}
-        <div className="flex items-center justify-center mt-10 text-xl font-bold">
-          Time : {formatTime(elapsedTime)}
-        </div>
+
         <div className="flex items-center justify-center mt-3">
           <button
             className="btn bg-primary text-white"
@@ -257,6 +277,28 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
           >
             {startBirdieFlappy ? "Close Game" : "Start Game"}
           </button>
+        </div>
+      </GameModal>
+
+      <GameModal
+        isOpen={isGameModalList}
+        title="Play 2 Earn"
+        onClose={handleBirdieToggle}
+        className="w-[400px]"
+      >
+        <div className="flex items-center justify-center mt-10 text-xl font-bold">
+          <ul className="flex flex-col space-y-3 w-full">
+            <li className="bg-[#28282f] flex p-2 rounded-lg justify-center items-center" onClick={() => onClickTetris()}>
+              <span className="w-full text-center">Tessara</span>
+            </li>
+            <li className="bg-[#28282f] flex p-2 rounded-lg justify-center items-center w-full" onClick={() => onClickFlappy()}>
+              <span className="w-full text-center">Birdie Flap</span>
+            </li>
+            <li className="bg-[#28282f] flex p-2 rounded-lg justify-center items-center w-full" onClick={() => onClickJurassicBot()}>
+              <span className="w-full text-center">Jurassic Boy</span>
+            </li>
+          </ul>
+
         </div>
       </GameModal>
     </div>

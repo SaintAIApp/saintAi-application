@@ -6,6 +6,7 @@ type initialStateType = {
   search?: string,
   isChatCommunity?: boolean
   isTetrisModal?: boolean
+  isGameModalList?: boolean
   isTirexModal?: boolean
   isBirdieFlappy?: boolean
   totalUnreadMessage?: number
@@ -16,6 +17,7 @@ const initialState: initialStateType = {
   genericType: "generic1",
   isChatCommunity:false,
   isTetrisModal:false,
+  isGameModalList:false,
   isTirexModal:false,
   isBirdieFlappy:false,
   totalUnreadMessage:0
@@ -47,8 +49,20 @@ const widgetSlice = createSlice({
     },
     searchTitle:(state,action) => {
       state.search = action.payload.search;
+    },
+    setGameModalList:(state,action) => {
+      state.isGameModalList = action.payload.isGameModalList;
     }
   }
 });
-export const { searchTitle,updateCurCategory, updateGenericType,updateIsChatCommunity,updateTotalUnreadMessage,setIsTestrisModal,setIsTirexModal,setIsBirdieFlapModal } = widgetSlice.actions;
+export const { 
+  setGameModalList,
+  searchTitle,
+  updateCurCategory, 
+  updateGenericType,
+  updateIsChatCommunity,
+  updateTotalUnreadMessage,
+  setIsTestrisModal,
+  setIsTirexModal,
+  setIsBirdieFlapModal } = widgetSlice.actions;
 export default widgetSlice.reducer;
