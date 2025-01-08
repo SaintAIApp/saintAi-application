@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { useTimer } from "./useTimer";
 import { AxiosResponse } from "axios";
 
@@ -10,15 +10,15 @@ interface GameControlsProps {
     const [iframeLoaded, setIframeLoaded] = useState(false);
     const [startBirdieFlappy, setStartBirdieFlappy] = useState(false);
     const { 
-      startTimer,
-      stopTimer,
-      elapsedTime,
-      formatTime 
+        startTimer,
+        stopTimer,
+        elapsedTime,
+        formatTime 
     } = useTimer();
   
     const startGame = () => {
-      setIsGameStarted(true);
-      startTimer();  // Use startTimer instead of manually setting startTime
+        setIsGameStarted(true);
+        startTimer();  
     };
   
     const endGame = async () => {
@@ -32,19 +32,18 @@ interface GameControlsProps {
     };
   
     const handleGameToggle = async (
-      isLoaded: boolean,
-      setLoaded: (value: boolean) => void,
-      modalAction: (value: boolean) => void
+        isLoaded: boolean,
+        setLoaded: (value: boolean) => void,
+        modalAction: (value: boolean) => void
     ) => {
-      setLoaded(!isLoaded);
-      if (isLoaded) {
-        await endGame();
-        modalAction(false);
-      } else {
-        startTimer();  // Use startTimer here
-      }
+        setLoaded(!isLoaded);
+        if (isLoaded) {
+            await endGame();
+            modalAction(false);
+        } else {
+            startTimer();  // Mulai timer di sini
+        }
     };
-  
     return {
       isGameStarted,
       iframeLoaded,
@@ -55,6 +54,6 @@ interface GameControlsProps {
       setStartBirdieFlappy,
       setIframeLoaded,
       elapsedTime,
-      formatTime
+      formatTime,
     };
   };

@@ -166,7 +166,6 @@ const SideBar = ({
 
   const onClickFlappy = () => {
     dispatch(setIsBirdieFlapModal({ isBirdieFlappy: true }));
-
   };
   return (
     <div
