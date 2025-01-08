@@ -310,28 +310,30 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
         title="Jurassic Boy"
         onClose={handleJurassicToggle}
       >
+        <div className="flex items-center justify-center mt-3 mb-3 text-xl font-bold">
+          Time : {formatTime(elapsedTime)}
+        </div>
+        <div onMouseOver={handleOnMouseOver}
+          onMouseOut={handleOnMouseOut}>
 
-        {iframeLoaded && (
           <iframe
             ref={gridIframe}
             src="https://albert-gonzalez.github.io/run-and-jump-rxjs/"
-            width="530"
+            width="430"
             height="400"
             frameBorder={0}
             scrolling="no"
             title="Jurassic Game"
             style={{ overflow: "hidden", height: "330px", borderRadius: "10px" }}
           />
-        )}
-        <div className="flex items-center justify-center mt-10 text-xl font-bold">
-          Time : {formatTime(elapsedTime)}
         </div>
+
         <div className="flex items-center justify-center mt-10">
           <button
             className="btn bg-primary text-white"
             onClick={handleJurassicToggle}
           >
-            {iframeLoaded ? "Close Game" : "Start Game"}
+            Close Game
           </button>
         </div>
       </GameModal>
