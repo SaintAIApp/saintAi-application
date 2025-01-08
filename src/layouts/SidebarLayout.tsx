@@ -101,6 +101,9 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       () => dispatch(setIsBirdieFlapModal({ isBirdieFlappy: !isBirdieFlappy }))
     );
 
+  const handleCloseGameModal = () => {
+    dispatch(setGameModalList({ isGameModalList: false }));
+  }
   const onClickTetris = () => {
     dispatch(setIsTestrisModal({ isTetrisModal: true }));
     dispatch(setGameModalList({ isGameModalList: false }));
@@ -283,7 +286,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       <GameModal
         isOpen={isGameModalList}
         title="Play 2 Earn"
-        onClose={handleBirdieToggle}
+        onClose={handleCloseGameModal}
         className="w-[400px]"
       >
         <div className="flex items-center justify-center mt-10 text-xl font-bold">
