@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/slices/authSlice";
 import { setCurrentModal } from "../redux/slices/modalSlice";
 import { notify } from "../utils/notify";
+import { setIsBirdieFlapModal, setIsTestrisModal, setIsTirexModal } from "../redux/slices/widgetSlice";
 
 const NavMenu = ({ triggerButton }: { triggerButton: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -15,6 +16,19 @@ const NavMenu = ({ triggerButton }: { triggerButton: React.ReactNode }) => {
   const token = useAppSelector((state) => {
     return state.auth.token;
   });
+  const onClickTetris = () => {
+    dispatch(setIsTestrisModal({ isTetrisModal: true }));
+  };
+
+  const onClickJurassicBot = () => {
+    dispatch(setIsTirexModal({ isTirexModal: true }));
+
+  };
+
+  const onClickFlappy = () => {
+    dispatch(setIsBirdieFlapModal({ isBirdieFlappy: true }));
+
+  };
   return (
     <Dialog.Root>
       <Dialog.Trigger>{triggerButton}</Dialog.Trigger>
@@ -126,6 +140,27 @@ const NavMenu = ({ triggerButton }: { triggerButton: React.ReactNode }) => {
                       className={`flex w-full items-center space-x-3 `}
                     >
                       <span className="w-full">Mining</span>
+                    </Dialog.Close>
+                  </li>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                    <Dialog.Close
+                      onClick={() => onClickTetris()}
+                      className={`flex w-full items-center space-x-3 `}>
+                      <span className="w-full">Tessara</span>
+                    </Dialog.Close>
+                  </li>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                    <Dialog.Close
+                      onClick={() => onClickFlappy()}
+                      className={`flex w-full items-center space-x-3 `}>
+                      <span className="w-full">Birdie Flap</span>
+                    </Dialog.Close>
+                  </li>
+                  <li className="bg-[#28282f] flex p-2 rounded-lg w-full">
+                    <Dialog.Close
+                      onClick={() => onClickJurassicBot()}
+                      className={`flex w-full items-center space-x-3 `}>
+                      <span className="w-full">Jurassic Boy</span>
                     </Dialog.Close>
                   </li>
                 </>
