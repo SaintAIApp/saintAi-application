@@ -141,7 +141,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       clearTimeout(inactivityTimeoutRef.current);
     }
     const currentTime = Date.now();
-    if (currentTime - lastBlurTime > 3000 && isGameStarted) {
+    if (currentTime - lastBlurTime > 4000 && isGameStarted) {
       console.log("Inactivity detected, ending game.");
       endGame();
     }
@@ -153,7 +153,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       clearTimeout(blurTimeoutRef.current);
     }
 
-    if (!isGameStarted && (currentTime - lastBlurTime >= 3000)) {
+    if (!isGameStarted && (currentTime - lastBlurTime >= 4000)) {
       startGame();
     }
 
@@ -168,7 +168,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       clearTimeout(clickTimeoutRef.current);
     }
 
-    if (!isGameStarted && (currentTime - lastClickTime > 3000)) {
+    if (!isGameStarted && (currentTime - lastClickTime > 4000)) {
       startGame();
     }
 
