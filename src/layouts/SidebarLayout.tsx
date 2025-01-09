@@ -65,6 +65,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
     setIframeLoaded,
     setStartBirdieFlappy,
     startGameTesara,
+    setStartTesara,
     startTesara
   } = useGameControls({ updateMining });
 
@@ -86,6 +87,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   }, [dispatch]);
 
   const handleTetrisClose = () => {
+    setStartTesara(false);
     dispatch(setIsTestrisModal({ isTetrisModal: false }));
     endGame();
   };
@@ -179,7 +181,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   }, [startInactivityTimer]);
 
   useEffect(() => {
-    if (!isGameStarted) {
+    if (startTesara) {
       return;
     }
     window.focus();

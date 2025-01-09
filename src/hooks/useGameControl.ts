@@ -22,19 +22,19 @@ interface GameControlsProps {
         startTimer();  
     };
     const startGameTesara = () => {
-      console.log("hello ada");
       setStartTesara(true);
         startTimer();  
     };
   
     const endGame = async () => {
-      const timeElapsed = stopTimer();  // Use stopTimer to get final time
+      const timeElapsed = stopTimer();  
+      setIsGameStarted(false);
       try {
         await updateMining(timeElapsed);
       } catch (error) {
         console.error("Error updating mining time:", error);
       }
-      setIsGameStarted(false);
+      
     };
   
     const handleGameToggle = async (
