@@ -9,6 +9,7 @@ interface GameControlsProps {
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [iframeLoaded, setIframeLoaded] = useState(false);
     const [startBirdieFlappy, setStartBirdieFlappy] = useState(false);
+    const [startTesara, setStartTesara] = useState(false);
     const { 
         startTimer,
         stopTimer,
@@ -20,15 +21,20 @@ interface GameControlsProps {
         setIsGameStarted(true);
         startTimer();  
     };
+    const startGameTesara = () => {
+      setStartTesara(true);
+        startTimer();  
+    };
   
     const endGame = async () => {
-      const timeElapsed = stopTimer();  // Use stopTimer to get final time
+      const timeElapsed = stopTimer();  
+      setIsGameStarted(false);
       try {
         await updateMining(timeElapsed);
       } catch (error) {
         console.error("Error updating mining time:", error);
       }
-      setIsGameStarted(false);
+      
     };
   
     const handleGameToggle = async (
@@ -55,5 +61,8 @@ interface GameControlsProps {
       setIframeLoaded,
       elapsedTime,
       formatTime,
+      startGameTesara,
+      startTesara,
+      setStartTesara
     };
   };

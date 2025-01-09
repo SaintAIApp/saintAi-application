@@ -1,7 +1,7 @@
 import React from "react";
 import Tetris from "react-tetris";
 import "./TetrisGame.css";
-const TetrisGame: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
+const TetrisGame: React.FC<{ onGameOver: () => void, startNewGame: () => void }> = ({ onGameOver, startNewGame }) => {
     return (
         <Tetris
             keyboardControls={{
@@ -43,9 +43,8 @@ const TetrisGame: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
                         </div>
 
                         {state === "LOST" && (
-                            <div>
-                                <h2>Game Over</h2>
-                                <button onClick={controller.restart}>New Game</button>
+                            <div className="flex items-center justify-center w-full mt-4">
+                                <button className="bg-primary text-white p-2 rounded-md hover:bg-secondary" onClick={() => { startNewGame(); controller.restart(); }}>Start New Game</button>
                             </div>
                         )}
                     </div>
