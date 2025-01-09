@@ -132,19 +132,28 @@ const Generic1 = () => {
       await analysisCrypto(value);
     }
   };
+  const [listFilter, setListFilter] = useState(list);
 
   const closeModal = () => { setIsModalOpen(false); };
   const searchTitle = useAppSelector((state) => state.widget.search);
 
-  const filterByTitle = (searchTerm: string) => {
-    if (searchTerm === "") {
-      setList(list);
-    } else {
+  const filterByTitle = (searchTerm: string): void => {
+    const normalizedSearchTerm = searchTerm.toLowerCase();
 
-      const filtered = list.filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase()));
-      setList(filtered);
+    if (!normalizedSearchTerm) {
+      setListFilter(list);
+      return;
     }
+
+    const filtered = list.filter((item) => {
+      return curCategory === "news"
+        ? item.title.toLowerCase().includes(normalizedSearchTerm)
+        : item.symbol.toLowerCase().includes(normalizedSearchTerm);
+    });
+
+    setListFilter(filtered);
   };
+
 
   useEffect(() => {
     if (searchTitle !== undefined) {
@@ -167,7 +176,7 @@ const Generic1 = () => {
                 <Column
                     openModal={openModal}
                   curCategory={curCategory}
-                  list={list}
+                    list={listFilter}
                 />
               </div>
             </div>

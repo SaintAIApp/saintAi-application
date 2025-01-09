@@ -181,7 +181,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   }, [startInactivityTimer]);
 
   useEffect(() => {
-    if (startTesara) {
+    if (startTesara || !isGameStarted) {
       return;
     }
     window.focus();

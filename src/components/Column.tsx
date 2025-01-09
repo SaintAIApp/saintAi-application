@@ -3,6 +3,7 @@ import React from "react";
 import News from "../components/NewsCard";
 // import { Pagination } from "antd";
 import StockChart from "./Graphs/CandleStick";
+import { FixedSizeList as List } from "react-window";
 
 export const Column = ({
   openModal,
@@ -15,6 +16,15 @@ export const Column = ({
   setGraphSelected?: React.Dispatch<React.SetStateAction<any>>;
     openModal?: (type: string, url: string) => void;
 }) => {
+  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
+    const data = list[index];
+    return (
+      <div style={style}>
+        <StockChart openModal={openModal} key={index} data={data} />
+      </div>
+    );
+  };
+
   return (
     <div className="w-full flex justify-center flex-col items-center md:items-start mb-2">
       {curCategory === "news" && (
@@ -37,13 +47,17 @@ export const Column = ({
         </div>
       )}
 
-      {(curCategory === "stocks" || curCategory === "crypto") &&
-        list?.map((data: any, index: number) => (
-          <StockChart  
-          openModal={openModal} 
-          key={index} 
-          data={data} />
-        ))}
+
+      {(curCategory === "stocks" || curCategory === "crypto") && (
+        <List
+          height={window.innerHeight}
+          itemCount={list.length}
+          itemSize={430} // Adjust based on the height of your row
+          width="100%"
+        >
+          {Row}
+        </List>
+      )}
     </div>
   );
 };
