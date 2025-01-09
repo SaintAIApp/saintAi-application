@@ -63,7 +63,9 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
     startBirdieFlappy,
     elapsedTime,
     setIframeLoaded,
-    setStartBirdieFlappy
+    setStartBirdieFlappy,
+    startGameTesara,
+    startTesara
   } = useGameControls({ updateMining });
 
 
@@ -137,7 +139,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       clearTimeout(inactivityTimeoutRef.current);
     }
     const currentTime = Date.now();
-    if (currentTime - lastBlurTime > 2000 && isGameStarted) {
+    if (currentTime - lastBlurTime > 3000 && isGameStarted) {
       console.log("Inactivity detected, ending game.");
       endGame();
     }
@@ -149,7 +151,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       clearTimeout(blurTimeoutRef.current);
     }
 
-    if (!isGameStarted && (currentTime - lastBlurTime >= 2000)) {
+    if (!isGameStarted && (currentTime - lastBlurTime >= 3000)) {
       startGame();
     }
 
@@ -164,7 +166,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
       clearTimeout(clickTimeoutRef.current);
     }
 
-    if (!isGameStarted && (currentTime - lastClickTime > 2000)) {
+    if (!isGameStarted && (currentTime - lastClickTime > 3000)) {
       startGame();
     }
 
@@ -177,7 +179,9 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
   }, [startInactivityTimer]);
 
   useEffect(() => {
-
+    if (!isGameStarted) {
+      return;
+    }
     window.focus();
 
     window.addEventListener("blur", handleBlur);
@@ -289,10 +293,10 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
         <div className="flex items-center justify-center mt-10 text-xl font-bold">
           Time : {formatTime(elapsedTime)}
         </div>
-        {!isGameStarted ? (
+        {!startTesara ? (
           <div className="flex items-center justify-center mt-6">
             <button
-              onClick={startGame}
+              onClick={() => startGameTesara()}
               className="bg-primary text-white p-2 rounded-md hover:bg-secondary"
             >
               Start Game
@@ -300,7 +304,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
           </div>
         ) : (
           <div className="flex items-center justify-center mt-4">
-            <TetrisGame onGameOver={endGame} />
+              <TetrisGame startNewGame={startGameTesara} onGameOver={endGame} />
           </div>
         )}
       </GameModal>
@@ -320,11 +324,11 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
             ref={gridIframe}
             src="https://albert-gonzalez.github.io/run-and-jump-rxjs/"
             width="430"
-            height="400"
+            height="370"
             frameBorder={0}
             scrolling="no"
             title="Jurassic Game"
-            style={{ overflow: "hidden", height: "330px", borderRadius: "10px" }}
+            style={{ overflow: "hidden", height: "260px", borderRadius: "10px" }}
           />
         </div>
 
