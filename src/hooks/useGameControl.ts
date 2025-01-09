@@ -1,6 +1,10 @@
 import {  useState } from "react";
 import { useTimer } from "./useTimer";
 import { AxiosResponse } from "axios";
+import { useAppSelector } from "../redux/hooks";
+import useMineService from "./useMine";
+import { detailMine } from "../redux/slices/mineSlice";
+import { useDispatch } from "react-redux";
 
 interface GameControlsProps {
     updateMining: (time: number) => Promise<AxiosResponse<any, any>>;
@@ -10,6 +14,9 @@ interface GameControlsProps {
     const [iframeLoaded, setIframeLoaded] = useState(false);
     const [startBirdieFlappy, setStartBirdieFlappy] = useState(false);
     const [startTesara, setStartTesara] = useState(false);
+    const { user } = useAppSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const { getMineDetail } = useMineService();
     const { 
         startTimer,
         stopTimer,
@@ -31,6 +38,9 @@ interface GameControlsProps {
       setIsGameStarted(false);
       try {
         await updateMining(timeElapsed);
+        const userId = user?._id.toString();
+        const mine = await getMineDetail(userId || "");
+        dispatch(detailMine(mine.data.data));
       } catch (error) {
         console.error("Error updating mining time:", error);
       }
@@ -63,6 +73,7 @@ interface GameControlsProps {
       formatTime,
       startGameTesara,
       startTesara,
-      setStartTesara
+      setStartTesara,
+      setIsGameStarted
     };
   };

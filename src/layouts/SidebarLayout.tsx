@@ -59,14 +59,15 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
     startGame,
     endGame,
     handleGameToggle,
-    iframeLoaded,
+    // iframeLoaded,
     startBirdieFlappy,
     elapsedTime,
-    setIframeLoaded,
+    // setIframeLoaded,
     setStartBirdieFlappy,
     startGameTesara,
     setStartTesara,
-    startTesara
+    startTesara,
+    setIsGameStarted
   } = useGameControls({ updateMining });
 
 
@@ -92,12 +93,11 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
     endGame();
   };
 
-  const handleJurassicToggle = () =>
-    handleGameToggle(
-      iframeLoaded,
-      setIframeLoaded,
-      () => dispatch(setIsTirexModal({ isTirexModal: !iframeLoaded }))
-    );
+  const handleJurassicToggle = () => {
+    dispatch(setIsTirexModal({ isTirexModal: false }));
+    endGame();
+    setIsGameStarted(false);
+  };
 
   const handleBirdieToggle = () =>
     handleGameToggle(
