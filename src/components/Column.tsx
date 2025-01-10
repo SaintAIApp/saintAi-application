@@ -49,14 +49,16 @@ export const Column = ({
 
 
       {(curCategory === "stocks" || curCategory === "crypto") && (
-        <List
-          height={window.innerHeight}
-          itemCount={list.length}
-          itemSize={430} // Adjust based on the height of your row
-          width="100%"
-        >
-          {Row}
-        </List>
+        <div className="h-full overflow-y-auto w-full z-10">
+          <List
+            height={document.documentElement.clientHeight}
+            itemCount={list.length}
+            itemSize={430} // Adjust based on the height of your row
+            width="100%"
+          >
+            {Row}
+          </List>
+        </div>
       )}
     </div>
   );

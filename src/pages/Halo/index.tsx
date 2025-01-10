@@ -186,7 +186,7 @@ const Halo = () => {
     }
   };
   return (
-    <section className="overflow-x-hidden   flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 ">
+    <section className="overflow-x-hidden w-full  flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 ">
       <div className="w-full h-full rounded-lg flex flex-col">
         <div className="h-[55vh] overflow-y-auto" ref={chatBodyRef}>
           {messages.map((message) => (
