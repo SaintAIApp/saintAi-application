@@ -9,6 +9,7 @@ import logo from "../assets/saintailogo.png";
 import { searchTitle, updateGenericType } from "../redux/slices/widgetSlice";
 import { logout } from "../redux/slices/authSlice";
 import { setCurrentModal } from "../redux/slices/modalSlice";
+import { MdOutlineLeaderboard } from "react-icons/md";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -146,6 +147,13 @@ const Navbar = () => {
                   </button>
                 </li>
                 <li>
+                    <button
+                      onClick={() => {
+                        navigate("/leaderboard");
+                      }}
+                      className="btn rounded-full btn-md bg-purple_dark text-white"><MdOutlineLeaderboard /> Leaderboard</button>
+                  </li>
+                  <li>
                   {!wallet ? (
                     <ConnectModal
                       triggerButton={
@@ -165,7 +173,7 @@ const Navbar = () => {
                     </button>
                   )}
                 </li>
-                <li>
+                  <li>
                   {loggedIn ? (
                     <button
                       onClick={() => {

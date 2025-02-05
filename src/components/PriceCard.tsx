@@ -6,11 +6,13 @@ import { useAppSelector } from "../redux/hooks";
 import { notify } from "../utils/notify";
 
 type PriceCardProps = {
-  price: number;
+  tier: string,
+  price?: number;
+  codename: string;
   benefits: string[];
   planCode: string;
   plan: string;
-  sol: string;
+  sol: number;
   type: "light" | "dark";
 };
 
@@ -20,7 +22,8 @@ const cardVariant = {
 };
 
 export const PriceCard: React.FC<PriceCardProps> = ({
-  price,
+  tier,
+  codename,
   benefits,
   planCode,
   plan,
@@ -57,30 +60,11 @@ export const PriceCard: React.FC<PriceCardProps> = ({
       className={`flex flex-col justify-between px-6 py-8 rounded-3xl ${type === "light" ? "bg-white text-black" : "bg-[#2a2a3e] text-white"
         } hover:shadow-lg hover:scale-105 transition-all duration-300 h-full`}
     >
-      <div>
-        <h2 className="text-2xl font-semibold mb-2 text-center">{plan}</h2>
-        <h3 className="text-3xl font-bold mb-1 text-center">
-          {price === 0 ? "Free" : `$${price} `}
-        </h3>
-        <p className="text-sm text-gray-500 mb-4 text-center">
-          per user, per month
-        </p>
-        <p className="text-sm font-semibold mb-1 text-center">OR</p>
-        <p className="text-xl font-bold text-purple_dark mb-6 text-center">
-          {sol} SOL/month
-        </p>
-        <button
-          onClick={() => {
-            handleSubmit();
-          }}
-          disabled={isRedirecting}
-          className={`w-full py-2 px-4 rounded-full ${type === "light"
-            ? "bg-[#fff] text-blue border-blue border-2"
-            : "bg-blue border-blue border-2 text-white"
-            } hover:opacity-90 transition-opacity duration-300 font-bold`}
-        >
-          Choose Plan
-        </button>
+      <div className="relative h-[520px]">
+        <h2 className="text-md font-semibold mb-1 text-center">Tier {tier}</h2>
+        <h3 className="text-2xl font-bold mb-1 text-center">{plan}</h3>
+        <p className="text-[23px] font-bold text-purple_dark mb-2 text-center">{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(sol)}</p>
+        <p className="text-center font-bold text-2xl border-t-[0.6px] pt-2">{codename}</p>
         <ul
           className={`pt-3 mt-3 space-y-2 ${type === "light" ? "border-gray-200" : "border-gray-100"
             } border-t-[0.6px]`}
@@ -92,6 +76,21 @@ export const PriceCard: React.FC<PriceCardProps> = ({
             </li>
           ))}
         </ul>
+        {/* Container untuk tombol */}
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center p-4">
+          <button
+            onClick={() => {
+              handleSubmit();
+            }}
+            disabled={isRedirecting}
+            className={`w-full max-w-[200px] py-2 px-4 rounded-full ${type === "light"
+            ? "bg-[#fff] text-blue border-blue border-2"
+            : "bg-blue border-blue border-2 text-white"
+              } hover:opacity-90 transition-opacity duration-300 font-bold`}
+          >
+            Choose Plan
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -104,6 +103,8 @@ type PriceCardWithAnimationProps = PriceCardProps & {
 export const PriceCardWithAnimation: React.FC<PriceCardWithAnimationProps> = ({
   type,
   price,
+  tier,
+  codename,
   benefits,
   planCode,
   plan,
@@ -119,6 +120,8 @@ export const PriceCardWithAnimation: React.FC<PriceCardWithAnimationProps> = ({
       className="h-full"
     >
       <PriceCard
+        tier={tier}
+        codename={codename}
         type={type}
         sol={sol}
         price={price}
