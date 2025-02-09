@@ -41,7 +41,7 @@ export const PriceCard: React.FC<PriceCardProps> = ({
         navigate("/login");
         return;
       }
-      const res = await createCheckout(planCode);
+      const res = await createCheckout(plan);
       if (res.status === 200) {
         notify("Redirecting", true);
         window.location.href = res.data.data;

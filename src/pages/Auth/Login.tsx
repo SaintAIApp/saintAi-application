@@ -55,7 +55,7 @@ const Login = () => {
           <div className="absolute h-44 w-44 bg-shape1 top-[50px] right-0 z-0 bg-blue-400 opacity-100 bg-blur"></div>
         </div>
         <div className="relative z-10 p-10 space-y-4 md:space-y-6 sm:p-8">
-          <div className="flex items-center flex-row justify-start mb-4">
+          <div className="flex items-center flex-row justify-center mb-4 w-full">
             <img className="h-12" src={imgSrc} alt="logo" />
             {/* <h1 className="text-primary text-3xl font-heading">S.AI.N.T</h1> */}
           </div>

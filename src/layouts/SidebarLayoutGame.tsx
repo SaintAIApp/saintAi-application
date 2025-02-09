@@ -221,15 +221,16 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
           {customSidebar || <DefaultSideBar />}
         </aside>
 
-        <main className="flex flex-row gap-4 w-full">
+        <main className="flex flex-row gap-4 w-full  space-y-4 lg:space-y-0 lg:space-x-4  ml-0 md:ml-10 ">
           <AuthModal defaultModal={locked ? "lock" : null} />
-          <div className="flex-grow">
+          {/* <div className="flex-grow">
             {ready ? children : null}
-          </div>
+          </div> */}
 
           {withChat && (
             <>
               <div className={clsx(
+                " space-y-4 lg:space-y-0 lg:space-x-4 p-4 ml-0 md:ml-10 pt-[35px]",
                 "w-[100%] flex flex-col md:pr-3 p-3 pb-3",
                 "pt-[95px] md:pt-[35px]",
                 "fixed md:relative ml-auto md:ml-auto h-[80%] md:h-full",
@@ -237,10 +238,9 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
                 chatOptions.chatClassName
               )}>
                 <ChatComponent
-                  totalUnreadMessage={totalUnreadMessage}
                   isOpen={isChatOpen}
                   setIsOpen={setIsChatOpen}
-                  className={`${isChatOpen ? "" : "hidden"} ml-auto`}
+                  className={`ml-auto`}
                 />
               </div>
               <ChatButton
@@ -254,8 +254,18 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
                 }}
               />
 
+              <ChatButton
+                onClick={() => dispatch(updateIsChatCommunity({ isChatCommunity: true }))}
+                image="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-and-lines-1/2/11-512.png"
+                alt="Halo Button"
+                badge={totalUnreadMessage}
+                position={{
+                  bottom: "[70px]",
+                  right: "5"
+                }}
+              />
               {isBotRunning && (
-                <div className="indicator fixed md:hidden bottom-[30px] z-50 left-5">
+                <div className="indicator fixed md:hidden bottom-[70px] z-50 left-5">
                   <div className="bg-black flex-col flex items-center justify-center w-14 flex-grow">
                     <div className="border-[0.5px] border-grey p-1 w-14">
                       <img src={snakeGif} className="w-14" alt="Bot Running" />
@@ -267,111 +277,6 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
           )}
         </main>
       </div>
-
-      <GameModal
-        isOpen={isChatCommunity}
-        title="HALO"
-        onClose={() => dispatch(updateIsChatCommunity({ isChatCommunity: false }))}
-        className="modal-bottom w-full md:w-1/2 max-w-xl min-h-[72vh]"
-      >
-        <Halo />
-      </GameModal>
-
-      <GameModal
-        isOpen={isTetrisModal}
-        title="Tessara"
-        onClose={handleTetrisClose}
-        className="modal-bottom w-full md:w-2/4 max-w-xl min-h-[72vh]"
-      >
-        <div className="flex items-center justify-center mt-10 text-xl font-bold">
-          Time : {formatTime(elapsedTime)}
-        </div>
-        {!startTesara ? (
-          <div className="flex items-center justify-center mt-6">
-            <button
-              onClick={() => startGameTesara()}
-              className="bg-primary text-white p-2 rounded-md hover:bg-secondary"
-            >
-              Start Game
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center mt-4">
-              <TetrisGame startNewGame={startGameTesara} onGameOver={endGame} />
-          </div>
-        )}
-      </GameModal>
-
-      <GameModal
-        isOpen={isTirexModal}
-        title="Jurassic Boy"
-        onClose={handleJurassicToggle}
-      >
-        <div className="flex items-center justify-center mt-3 mb-3 text-xl font-bold">
-          Time : {formatTime(elapsedTime)}
-        </div>
-        <div onMouseOver={handleOnMouseOver}
-          onMouseOut={handleOnMouseOut}>
-
-          <iframe
-            ref={gridIframe}
-            src="https://albert-gonzalez.github.io/run-and-jump-rxjs/"
-            width="430"
-            height="370"
-            frameBorder={0}
-            scrolling="no"
-            title="Jurassic Game"
-            style={{ overflow: "hidden", height: "260px", borderRadius: "10px" }}
-          />
-        </div>
-
-        <div className="flex items-center justify-center mt-10">
-          <button
-            className="btn bg-primary text-white"
-            onClick={handleJurassicToggle}
-          >
-            Close Game
-          </button>
-        </div>
-      </GameModal>
-
-      <GameModal
-        isOpen={isBirdieFlappy}
-        title="Birdie Flap"
-        onClose={handleBirdieToggle}
-        className="w-[400px]"
-      >
-        <div className="flex items-center justify-center mt-3 mb-3 text-xl font-bold">
-          Time : {formatTime(elapsedTime)}
-        </div>
-        <div
-          className="iframeWrapper"
-          onMouseOver={handleOnMouseOver}
-          onMouseOut={handleOnMouseOut}
-        >
-          <iframe
-            onClick={() => startGame()}
-            ref={gridIframe}
-            src="https://ashu05g.github.io/FlappyBird_Game/game"
-            title="Flappy Bird Game"
-            height="600"
-            width="350"
-            frameBorder={0}
-            scrolling="no"
-            style={{ overflow: "hidden", borderRadius: "10px" }}
-          />
-
-        </div>
-
-        <div className="flex items-center justify-center mt-3">
-          <button
-            className="btn bg-primary text-white"
-            onClick={handleBirdieToggle}
-          >
-            Close Game
-          </button>
-        </div>
-      </GameModal>
 
       <GameModal
         isOpen={isGameModalList}

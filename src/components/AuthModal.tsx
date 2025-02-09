@@ -39,7 +39,7 @@ const AuthModal = ({ defaultModal }: {
   return (
     <div
       className={clsx(
-        "fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm",
+        "fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm",
         currentModal === null && "hidden"
       )}
     >

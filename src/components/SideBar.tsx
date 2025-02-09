@@ -290,6 +290,20 @@ const SideBar = ({
             </ul>
             )}
           </li>
+          <li
+            onClick={() => {
+              navigate("/generate-game");
+            }}
+            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/generate-game" ? "bg-[#333333]" : ""
+              }`}
+          >
+            <img
+              src="/icons/generic.svg"
+              className="mr-2 w-6 h-6"
+              alt="Generic"
+            />{" "}
+            Infinity Arcade
+          </li>
         </ul>
       </div>
       {isBotRunning && (
