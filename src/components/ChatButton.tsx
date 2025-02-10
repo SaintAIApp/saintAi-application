@@ -48,7 +48,7 @@ const ChatButton: React.FC<ChatButtonProps> = ({
         <button>
             <img
                 src={image}
-                className="h-10 w-10 object-contain md:h-12 md:w-12 bg-black rounded-full"
+                className="h-8 w-8 object-contain md:h-12 md:w-12 bg-black rounded-full"
                 alt={alt}
             />
         </button>

@@ -290,6 +290,25 @@ const SideBar = ({
             </ul>
             )}
           </li>
+          <li
+            onClick={() => {
+              window.open("https://octobot-ytul.onrender.com", "_blank");
+            }}
+            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/generate-game" ? "bg-[#333333]" : ""
+              }`}
+          >
+            Dexta
+          </li>
+          {/* <li
+            onClick={() => {
+              navigate("/kaboom");
+            }}
+            className={`cursor-pointer py-2 rounded-full flex px-2 space-x-2 ${window.location.pathname === "/kaboom" ? "bg-[#333333]" : ""
+              }`}
+          >
+            Sage
+          </li> */}
+
         </ul>
       </div>
       {isBotRunning && (

@@ -2,19 +2,35 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import useWalletService from "../hooks/useWallet";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useEffect, useState } from "react";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
   const { connect, connectSolana } = useWalletService();
   const { wallets } = useWallet();
-
-  const handleMetaMaskWallet = async () => {
-    connect();
-  };
+  console.log(wallets)
   const handleSolanaWallet = async (walletName: any) => {
+    console.log(walletName);
     connectSolana({ walletName });
   };
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
 
+
+  const connectWallet = async () => {
+    try {
+      const { solana } = window as any;
+      if (solana) {
+        if (solana.isPhantom) {
+          // Jika pengguna belum terhubung, tampilkan pop-up untuk meminta izin
+          const response = await solana.connect({ onlyIfTrusted: false });
+          console.log("Public key:", response.publicKey.toString());
+          setWalletAddress(response.publicKey.toString());
+        }
+      }
+    } catch (error) {
+      console.error("Error connecting to Phantom Wallet:", error);
+    }
+  };
   return (
     <Dialog.Root>
       <Dialog.Trigger>{triggerButton}</Dialog.Trigger>
@@ -32,17 +48,8 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
             <ul className="flex flex-col space-y-3 ">
               <li className="bg-[#28282f] flex p-2 rounded-lg">
                 <Dialog.Close
-                  onClick={handleMetaMaskWallet}
-                  className="flex w-full items-center space-x-3"
-                >
-                  <img className="h-10 w-10" src="./metamask.png"></img> &nbsp;
-                  MetaMask
-                </Dialog.Close>
-              </li>
-              <li className="bg-[#28282f] flex p-2 rounded-lg">
-                <Dialog.Close
                   onClick={() => {
-                    handleSolanaWallet(wallets[0].adapter.name);
+                    handleSolanaWallet("Phantom");
                   }}
                   className="w-full flex items-center space-x-3"
                 >
@@ -56,7 +63,7 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
               <li className="bg-[#28282f] flex p-2 rounded-lg">
                 <Dialog.Close
                   onClick={() => {
-                    handleSolanaWallet(wallets[2].adapter.name);
+                    handleSolanaWallet(wallets[0].adapter.name);
                   }}
                   className="flex w-full items-center space-x-3"
                 >

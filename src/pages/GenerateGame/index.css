@@ -1,0 +1,71 @@
+.responsive-width {
+    width: 100%; /* Default width untuk layar kecil seperti mobile */
+  }
+  
+  @media (min-width: 768px) {
+    /* Untuk tablet dan layar dengan ukuran medium */
+    .responsive-width {
+      width: 300px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    /* Untuk laptop dan layar dengan ukuran besar */
+    .responsive-width {
+      width: 500px;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    /* Untuk layar desktop */
+    .responsive-width {
+      width: 600px;
+    }
+  }
+  
+  @media (min-width: 1536px) {
+    /* Untuk layar extra-large atau monitor yang sangat besar */
+    .responsive-width {
+      width: 700px;
+    }
+  }
+  @media (min-width: 1920px) {
+    /* Untuk layar ultra-wide */
+    .responsive-width {
+      width: 800px;
+    }
+  }
+  .list {
+    margin: -.25em 0 0 0;
+    padding: 0;
+    display: inline-block;
+    vertical-align: middle;
+    height: 1em;
+    line-height: 1em;
+  }
+  
+  /* Use a class selector for each span inside .list */
+  .list-item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 1em;
+    line-height: 1em;
+    display: block;
+  }
+  
+  /* Use a class selector for the paragraph */
+  .paragraph {
+    font-family: Oswald;
+    font-size: 36px;
+    text-transform: uppercase;
+    color: black;
+    height: 1em;
+    line-height: 1em;
+    overflow: hidden;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
