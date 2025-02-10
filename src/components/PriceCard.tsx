@@ -25,7 +25,6 @@ export const PriceCard: React.FC<PriceCardProps> = ({
   tier,
   codename,
   benefits,
-  planCode,
   plan,
   sol,
   type,

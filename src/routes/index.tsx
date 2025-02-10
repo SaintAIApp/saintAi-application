@@ -6,7 +6,6 @@ import SidebarLayout from "../layouts/SidebarLayout";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 
 import LoadDataWrapper from "../components/LoadDataWrapper";
-import SidebarLayoutGame from "../layouts/SidebarLayoutGame";
 
 // Lazy Loading all the pages
 
@@ -18,7 +17,6 @@ const WidgetsPage = lazy(() => import("../pages/Widgets"));
 const Pricing = lazy(() => import("../pages/Pricing"));
 const Mine = lazy(() => import("../pages/Mine"));
 const Leaderboard = lazy(() => import("../pages/Leaderboard"));
-const GenerateGame = lazy(() => import("../pages/GenerateGame"));
 
 const PaymentSuccess = lazy(
   (): any => import("../pages/Payment/PaymentSuccess")
@@ -65,16 +63,6 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <Leaderboard />
           </Suspense>
-        ),
-      },
-      {
-        path: "/generate-game",
-        element: (
-          <SidebarLayoutGame withChat chatOptions={{ chatOpenDefault: true, chatClassName: "pt-[10px] pb-2" }}>
-            <Suspense fallback={<Loader />}>
-              <GenerateGame />
-            </Suspense>
-          </SidebarLayoutGame>
         ),
       },
       {
