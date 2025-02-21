@@ -54,6 +54,7 @@ export const PriceCard: React.FC<PriceCardProps> = ({
       setIsRedirecting(false);
     }
   };
+  const formatted = `$STT ${new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(sol)}`;
   return (
     <div
       className={`flex flex-col justify-between px-6 py-8 rounded-3xl ${type === "light" ? "bg-white text-black" : "bg-[#2a2a3e] text-white"
@@ -62,7 +63,7 @@ export const PriceCard: React.FC<PriceCardProps> = ({
       <div className="relative h-[520px]">
         <h2 className="text-md font-semibold mb-1 text-center">Tier {tier}</h2>
         <h3 className="text-2xl font-bold mb-1 text-center">{plan}</h3>
-        <p className="text-[23px] font-bold text-purple_dark mb-2 text-center">{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(sol)}</p>
+        <p className="text-[23px] font-bold text-purple_dark mb-2 text-center">{formatted}</p>
         <p className="text-center font-bold text-2xl border-t-[0.6px] pt-2">{codename}</p>
         <ul
           className={`pt-3 mt-3 space-y-2 ${type === "light" ? "border-gray-200" : "border-gray-100"

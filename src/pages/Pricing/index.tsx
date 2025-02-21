@@ -34,7 +34,7 @@ const Index: React.FC = () => {
         Close <XCircleIcon className="h-7 w-7" />
       </button>
       <div className="container mx-auto px-4">
-        <h1 className="text-2xl mt-12 md:mt-0 md:text-5xl text-center">Explore Plans</h1>
+        <h1 className="text-2xl mt-12 md:mt-0 md:text-5xl text-center">Explore Tiers</h1>
         <p className="container text-lg text-center font-light mt-4 font-body">
           Choose Between SaintAI's Genesis, Medius or the Odysseus Mine Pass Access Key Plan
         </p>
