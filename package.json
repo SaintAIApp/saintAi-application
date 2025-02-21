@@ -34,6 +34,7 @@
     "framer-motion": "^11.2.10",
     "gsap": "^3.12.5",
     "jwt-decode": "^4.0.0",
+    "kaboom": "^3000.1.17",
     "lodash": "^4.17.21",
     "mini-svg-data-uri": "^1.4.4",
     "moment": "^2.30.1",

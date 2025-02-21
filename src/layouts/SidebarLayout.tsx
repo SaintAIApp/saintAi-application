@@ -237,6 +237,7 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
                 chatOptions.chatClassName
               )}>
                 <ChatComponent
+                  totalUnreadMessage={totalUnreadMessage}
                   isOpen={isChatOpen}
                   setIsOpen={setIsChatOpen}
                   className={`${isChatOpen ? "" : "hidden"} ml-auto`}
@@ -253,18 +254,8 @@ const SidebarLayout: React.FC<Props> = ({ children, customSidebar, protectedRout
                 }}
               />
 
-              <ChatButton
-                onClick={() => dispatch(updateIsChatCommunity({ isChatCommunity: true }))}
-                image="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-and-lines-1/2/11-512.png"
-                alt="Halo Button"
-                badge={totalUnreadMessage}
-                position={{
-                  bottom: "[70px]",
-                  right: "5"
-                }}
-              />
               {isBotRunning && (
-                <div className="indicator fixed md:hidden bottom-[70px] z-50 left-5">
+                <div className="indicator fixed md:hidden bottom-[30px] z-50 left-5">
                   <div className="bg-black flex-col flex items-center justify-center w-14 flex-grow">
                     <div className="border-[0.5px] border-grey p-1 w-14">
                       <img src={snakeGif} className="w-14" alt="Bot Running" />

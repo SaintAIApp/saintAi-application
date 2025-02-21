@@ -8,14 +8,17 @@ import snakeGif from "../../assets/solver_hamilton.gif";
 import TypewriterEffect from "../../components/TypeWriting";
 
 import useFileService from "../../hooks/useFileService";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import ChatButton from "../../components/ChatButton";
+import { updateIsChatCommunity } from "../../redux/slices/widgetSlice";
 
 const ChatComponent: React.FC<{
   isOpen: boolean;
+  totalUnreadMessage: number;
   className?: string;
   closable?: boolean;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ className = "", isOpen }) => {
+}> = ({ className = "", isOpen, totalUnreadMessage }) => {
   const user = useAppSelector((state) => state.auth.user);
   const [chats, setChats] = useState<any[]>([]);
   const [chat, setChat] = useState("");
@@ -104,6 +107,7 @@ const ChatComponent: React.FC<{
       setIsResponseLoading(false);
     }
   };
+  const dispatch = useAppDispatch();
 
   return (
     <div
@@ -117,6 +121,16 @@ const ChatComponent: React.FC<{
     >
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-700 flex justify-between items-center">
         <img className="h-8 object-contain" src={logo} alt="S.AI.N.T Logo" />
+
+        <ChatButton
+          onClick={() => dispatch(updateIsChatCommunity({ isChatCommunity: true }))}
+          image="https://cdn0.iconfinder.com/data/icons/social-messaging-ui-color-and-lines-1/2/11-512.png"
+          alt="Halo Button"
+          badge={totalUnreadMessage}
+          position={{
+            right: "5"
+          }}
+        />
       </div>
 
       <div ref={chatBodyRef} className="flex-grow overflow-y-auto px-4 py-2">

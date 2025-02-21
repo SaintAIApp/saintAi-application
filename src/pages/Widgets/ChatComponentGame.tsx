@@ -1,26 +1,28 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import ChatItem from "./ChatItem";
+import ChatItem from "../../components/Chat/ChatItem";
 import { IoIosSend } from "react-icons/io";
 import { BiConversation } from "react-icons/bi";
 import logo from "../../assets/saintailogo.png";
-import TypewriterEffect from "../TypeWriting";
+import snakeGif from "../../assets/solver_hamilton.gif";
+
+import TypewriterEffect from "../../components/TypeWriting";
 
 import useFileService from "../../hooks/useFileService";
 import { useAppSelector } from "../../redux/hooks";
 
-const ChatBox: React.FC<{
+const ChatComponent: React.FC<{
   isOpen: boolean;
   className?: string;
   closable?: boolean;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ className = "", isOpen, setIsOpen }) => {
+}> = ({ className = "", isOpen }) => {
   const user = useAppSelector((state) => state.auth.user);
   const [chats, setChats] = useState<any[]>([]);
   const [chat, setChat] = useState("");
   const [isHistoryLoading, setIsHistoryLoading] = useState(false);
   const [isResponseLoading, setIsResponseLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [popupSnake, setPopupSnake] = useState(false);
   const chatBodyRef = useRef<HTMLDivElement>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -53,9 +55,8 @@ const ChatBox: React.FC<{
       const userId = user?._id;
       if (!userId) return;
       const res = await getChatHistoryTrade(userId);
-      if (res.status == 200) {
-        console.log(res.data);
-        setChats(res.data?.data);
+      if (res.status === 200) {
+        setChats(res.data.data);
       }
     } catch (error) {
       setChats([]);
@@ -91,11 +92,14 @@ const ChatBox: React.FC<{
           return newChats;
         });
         setChat("");
+        if (res.data?.data === "Success running automate mining") {
+          setPopupSnake(true)
+        }
       }
     } catch (error) {
       console.log(error);
       setErrorMessage("Error occurred while processing");
-      setChats((prev) => prev.slice(0, -1)); 
+      setChats((prev) => prev.slice(0, -1)); // Remove the "Processing..." message
     } finally {
       setIsResponseLoading(false);
     }
@@ -103,8 +107,7 @@ const ChatBox: React.FC<{
 
   return (
     <div
-      className={`fixed inset-0  md:inset-auto md:right-10 md:bottom-10 md:w-[400px] md:h-[80vh]
-                  flex flex-col bg-dark shadow-2xl rounded-xl z-[10005] ${className}`}
+      className={`flex flex-col flex-shrink-0 bg-[#000000]  rounded-xl  w-full  ${className} h-full md:h-full  md:mt-0`}
       style={{
         border: "1.2px solid #333",
         visibility: isOpen ? "visible" : "hidden",
@@ -114,14 +117,6 @@ const ChatBox: React.FC<{
     >
       <div className="flex-shrink-0 px-4 py-3 border-b border-gray-700 flex justify-between items-center">
         <img className="h-8 object-contain" src={logo} alt="S.AI.N.T Logo" />
-        <button
-          onClick={() => {
-            setIsOpen && setIsOpen(false);
-          }}
-          className="text-md text-white block md:hidden"
-        >
-          Close X
-        </button>
       </div>
 
       <div ref={chatBodyRef} className="flex-grow overflow-y-auto px-4 py-2">
@@ -140,7 +135,11 @@ const ChatBox: React.FC<{
           chats?.map((chat, index) => (
             <div key={index}>
               <ChatItem isHistory={true} sender={"Me"} message={chat.user} />
-              <ChatItem isHistory={true} sender={"SAINTAI"} message={chat.agent} />
+              <ChatItem
+                isHistory={true}
+                sender={"SAINTAI"}
+                message={chat.agent}
+              />
             </div>
           ))}
         {errorMessage && (
@@ -165,7 +164,7 @@ const ChatBox: React.FC<{
                 handleSendMessage();
               }
             }}
-            className="flex-grow bg-black disabled:bg-gray-300 text-white border border-gray-600 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-grow bg-black disabled:bg-gray-300 text-white border border-gray-600 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#016FCB]"
           />
           <button
             disabled={isResponseLoading}
@@ -176,8 +175,15 @@ const ChatBox: React.FC<{
           </button>
         </div>
       </div>
+      <dialog id="my_modal_1" className={`modal ${popupSnake === true ? "modal-open" : ""}  `}>
+        <div className="bg-black border border-grey p-8 rounded-lg flex-col flex items-center justify-center">
+          <img src={snakeGif} />
+          <label className="font-bold mt-5">Success Automated Mining Running</label>
+          <button className="px-6 py-1 rounded-md bg-primary text-white mt-4" onClick={() => setPopupSnake(false)}>Close</button>
+        </div>
+      </dialog>
     </div>
   );
 };
 
-export default ChatBox;
+export default ChatComponent;
