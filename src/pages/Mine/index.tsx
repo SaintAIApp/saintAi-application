@@ -262,7 +262,7 @@ const Mine = () => {
                     className="cursor-pointer bg-gradient-to-r from-[#17B982] to-[#0F766E] rounded-full w-1/2 text-xl font-bold"
                   >
                     <div className="flex flex-col cursor-pointer">
-                      <label htmlFor="" className="cursor-pointer">Power Pass</label>
+                      <label htmlFor="" className="cursor-pointer">Tier Upgrade</label>
                       <label htmlFor="" className="cursor-pointer">Upgrade</label>
                     </div>
                   </button>

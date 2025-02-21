@@ -13,50 +13,50 @@ export default ({ triggerButton }: { triggerButton: React.ReactNode }) => {
     console.log(walletName);
     connectSolana({ walletName });
   };
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  // const [walletAddress, setWalletAddress] = useState<string | null>(null);
 
-  const isWalletConnected = async () => {
-    try {
-      const { solana } = window as any; // TypeScript requires casting `window` to `any`
-      if (solana) {
-        if (solana.isPhantom) {
-          console.log("Phantom wallet found");
+  // const isWalletConnected = async () => {
+  //   try {
+  //     const { solana } = window as any; // TypeScript requires casting `window` to `any`
+  //     if (solana) {
+  //       if (solana.isPhantom) {
+  //         console.log("Phantom wallet found");
 
-          // Coba terhubung secara otomatis jika pengguna sudah pernah terhubung sebelumnya
-          const response = await solana.connect({ onlyIfTrusted: true });
-          console.log("Public key:", response.publicKey.toString());
-          setWalletAddress(response.publicKey.toString());
-        } else {
-          alert("Please install Phantom Wallet!");
-        }
-      } else {
-        alert("Phantom Wallet not detected. Please install it.");
-      }
-    } catch (error) {
-      console.error("Error connecting to Phantom Wallet:", error);
-    }
-  };
+  //         // Coba terhubung secara otomatis jika pengguna sudah pernah terhubung sebelumnya
+  //         const response = await solana.connect({ onlyIfTrusted: true });
+  //         console.log("Public key:", response.publicKey.toString());
+  //         setWalletAddress(response.publicKey.toString());
+  //       } else {
+  //         alert("Please install Phantom Wallet!");
+  //       }
+  //     } else {
+  //       alert("Phantom Wallet not detected. Please install it.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error connecting to Phantom Wallet:", error);
+  //   }
+  // };
 
-  const connectWallet = async () => {
-    try {
-      const { solana } = window as any;
-      if (solana) {
-        if (solana.isPhantom) {
-          // Jika pengguna belum terhubung, tampilkan pop-up untuk meminta izin
-          const response = await solana.connect({ onlyIfTrusted: false });
-          console.log("Public key:", response.publicKey.toString());
-          setWalletAddress(response.publicKey.toString());
-        }
-      }
-    } catch (error) {
-      console.error("Error connecting to Phantom Wallet:", error);
-    }
-  };
+  // const connectWallet = async () => {
+  //   try {
+  //     const { solana } = window as any;
+  //     if (solana) {
+  //       if (solana.isPhantom) {
+  //         // Jika pengguna belum terhubung, tampilkan pop-up untuk meminta izin
+  //         const response = await solana.connect({ onlyIfTrusted: false });
+  //         console.log("Public key:", response.publicKey.toString());
+  //         setWalletAddress(response.publicKey.toString());
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error connecting to Phantom Wallet:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    // Cek apakah wallet sudah terhubung saat komponen dimuat
-    isWalletConnected();
-  }, []);
+  // useEffect(() => {
+  //   // Cek apakah wallet sudah terhubung saat komponen dimuat
+  //   isWalletConnected();
+  // }, []);
 
 
   return (
