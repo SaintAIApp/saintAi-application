@@ -88,7 +88,7 @@ export const PriceCard: React.FC<PriceCardProps> = ({
             : "bg-blue border-blue border-2 text-white"
               } hover:opacity-90 transition-opacity duration-300 font-bold`}
           >
-            Choose Plan
+            Choose Tier
           </button>
         </div>
       </div>
