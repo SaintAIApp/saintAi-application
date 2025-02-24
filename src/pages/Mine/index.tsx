@@ -263,7 +263,6 @@ const Mine = () => {
                   >
                     <div className="flex flex-col cursor-pointer">
                       <label htmlFor="" className="cursor-pointer">Tier Upgrade</label>
-                      <label htmlFor="" className="cursor-pointer">Upgrade</label>
                     </div>
                   </button>
                 </div>
