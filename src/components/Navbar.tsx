@@ -156,7 +156,7 @@ const Navbar = () => {
                   <li>
                     <button
                       onClick={() => {
-                        navigate("/leaderboard");
+                        navigate("/pantheon");
                       }}
                       className="btn rounded-full btn-md bg-primary text-white"><MdOutlineLeaderboard /> Pantheon</button>
                   </li>
