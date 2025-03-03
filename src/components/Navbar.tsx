@@ -1,15 +1,15 @@
 import { memo, useEffect, useMemo, useState } from "react";
+import { IoMenu, IoWallet } from "react-icons/io5";
+import { MdOutlineLeaderboard } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/saintailogo.png";
 import useWalletService from "../hooks/useWallet";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import ConnectModal from "./ConnectModal";
-import NavMenu from "./NavMenu";
-import { IoMenu, IoWallet } from "react-icons/io5";
-import logo from "../assets/saintailogo.png";
-import { searchTitle, updateGenericType } from "../redux/slices/widgetSlice";
 import { logout } from "../redux/slices/authSlice";
 import { setCurrentModal } from "../redux/slices/modalSlice";
-import { MdOutlineLeaderboard } from "react-icons/md";
+import { searchTitle, updateGenericType } from "../redux/slices/widgetSlice";
+import ConnectModal from "./ConnectModal";
+import NavMenu from "./NavMenu";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -152,6 +152,13 @@ const Navbar = () => {
                         navigate("/leaderboard");
                       }}
                       className="btn rounded-full btn-md bg-purple_dark text-white"><MdOutlineLeaderboard /> Leaderboard</button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => {
+                        navigate("/pantheon");
+                      }}
+                      className="btn rounded-full btn-md bg-primary text-white"><MdOutlineLeaderboard /> Pantheon</button>
                   </li>
                   <li>
                   {!wallet ? (

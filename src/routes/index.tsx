@@ -17,6 +17,8 @@ const WidgetsPage = lazy(() => import("../pages/Widgets"));
 const Pricing = lazy(() => import("../pages/Pricing"));
 const Mine = lazy(() => import("../pages/Mine"));
 const Leaderboard = lazy(() => import("../pages/Leaderboard"));
+const Pantheon = lazy(() => import("../pages/Pantheon"));
+
 
 const PaymentSuccess = lazy(
   (): any => import("../pages/Payment/PaymentSuccess")
@@ -62,6 +64,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <Leaderboard />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/pantheon",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Pantheon />
           </Suspense>
         ),
       },

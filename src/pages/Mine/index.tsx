@@ -249,7 +249,7 @@ const Mine = () => {
                               marginRight: "0.75rem",
                             }}
                           >
-                            {number.toString().split("").join(" ")} {/* Spacing between digits */}
+                            {number.toString().split("").join(" ")} 
                           </span>
                         ))}
                       </span>
